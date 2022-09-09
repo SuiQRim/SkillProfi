@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWEB", "SkillProfi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWPF", "SkillProfiWPF\SkillProfiWPF.csproj", "{DF6D89D2-76A6-4BC2-BD66-F2D7FEF63503}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillProfiApi", "SkillProfiApi\SkillProfiApi.csproj", "{08AB47D4-A1B8-448B-BDCC-6BECB13ECF77}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiApi", "SkillProfiApi\SkillProfiApi.csproj", "{08AB47D4-A1B8-448B-BDCC-6BECB13ECF77}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
