@@ -17,7 +17,7 @@ namespace SkillProfiApi.Data
         }
         public DbSet<Consultation> Consultations { get; set; }
 
-        public DbSet<Project> Projects { get; set; }
+        public DbSet<Post> Posts { get; set; }
 
         public DbSet<Picture> Pictures { get; set; }
 
@@ -32,6 +32,7 @@ namespace SkillProfiApi.Data
                     Name = "Тест1",
                     Description="Тест1",
                     EMail="Test1@gmail.com",
+                    Status = "Получена",
                     Created = DateTime.Now
                 },
                 new Consultation()
@@ -40,6 +41,7 @@ namespace SkillProfiApi.Data
                     Name = "Тест2",
                     Description="Тест2",
                     EMail="Test1@gmail.com",
+                    Status = "В работе",
                     Created = DateTime.Now
                 }
             });
@@ -47,9 +49,9 @@ namespace SkillProfiApi.Data
             Guid id1 = Guid.NewGuid();
             Guid id2 = Guid.NewGuid();
 
-            modelBuilder.Entity<Project>().HasData(new Project[]
+            modelBuilder.Entity<Post>().HasData(new Post[]
             {
-                new Project()
+                new Post()
                 {
                     Id = Guid.NewGuid(),
                     PictureId= id1,
@@ -57,7 +59,7 @@ namespace SkillProfiApi.Data
                     Description="Тест1",
                     Created = DateTime.Now
                 },
-                new Project()
+                new Post()
                 {
                     Id = Guid.NewGuid(),
                     PictureId= id2,

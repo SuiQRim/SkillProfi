@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using SkillProfiApi.Data;
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
