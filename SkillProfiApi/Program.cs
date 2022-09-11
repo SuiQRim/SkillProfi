@@ -2,6 +2,10 @@ using Microsoft.EntityFrameworkCore;
 using SkillProfiApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
+builder.WebHost.ConfigureKestrel(serverOptions =>
+{
+    serverOptions.Limits.MaxRequestBodySize = int.MaxValue;
+});
 // Add services to the container.
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SkillProfiDbContext>

@@ -7,20 +7,21 @@ using System.Threading.Tasks;
 
 namespace SkillProfi
 {
-    public class Post
+    public class Blog : IPost, IPicture
     {
         public Guid Id { get; set; }
 
         [Required]
         public string Title { get; set; }
+
         [Required]
         public string Description { get; set; }
-        
-        public Guid PictureId { get; set; }
-        public Picture Picture { get; set; }
+
+        [Required]
+        public string PictureName { get; set; }
+
+        public byte[]? PictureBytePresentation { get; set; }
 
         public DateTime Created { get; set; }
-
-
     }
 }

@@ -1,20 +1,16 @@
 ﻿using SkillProfi;
 using System.Drawing;
 using System.IO;
+using System.Xml.Linq;
 
 namespace SkillProfiApi.Data
 {
-	public class PictureDirectory
+	internal static class PictureDirectory
 	{
 		private const string REPOSITORY = "Pictures";
 		private const string FORMAT = ".jpg";
 
-		public PictureDirectory()
-		{
-			CreateFolder();
-		}
-
-        public List<byte[]> GetImagesByte {
+        public static List<byte[]> GetImagesByte {
 
 			get
 			{
@@ -28,32 +24,34 @@ namespace SkillProfiApi.Data
 
 		}
 
-		public async Task<byte[]> GetPictureByNameAcync(string Name) {
+		public static async void GetPictureByNameAcync(this IPicture picture) {
 
-			string path = Path.Combine(REPOSITORY, Name + FORMAT);
-            return await File.ReadAllBytesAsync(path);
+			string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
+            picture.PictureBytePresentation = await File.ReadAllBytesAsync(path);
 		}
 
-		private void SetOriginalName() { }
+		private static void SetOriginalName() { }
 
-		public void SavePicture(byte[] imageByte) 
+		public static async Task SavePictureAsync(this IPicture picture)
 		{
-		
+            string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
+			await File.WriteAllBytesAsync(path, picture.PictureBytePresentation);
 		}
 
-		public void RemovePicture(string name)
+		public static void RemovePicture(this IPicture picture)
 		{
-		
-		}
+            string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
+			File.Delete(path);
+        }
 
-		public void CreateFolder() 
+		public static void CreateFolder() 
 		{
 			if (Directory.Exists("Pictures")) return;
 
 			Directory.CreateDirectory(REPOSITORY);
 		}
 
-		public void ClearDirectory() { }
+		public static void ClearDirectory() { }
 
 	}
 }

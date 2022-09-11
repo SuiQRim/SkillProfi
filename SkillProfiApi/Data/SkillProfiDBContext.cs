@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Build.Evaluation;
+using Microsoft.EntityFrameworkCore;
 using SkillProfi;
 using System.Data;
 using System.Diagnostics;
@@ -17,9 +18,9 @@ namespace SkillProfiApi.Data
         }
         public DbSet<Consultation> Consultations { get; set; }
 
-        public DbSet<Post> Posts { get; set; }
+        public DbSet<SkillProfi.Project> Projects { get; set; }
 
-        public DbSet<Picture> Pictures { get; set; }
+        public DbSet<Blog> Blogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,43 +47,45 @@ namespace SkillProfiApi.Data
                 }
             });
 
-            Guid id1 = Guid.NewGuid();
-            Guid id2 = Guid.NewGuid();
-
-            modelBuilder.Entity<Post>().HasData(new Post[]
-            {
-                new Post()
+            modelBuilder.Entity<SkillProfi.Project>().HasData(new SkillProfi.Project[]
+{
+                new SkillProfi.Project()
                 {
                     Id = Guid.NewGuid(),
-                    PictureId= id1,
                     Title = "Тест1",
                     Description="Тест1",
+                    PictureName= "Проект1", 
                     Created = DateTime.Now
                 },
-                new Post()
+                new SkillProfi.Project()
                 {
                     Id = Guid.NewGuid(),
-                    PictureId= id2,
                     Title = "Тест2",
                     Description="Тест2",
+                    PictureName = "Проект2",
                     Created = DateTime.Now
                 }
             });
 
-            modelBuilder.Entity<Picture>().HasData(new Picture[]
+            modelBuilder.Entity<Blog>().HasData(new Blog[]
             {
-                new Picture()
+                new Blog()
                 {
-                    Id = id1,
-                    Name = "Картина 1",
+                    Id = Guid.NewGuid(),
+                    Title = "Тест1",
+                    Description="Тест1",
+                    PictureName="Блог1",
+                    Created = DateTime.Now
                 },
-                new Picture()
+                new Blog()
                 {
-                    Id = id2,
-                    Name = "Картина 2",
+                    Id = Guid.NewGuid(),
+                    Title = "Тест2",
+                    Description="Тест2",
+                    PictureName="Блог2",
+                    Created = DateTime.Now
                 }
             });
-
         }
     }
 }
