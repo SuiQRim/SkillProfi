@@ -25,10 +25,10 @@ namespace SkillProfiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
         {
-          if (_context.Blogs == null)
-          {
-              return NotFound();
-          }
+            if (_context.Blogs == null)
+            {
+                return NotFound();
+            }
             return await _context.Blogs.ToListAsync();
         }
 
@@ -36,16 +36,19 @@ namespace SkillProfiApi.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Blog>> GetBlog(Guid id)
         {
-          if (_context.Blogs == null)
-          {
-              return NotFound();
-          }
+            if (_context.Blogs == null)
+            {
+                return NotFound();
+            }
             var blog = await _context.Blogs.FindAsync(id);
+
 
             if (blog == null)
             {
                 return NotFound();
             }
+
+            await blog.GetPictureAcync();
 
             return blog;
         }
@@ -86,11 +89,12 @@ namespace SkillProfiApi.Controllers
         [HttpPost]
         public async Task<ActionResult<Blog>> PostBlog(Blog blog)
         {
-          if (_context.Blogs == null)
-          {
-              return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
-          }
+            if (_context.Blogs == null)
+            {
+                return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
+            }
             _context.Blogs.Add(blog);
+            await blog.SavePictureAsync();
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetBlog", new { id = blog.Id }, blog);
@@ -111,6 +115,8 @@ namespace SkillProfiApi.Controllers
             }
 
             _context.Blogs.Remove(blog);
+            blog.RemovePicture();
+
             await _context.SaveChangesAsync();
 
             return NoContent();

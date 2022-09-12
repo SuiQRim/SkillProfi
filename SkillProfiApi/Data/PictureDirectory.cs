@@ -24,7 +24,14 @@ namespace SkillProfiApi.Data
 
 		}
 
-		public static async void GetPictureByNameAcync(this IPicture picture) {
+        public static void GetPicture(this IPicture picture)
+        {
+
+            string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
+            picture.PictureBytePresentation = File.ReadAllBytes(path);
+        }
+
+        public static async Task GetPictureAcync(this IPicture picture) {
 
 			string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
             picture.PictureBytePresentation = await File.ReadAllBytesAsync(path);
@@ -35,6 +42,11 @@ namespace SkillProfiApi.Data
 		public static async Task SavePictureAsync(this IPicture picture)
 		{
             string path = Path.Combine(REPOSITORY, picture.PictureName + FORMAT);
+
+			if (picture.PictureBytePresentation == null)
+			{
+				throw new ArgumentNullException(nameof(picture.PictureBytePresentation), "Byte presentation of picture is null");
+			}
 			await File.WriteAllBytesAsync(path, picture.PictureBytePresentation);
 		}
 

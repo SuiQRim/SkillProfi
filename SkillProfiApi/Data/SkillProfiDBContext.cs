@@ -11,11 +11,8 @@ namespace SkillProfiApi.Data
     public class SkillProfiDbContext : DbContext
     {
         public SkillProfiDbContext(DbContextOptions<SkillProfiDbContext> options)
-            : base(options)
-        {
-            Database.EnsureCreated();   // создаем базу данных при первом обращении
+            : base(options) => Database.EnsureCreated();   // создаем базу данных при первом обращении
 
-        }
         public DbSet<Consultation> Consultations { get; set; }
 
         public DbSet<SkillProfi.Project> Projects { get; set; }

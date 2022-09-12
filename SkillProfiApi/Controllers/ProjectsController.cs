@@ -31,13 +31,13 @@ namespace SkillProfiApi.Controllers
             }
             List<Project> projects = await _context.Projects.ToListAsync();
 
-            foreach (var p in projects) p.GetPictureByNameAcync();
+            foreach (var p in projects) await p.GetPictureAcync();
 
             return await _context.Projects.ToListAsync();
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProjects(Guid id)
+        public async Task<ActionResult<Project>> GetProject(Guid id)
         {
             if (_context.Projects == null)
             {
@@ -50,13 +50,13 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
 
-            project.GetPictureByNameAcync();
+            await project.GetPictureAcync();
 
             return project;
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProjects(Guid id, Project project)
+        public async Task<IActionResult> PutProject(Guid id, Project project)
         {
             if (id != project.Id)
             {
