@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -37,7 +38,7 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(Guid id)
+        public async Task<ActionResult<Project>> GetProject(Guid id,[Required] bool isPictureNeed)
         {
             if (_context.Projects == null)
             {
@@ -50,7 +51,8 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
 
-            await project.GetPictureAcync();
+            if (isPictureNeed)
+                await project.GetPictureAcync();
 
             return project;
         }

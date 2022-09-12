@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -34,7 +35,7 @@ namespace SkillProfiApi.Controllers
 
         // GET: api/Blogs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Blog>> GetBlog(Guid id)
+        public async Task<ActionResult<Blog>> GetBlog(Guid id, [Required] bool isNeedPicture)
         {
             if (_context.Blogs == null)
             {
@@ -48,7 +49,8 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
 
-            await blog.GetPictureAcync();
+            if(isNeedPicture)
+                await blog.GetPictureAcync();
 
             return blog;
         }
