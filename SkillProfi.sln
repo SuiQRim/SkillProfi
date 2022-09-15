@@ -11,18 +11,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWPF", "SkillProfi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiApi", "SkillProfiApi\SkillProfiApi.csproj", "{08AB47D4-A1B8-448B-BDCC-6BECB13ECF77}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillProfiWEB", "SkillProfiWEB", "{46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Style", "Style", "{7297C78D-5087-4370-BA63-AB8B0B3CD33E}"
-	ProjectSection(SolutionItems) = preProject
-		Main.css = Main.css
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{8F9392B2-7712-4F30-BE57-F5D5BB63BD2F}"
-	ProjectSection(SolutionItems) = preProject
-		Index.html = Index.html
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -48,10 +36,6 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{7297C78D-5087-4370-BA63-AB8B0B3CD33E} = {46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}
-		{8F9392B2-7712-4F30-BE57-F5D5BB63BD2F} = {46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CCD858B-32C5-4E74-8884-90395E076D1D}
