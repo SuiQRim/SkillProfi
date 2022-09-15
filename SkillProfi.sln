@@ -7,11 +7,21 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiTelegramBot", "Sk
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfi", "SkillProfiModels\SkillProfi.csproj", "{06398513-A953-4A27-A467-10828E4F31BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWEB", "SkillProfiWEB\SkillProfiWEB.csproj", "{F3F60F74-12B3-4978-ABE6-5C1002AF7BA8}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWPF", "SkillProfiWPF\SkillProfiWPF.csproj", "{DF6D89D2-76A6-4BC2-BD66-F2D7FEF63503}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiApi", "SkillProfiApi\SkillProfiApi.csproj", "{08AB47D4-A1B8-448B-BDCC-6BECB13ECF77}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "SkillProfiWEB", "SkillProfiWEB", "{46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Style", "Style", "{7297C78D-5087-4370-BA63-AB8B0B3CD33E}"
+	ProjectSection(SolutionItems) = preProject
+		Main.css = Main.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Views", "Views", "{8F9392B2-7712-4F30-BE57-F5D5BB63BD2F}"
+	ProjectSection(SolutionItems) = preProject
+		Index.html = Index.html
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,10 +37,6 @@ Global
 		{06398513-A953-4A27-A467-10828E4F31BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{06398513-A953-4A27-A467-10828E4F31BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{06398513-A953-4A27-A467-10828E4F31BB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F3F60F74-12B3-4978-ABE6-5C1002AF7BA8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F3F60F74-12B3-4978-ABE6-5C1002AF7BA8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F3F60F74-12B3-4978-ABE6-5C1002AF7BA8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F3F60F74-12B3-4978-ABE6-5C1002AF7BA8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{DF6D89D2-76A6-4BC2-BD66-F2D7FEF63503}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{DF6D89D2-76A6-4BC2-BD66-F2D7FEF63503}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF6D89D2-76A6-4BC2-BD66-F2D7FEF63503}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -42,6 +48,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{7297C78D-5087-4370-BA63-AB8B0B3CD33E} = {46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}
+		{8F9392B2-7712-4F30-BE57-F5D5BB63BD2F} = {46B423D1-BB78-4A4C-AC5E-7448E85EEDF8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {8CCD858B-32C5-4E74-8884-90395E076D1D}
