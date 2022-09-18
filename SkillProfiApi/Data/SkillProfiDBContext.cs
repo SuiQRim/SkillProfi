@@ -19,6 +19,8 @@ namespace SkillProfiApi.Data
 
         public DbSet<Blog> Blogs { get; set; }
 
+        public DbSet<Service> Services { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
