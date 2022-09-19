@@ -90,7 +90,12 @@ namespace SkillProfiApi.Controllers
             {
                 return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
             }
-            _context.Consultations.Add(consultation);
+
+            consultation.Id = Guid.NewGuid();
+            consultation.Status = "Receveid";
+            consultation.Created = DateTime.Now;
+
+            await _context.Consultations.AddAsync(consultation);
             await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetConsultation", new { id = consultation.Id }, consultation);

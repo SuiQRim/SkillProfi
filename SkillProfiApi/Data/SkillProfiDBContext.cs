@@ -19,6 +19,8 @@ namespace SkillProfiApi.Data
 
         public DbSet<Blog> Blogs { get; set; }
 
+        public DbSet<Service> Services { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -83,6 +85,24 @@ namespace SkillProfiApi.Data
                     Created = DateTime.Now
                 }
             });
+
+            modelBuilder.Entity<Service>().HasData(new Service[]
+           {
+                new Service()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Тест1",
+                    Description="Тест1",
+                    Created = DateTime.Now
+                },
+                new Service()
+                {
+                    Id = Guid.NewGuid(),
+                    Title = "Тест2",
+                    Description="Тест2",
+                    Created = DateTime.Now
+                }
+           });
         }
     }
 }

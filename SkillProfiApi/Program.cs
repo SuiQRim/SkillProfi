@@ -7,6 +7,8 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Limits.MaxRequestBodySize = int.MaxValue;
 });
 // Add services to the container.
+builder.Services.AddCors(opt => opt.AddDefaultPolicy(
+    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SkillProfiDbContext>
     (options =>  options.UseInMemoryDatabase(databaseName: "SkillProfi"));
@@ -24,6 +26,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors();
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
