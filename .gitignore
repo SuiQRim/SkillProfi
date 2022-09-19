@@ -362,6 +362,3 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /SkillProfiApi/Pictures
-/SkillProfiWeb/Pages
-/SkillProfiWeb/Styles
-/SkillProfiWeb

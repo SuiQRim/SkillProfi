@@ -1,0 +1,22 @@
+.header {
+    position: relative;
+    background: #1266a1;
+    height: 200px;
+    width: 100%;
+}
+
+.image {
+    position: relative;
+    margin-left: 20%;
+    height: 200px;
+    width: 200px;
+}
+
+.slogan {
+    font-family: Arial;
+    position: absolute;
+    color: white;
+    right: 18%;
+    bottom: 50px;
+    font-size: 32px;
+}
