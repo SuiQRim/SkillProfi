@@ -7,9 +7,9 @@
 
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
+    <link rel="stylesheet" href="../Styles/MainStyle.css" />
     <link rel="stylesheet" href="../Styles/Header.css" />
-    <link rel="stylesheet" href="../Styles/NavigationPanel.css" />
-    <link rel="stylesheet" href="../Styles/Consultation.css" />
+    <link rel="stylesheet" href="../Styles/Block.css" />
     <link rel="stylesheet" href="../Styles/ScrollbarStyle.css" />
     <style>
         * {
@@ -41,35 +41,40 @@
 
     </div>
 
+    <div class="content">
 
-    <div class="project-list">
 
-        <a class="title">Projects</a>
+        <div>
 
-        <div id="projectScroller" class="scroller">
-            <script>
-                $.ajax({
-                    url: 'https://localhost:7120/api/Projects',
-                    type: 'get',
-                    success: function(data) {
-                        data.forEach(element => {
+            <a class="title">Projects</a>
 
-                            let div = document.createElement('div');
-                            div.id = element["id"]
-                            div.className = "project";
-                            div.innerHTML = `<img class="smoothImage" src="data:image/png;base64,${element["pictureBytePresentation"]}" width="320" height="180">
-                            <div class="project-title"><p>${element["title"]}</p></div>`;
+            <div id="projectScroller" class="scroller">
+                <script>
+                    $.ajax({
+                        url: 'https://localhost:7120/api/Projects',
+                        type: 'get',
+                        success: function(data) {
+                            data.forEach(element => {
 
-                            document.getElementById("projectScroller").append(div);
-                        });
-                    }
-                });
-            </script>
+                                let div = document.createElement('div');
+                                div.id = element["id"]
+                                div.className = "block";
+                                div.innerHTML = `
+                                    <img class="smooth-image" src="data:image/png;base64,${element["pictureBytePresentation"]}" width="320" height="180">
+                                    <div class="project-title">
+                                    <p>${element["title"]}</p>
+                                    </div>`;
+
+                                document.getElementById("projectScroller").append(div);
+                            });
+                        }
+                    });
+                </script>
+            </div>
+
         </div>
 
     </div>
-
-
 </body>
 
 </html>
