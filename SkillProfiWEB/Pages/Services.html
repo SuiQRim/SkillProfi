@@ -10,6 +10,7 @@
     <link rel="stylesheet" href="../Styles/Header.css" />
     <link rel="stylesheet" href="../Styles/NavigationPanel.css" />
     <link rel="stylesheet" href="../Styles/Consultation.css" />
+    <link rel="stylesheet" href="../Styles/Toggle.css" />
     <style>
         * {
             margin: 0;
@@ -38,6 +39,43 @@
             <img class="image">
         </div>
 
+    </div>
+
+    <div class="content">
+
+        <div id="toggle-list">
+
+        </div>
+        <script>
+            $.ajax({
+                url: 'https://localhost:7120/api/Services',
+                type: 'get',
+                success: function(data) {
+                    data.forEach(element => {
+
+                        let div = document.createElement('div');
+                        div.id = element["id"]
+                        div.className = "toggle";
+                        div.innerHTML = `        
+                            <div class="toggle-title">
+                                <p>${element["title"]}</p>
+                            </div>
+                            <div class="toggle-context">
+                                <p>${element["description"]}</p>
+                            </div>`;
+
+                        document.getElementById("toggle-list").append(div);
+                    });
+
+                    const accordion = document.getElementsByClassName('toggle')
+                    for (i = 0; i < accordion.length; i++) {
+                        accordion[i].addEventListener('click', function() {
+                            this.classList.toggle('active')
+                        })
+                    }
+                }
+            });
+        </script>
     </div>
 </body>
 
