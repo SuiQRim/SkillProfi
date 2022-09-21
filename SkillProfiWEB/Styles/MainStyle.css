@@ -7,6 +7,15 @@
     font-family: Arial;
 }
 
+.title-mini {
+    position: relative;
+    margin: 20px;
+    position: relative;
+    color: #00548f;
+    font-size: 48px;
+    font-family: Arial;
+}
+
 .content {
     position: relative;
     margin-left: 20%;
@@ -15,47 +24,41 @@
     display: inline-block;
 }
 
-.text-panel {
-    position: relative;
-    margin-top: 20px;
-    width: 100%;
-}
-
-.text-panel input[type="text"] {
-    position: relative;
-    text-align: center;
-    width: 300px;
-    padding: 4px;
-    font-size: 22px;
-    height: 34px;
-    background: #ebebeb;
+input[type=text] {
+    width: 40%;
+    padding: 12px 20px;
+    margin: 10px 20px;
+    box-sizing: border-box;
+    background: white;
     border-radius: 4px;
+    border: 2px;
     border-style: solid;
-    border-color: gray;
+    border-color: #4299d9;
 }
 
 .content textarea {
     position: relative;
     resize: none;
+    margin: 20px;
     padding: 10px;
     font-size: 22px;
-    background: #ebebeb;
-    border-width: 2px;
+    background: white;
     border-radius: 4px;
+    border-width: 2px;
     border-style: solid;
-    border-color: gray;
+    border-color: #4299d9;
     margin-top: 20px;
     height: 180px;
-    width: 100%;
+    width: 85%;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
 }
 
 .button {
-    transition: 250ms;
+    transition: 0.5s;
     color: white;
-    margin-top: 10px;
+    margin: 20px;
     position: relative;
     width: 280px;
     padding: 4px;
@@ -63,20 +66,17 @@
     height: 64px;
     background: #4299d9;
     border-radius: 4px;
-    border-style: solid;
-    border-color: gray;
+    border: hidden;
 }
 
 .button:hover {
     transition: 250ms;
     background: #61ADE8;
-    border-width: 0px;
 }
 
 .button:active {
     transition: 250ms;
     background: #3f6c8f;
-    border-width: 0px;
 }
 
 .smooth-image {
