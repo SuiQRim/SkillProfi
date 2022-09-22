@@ -20,8 +20,23 @@
     position: relative;
     margin-left: 20%;
     width: 60%;
-    margin-top: 20px;
+    margin-top: 60px;
     display: inline-block;
+}
+
+.description {
+    position: relative;
+    padding: 40px;
+    margin: 20px;
+    width: 100%;
+    font-size: 20px;
+    border: 2px;
+    display: inline-block;
+    border-style: solid none none none;
+    border-color: #4299d9;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box
 }
 
 input[type=text] {
@@ -79,6 +94,15 @@ input[type=text] {
     background: #3f6c8f;
 }
 
-.smooth-image {
-    border-radius: 8px;
+.image-block {
+    position: relative;
+    float: right;
+    height: 80px;
+    width: 200px;
+}
+
+.image-block img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
 }

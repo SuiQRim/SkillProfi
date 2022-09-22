@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="eu">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Main</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../Styles/MainStyle.css" />
+    <link rel="stylesheet" href="../Styles/Header.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header" class="header">
+        <div class="topnav">
+            <div>
+                <a href="Index.html">Main</a>
+                <a href="Services.html">Services</a>
+                <a class="active" href="Projects.html">Projects</a>
+                <a href="Blogs.html">Blogs</a>
+                <a href="Contacts.html">Contacts</a>
+            </div>
+        </div>
+
+        <div class="slogan">
+            <p>"Expanding the possibilities"</p>
+        </div>
+
+        <div>
+            <img class="image">
+        </div>
+
+    </div>
+
+    <div class="content">
+        <script>
+            var id = getUrlVars()["id"];
+
+            function getUrlVars() {
+                var vars = {};
+                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+                    vars[key] = value;
+                });
+                return vars;
+            }
+        </script>
+
+        <div id="project">
+            <script>
+                $.ajax({
+                    url: `https://localhost:7120/api/Projects/${id}?isPictureNeed=true`,
+                    type: 'get',
+                    success: function(data) {
+
+                        let div = document.createElement('div');
+                        div.id = data["id"];
+                        div.innerHTML = `
+
+                            <a class="title">${data["title"]}</a>
+  
+                            <div class="image-block">
+                                <img src="data:image/png;base64,${data["pictureBytePresentation"]}">
+                            </div>
+                            <div class="description">
+                                <a>${data["description"]}</a>
+                            </div>
+                            `
+                        document.getElementById("project").append(div);
+                    }
+                });
+            </script>
+        </div>
+    </div>
+</body>
+
+</html>
