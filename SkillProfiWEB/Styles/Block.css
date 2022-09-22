@@ -2,17 +2,40 @@
     display: inline-block;
     margin: 20px;
     position: relative;
+    width: 320px;
+    height: 180px;
+}
+
+.block-title {
+    font-size: 16px;
+    position: relative;
+    width: 320px;
+    height: 60px;
+    background: #4299d9;
+    margin-top: -60px;
+    text-align: center;
+    border-radius: 0px 0px 8px 8px;
 }
 
 .block-title p {
-    font-size: 16px;
-    text-align: center;
+    color: white;
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%)
+}
+
+
+/* 4 */
+
+.block img {
     position: relative;
-    width: 320px;
-    height: 40px;
-    background: #c4c4c4;
-    margin-top: -40px;
-    border-radius: 0px 0px 8px 8px;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
 }
 
 .scroller {

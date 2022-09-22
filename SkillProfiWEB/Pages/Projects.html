@@ -60,10 +60,15 @@
                                 div.id = element["id"]
                                 div.className = "block";
                                 div.innerHTML = `
-                                    <img class="smooth-image" src="data:image/png;base64,${element["pictureBytePresentation"]}" width="320" height="180">
-                                    <div class="block-title">
-                                    <p>${element["title"]}</p>
-                                    </div>`;
+                                    <a href="Project.html?id=${element["id"]}">
+
+                                        <img src="data:image/png;base64,${element["pictureBytePresentation"]}">
+
+                                        <div class="block-title">
+                                            <p>${element["title"]}</p>
+                                        </div>
+                                        
+                                    <a>`;
 
                                 document.getElementById("projectScroller").append(div);
                             });
