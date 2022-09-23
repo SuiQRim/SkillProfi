@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="eu">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Main</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="../Styles/MainStyle.css" />
+    <link rel="stylesheet" href="../Styles/Header.css" />
+    <link rel="stylesheet" href="../Styles/Toggle.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="header" class="header">
+        <div class="topnav">
+            <div>
+                <a href="Index.html">Main</a>
+                <a class="active" href="Services.html">Services</a>
+                <a href="Projects.html">Projects</a>
+                <a href="Blogs.html">Blogs</a>
+                <a href="Contacts.html">Contacts</a>
+            </div>
+        </div>
+
+        <div class="slogan">
+            <p>"Expanding the possibilities"</p>
+        </div>
+
+        <div>
+            <img class="image">
+        </div>
+
+    </div>
+
+    <div class="content">
+
+        <p class="title">What can we do</p>
+
+        <div id="toggle-list">
+
+        </div>
+        <script>
+            $.ajax({
+                url: 'https://localhost:7120/api/Services',
+                type: 'get',
+                success: function(data) {
+                    data.forEach(element => {
+
+                        let div = document.createElement('div');
+                        div.id = element["id"]
+                        div.className = "toggle";
+                        div.innerHTML = `        
+                            <div class="toggle-title">
+                                <p>${element["title"]}</p>
+                            </div>
+                            <div class="toggle-context">
+                                <p>${element["description"]}</p>
+                            </div>`;
+
+                        document.getElementById("toggle-list").append(div);
+                    });
+
+                    const accordion = document.getElementsByClassName('toggle')
+                    for (i = 0; i < accordion.length; i++) {
+                        accordion[i].addEventListener('click', function() {
+                            this.classList.toggle('active')
+                        })
+                    }
+                }
+            });
+        </script>
+    </div>
+</body>
+
+</html>
