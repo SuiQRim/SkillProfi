@@ -8,9 +8,8 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="../Styles/MainStyle.css" />
-    <link rel="stylesheet" href="../Styles/Header.css" />
     <link rel="stylesheet" href="../Styles/Block.css" />
-    <link rel="stylesheet" href="../Styles/ScrollbarStyle.css" />
+    <link rel="stylesheet" href="../Styles/Header.css" />
     <style>
         * {
             margin: 0;
@@ -25,8 +24,8 @@
             <div>
                 <a href="Index.html">Main</a>
                 <a href="Services.html">Services</a>
-                <a class="active" href="Projects.html">Projects</a>
-                <a href="Blogs.html">Blogs</a>
+                <a href="Projects.html">Projects</a>
+                <a class="active" href="Blogs.html">Blogs</a>
                 <a href="Contacts.html">Contacts</a>
             </div>
         </div>
@@ -44,13 +43,14 @@
     <div class="content">
 
         <div class="title">
-            <a>Projects</a>
+            <a>Blogs</a>
         </div>
 
-        <div id="projectScroller" class="scroller">
+        <div id="blogsScroller" calss="scroller">
+
             <script>
                 $.ajax({
-                    url: 'https://localhost:7120/api/Projects',
+                    url: 'https://localhost:7120/api/Blogs',
                     type: 'get',
                     success: function(data) {
                         data.forEach(element => {
@@ -63,19 +63,19 @@
 
                                         <img src="data:image/png;base64,${element["pictureBytePresentation"]}">
 
-                                        <div class="block-title-in">
+                                        <div class="block-title-under">
                                             <p>${element["title"]}</p>
                                         </div>
                                         
                                     <a>`;
 
-                            document.getElementById("projectScroller").append(div);
+                            document.getElementById("blogsScroller").append(div);
                         });
                     }
                 });
             </script>
-        </div>
 
+        </div>
     </div>
 </body>
 

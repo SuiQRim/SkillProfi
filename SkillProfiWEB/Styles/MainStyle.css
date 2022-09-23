@@ -1,6 +1,5 @@
 .title {
     position: relative;
-    width: 100%;
     margin: 20px;
     padding: 10px;
     position: relative;
@@ -14,7 +13,6 @@
 
 .title-mini {
     position: relative;
-    width: 100%;
     margin: 20px;
     padding: 10px;
     position: relative;

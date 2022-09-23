@@ -6,8 +6,12 @@
     height: 180px;
 }
 
-.block-title {
-    font-size: 16px;
+.block a {
+    text-decoration: none;
+    color: black;
+}
+
+.block-title-in {
     position: relative;
     width: 320px;
     height: 60px;
@@ -17,7 +21,9 @@
     border-radius: 0px 0px 8px 8px;
 }
 
-.block-title p {
+.block-title-in p {
+    text-decoration: none;
+    font-size: 18px;
     color: white;
     margin: 0;
     position: absolute;
@@ -25,6 +31,15 @@
     left: 50%;
     margin-right: -50%;
     transform: translate(-50%, -50%)
+}
+
+.block-title-under {
+    text-decoration: none;
+    font-size: 18px;
+    position: relative;
+    padding: 10px;
+    width: 320px;
+    height: 60px;
 }
 
 .block img {
