@@ -27,9 +27,6 @@
     transform: translate(-50%, -50%)
 }
 
-
-/* 4 */
-
 .block img {
     position: relative;
     height: 100%;
@@ -39,6 +36,7 @@
 }
 
 .scroller {
+    margin: 20px;
     position: relative;
     display: inline-block;
     white-space: nowrap;

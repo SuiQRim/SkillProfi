@@ -63,11 +63,13 @@
                         div.id = data["id"];
                         div.innerHTML = `
 
-                            <a class="title">${data["title"]}</a>
-  
-                            <div class="image-block">
+                            <div class="title">${data["title"]}
+                                <div class="image-block">
                                 <img src="data:image/png;base64,${data["pictureBytePresentation"]}">
                             </div>
+                            </div>
+  
+                            
                             <div class="description">
                                 <a>${data["description"]}</a>
                             </div>

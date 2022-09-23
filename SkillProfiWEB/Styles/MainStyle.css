@@ -1,19 +1,29 @@
 .title {
     position: relative;
+    width: 100%;
     margin: 20px;
+    padding: 10px;
     position: relative;
     color: #00548f;
     font-size: 64px;
     font-family: Arial;
+    border-style: none none solid none;
+    border-color: #4299d9;
+    border-width: 2px;
 }
 
 .title-mini {
     position: relative;
+    width: 100%;
     margin: 20px;
+    padding: 10px;
     position: relative;
     color: #00548f;
-    font-size: 48px;
+    font-size: 42px;
     font-family: Arial;
+    border-style: none none solid none;
+    border-color: #4299d9;
+    border-width: 2px;
 }
 
 .content {
@@ -32,8 +42,6 @@
     font-size: 20px;
     border: 2px;
     display: inline-block;
-    border-style: solid none none none;
-    border-color: #4299d9;
     -webkit-box-sizing: border-box;
     -moz-box-sizing: border-box;
     box-sizing: border-box
@@ -96,9 +104,10 @@ input[type=text] {
 
 .image-block {
     position: relative;
+    bottom: 22px;
     float: right;
-    height: 80px;
-    width: 200px;
+    height: 90px;
+    width: 160px;
 }
 
 .image-block img {
