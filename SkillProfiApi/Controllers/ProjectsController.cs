@@ -34,7 +34,7 @@ namespace SkillProfiApi.Controllers
 
             foreach (var p in projects) await p.GetPictureAcync();
 
-            return await _context.Projects.ToListAsync();
+            return projects;
         }
 
         [HttpGet("{id}")]
