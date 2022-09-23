@@ -30,7 +30,12 @@ namespace SkillProfiApi.Controllers
             {
                 return NotFound();
             }
-            return await _context.Blogs.ToListAsync();
+
+            List<Blog> blogs = await _context.Blogs.ToListAsync();
+
+            foreach (var p in blogs) await p.GetPictureAcync();
+
+            return blogs;
         }
 
         // GET: api/Blogs/5
