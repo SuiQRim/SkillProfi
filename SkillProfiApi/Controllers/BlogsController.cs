@@ -40,7 +40,7 @@ namespace SkillProfiApi.Controllers
 
         // GET: api/Blogs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Blog>> GetBlog(Guid id, [Required] bool isNeedPicture)
+        public async Task<ActionResult<Blog>> GetBlog(Guid id, [Required] bool isPictureNeed)
         {
             if (_context.Blogs == null)
             {
