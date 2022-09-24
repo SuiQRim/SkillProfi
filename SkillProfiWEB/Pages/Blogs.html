@@ -56,23 +56,23 @@
                         data.forEach(element => {
 
                             let div = document.createElement('div');
-                            div.id = element["id"]
+                            div.id = element["id"];
                             div.className = "block";
                             div.innerHTML = `
-                                    <a href="Project.html?id=${element["id"]}">
-
-                                        <img src="data:image/png;base64,${element["pictureBytePresentation"]}">
+                                        <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
 
                                         <div class="block-title-under">
                                             <p>${element["title"]}</p>
-                                        </div>
-                                        
-                                    <a>`;
+                                        </div>`;
 
                             document.getElementById("blogsScroller").append(div);
                         });
                     }
                 });
+
+                function openDescription(id) {
+                    window.location.href = 'Blog.html?id=' + id;
+                }
             </script>
 
         </div>
