@@ -54,7 +54,7 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
 
-            if(isNeedPicture)
+            if(isPictureNeed)
                 await blog.GetPictureAcync();
 
             return blog;
