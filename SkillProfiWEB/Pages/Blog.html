@@ -41,7 +41,7 @@
     </div>
 
     <div class="content">
-        <div id="blog">
+        <div id="blog" style="min-height: 520px;">
             <script>
                 var id = getUrlVars()["id"];
 
@@ -80,7 +80,16 @@
                     }
                 });
             </script>
+
         </div>
+        <button class="button" style="float: right;" onclick="comeBackToBlogMenu()">
+            Назад
+        </button>
+        <script>
+            function comeBackToBlogMenu() {
+                window.location.href = 'Blogs.html';
+            }
+        </script>
     </div>
 </body>
 

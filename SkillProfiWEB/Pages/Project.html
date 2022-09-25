@@ -52,7 +52,7 @@
             }
         </script>
 
-        <div id="project">
+        <div id="project" style="min-height: 520px;">
             <script>
                 $.ajax({
                     url: `https://localhost:7120/api/Projects/${id}?isPictureNeed=true`,
@@ -79,6 +79,16 @@
                 });
             </script>
         </div>
+
+        <button class="button" style="float: right;" onclick="comeBackToBlogMenu()">
+            Назад
+        </button>
+        <script>
+            function comeBackToBlogMenu() {
+                window.location.href = 'Projects.html';
+            }
+        </script>
+
     </div>
 </body>
 
