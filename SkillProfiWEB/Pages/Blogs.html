@@ -8,8 +8,9 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="../Styles/MainStyle.css" />
-    <link rel="stylesheet" href="../Styles/Block.css" />
     <link rel="stylesheet" href="../Styles/Header.css" />
+    <link rel="stylesheet" href="../Styles/Block.css" />
+    <link rel="stylesheet" href="../Styles/ScrollbarStyle.css" />
     <style>
         * {
             margin: 0;
@@ -55,15 +56,22 @@
                     success: function(data) {
                         data.forEach(element => {
 
+                            var created = new Date(element["created"]);
+
                             let div = document.createElement('div');
                             div.id = element["id"];
                             div.className = "block";
                             div.innerHTML = `
-                                        <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
 
-                                        <div class="block-title-under">
-                                            <p>${element["title"]}</p>
-                                        </div>`;
+                                <div class="created">
+                                    <a>${created.toLocaleString()}</a>
+                                </div>
+                                
+                                <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
+
+                                <div class="block-title-under">
+                                    <p>${element["title"]}</p>
+                                </div>`;
 
                             document.getElementById("blogsScroller").append(div);
                         });

@@ -8,6 +8,7 @@
     <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="../Styles/MainStyle.css" />
+    <link rel="stylesheet" href="../Styles/Block.css" />
     <link rel="stylesheet" href="../Styles/Header.css" />
     <style>
         * {
@@ -23,8 +24,8 @@
             <div>
                 <a href="Index.html">Main</a>
                 <a href="Services.html">Services</a>
-                <a class="active" href="Projects.html">Projects</a>
-                <a href="Blogs.html">Blogs</a>
+                <a href="Projects.html">Projects</a>
+                <a class="active" href="Blogs.html">Blogs</a>
                 <a href="Contacts.html">Contacts</a>
             </div>
         </div>
@@ -40,41 +41,42 @@
     </div>
 
     <div class="content">
-        <script>
-            var id = getUrlVars()["id"];
-
-            function getUrlVars() {
-                var vars = {};
-                var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
-                    vars[key] = value;
-                });
-                return vars;
-            }
-        </script>
-
-        <div id="project">
+        <div id="blog">
             <script>
+                var id = getUrlVars()["id"];
+
+                function getUrlVars() {
+                    var vars = {};
+                    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m, key, value) {
+                        vars[key] = value;
+                    });
+                    return vars;
+                }
+
                 $.ajax({
-                    url: `https://localhost:7120/api/Projects/${id}?isPictureNeed=true`,
+                    url: `https://localhost:7120/api/Blogs/${id}?isPictureNeed=true`,
                     type: 'get',
                     success: function(data) {
 
                         let div = document.createElement('div');
+
                         div.id = data["id"];
                         div.innerHTML = `
 
-                            <div class="title">${data["title"]}  
-                                <div class="image-block-title">
+                            <div class="title">${data["title"]}
+
+                            </div>
+                            
+                            <div>
+                                <div class="image-block-content">
                                     <img src="data:image/png;base64,${data["pictureBytePresentation"]}">
                                 </div>
-                            </div>
-  
-                            
-                            <div class="description">
-                                <a>${data["description"]}</a>
+                                <div class="description">
+                                    <a>${data["description"]}</a>
+                                </div>
                             </div>
                             `
-                        document.getElementById("project").append(div);
+                        document.getElementById("blog").append(div);
                     }
                 });
             </script>

@@ -42,6 +42,19 @@
     height: 60px;
 }
 
+.block .created {
+    position: relative;
+    border-color: #4299d9;
+    border-width: 2px;
+    border-style: solid;
+    background-color: white;
+    border-radius: 4px;
+    width: auto;
+    display: inline-block;
+    margin: 10px 0px;
+    padding: 5px 10px;
+}
+
 .block img {
     position: relative;
     cursor: pointer;

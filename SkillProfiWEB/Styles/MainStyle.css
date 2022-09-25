@@ -34,21 +34,17 @@
 
 .description {
     position: relative;
+     word-wrap: break-word;
     padding: 40px;
     margin: 20px;
-    width: 100%;
     font-size: 20px;
-    border: 2px;
-    display: inline-block;
-    -webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box
 }
 
 input[type=text] {
     width: 40%;
     padding: 12px 20px;
     margin: 10px 20px;
+    font-size: 22px;
     box-sizing: border-box;
     background: white;
     border-radius: 4px;
@@ -62,7 +58,7 @@ input[type=text] {
     resize: none;
     margin: 20px;
     padding: 10px;
-    font-size: 22px;
+    font-size: 20px;
     background: white;
     border-radius: 4px;
     border-width: 2px;
@@ -100,7 +96,7 @@ input[type=text] {
     background: #3f6c8f;
 }
 
-.image-block {
+.image-block-title {
     position: relative;
     bottom: 22px;
     float: right;
@@ -108,7 +104,21 @@ input[type=text] {
     width: 160px;
 }
 
-.image-block img {
+.image-block-title img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.image-block-content {
+    position: relative;
+    margin: 40px;
+    float: left;
+    height: 180px;
+    width: 320;
+}
+
+.image-block-content img {
     height: 100%;
     width: 100%;
     object-fit: cover;
