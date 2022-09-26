@@ -47,7 +47,7 @@
             <a>Blogs</a>
         </div>
 
-        <div id="blogsScroller" calss="scroller">
+        <div id="blogsScroller" class="scroller">
 
             <script>
                 $.ajax({
@@ -67,8 +67,10 @@
                                     <a>${created.toLocaleString()}</a>
                                 </div>
                                 
-                                <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
-
+                                <div class="block-image"> 
+                                    <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
+                                </div>
+                               
                                 <div class="block-title-under">
                                     <p>${element["title"]}</p>
                                 </div>`;

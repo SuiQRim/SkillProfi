@@ -59,11 +59,12 @@
                             div.id = element["id"];
                             div.className = "block";
                             div.innerHTML = `
-                                        <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
-
-                                        <div class="block-title-in">
-                                            <p>${element["title"]}</p>
-                                        </div>`;
+                                <div class="block-image"> 
+                                    <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
+                                </div>
+                                <div class="block-title-in">
+                                    <p>${element["title"]}</p>
+                                </div>`;
 
                             document.getElementById("projectScroller").append(div);
                         });
