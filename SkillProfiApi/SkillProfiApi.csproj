@@ -1,10 +1,21 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="DataFiles\**" />
+    <Compile Remove="Pictures\**" />
+    <Content Remove="DataFiles\**" />
+    <Content Remove="Pictures\**" />
+    <EmbeddedResource Remove="DataFiles\**" />
+    <EmbeddedResource Remove="Pictures\**" />
+    <None Remove="DataFiles\**" />
+    <None Remove="Pictures\**" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.9" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SkillProfi
 {
-    internal class Contacts
+    public class Contacts
     {
 
         public string? Adress { get; set; }
