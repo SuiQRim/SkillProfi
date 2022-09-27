@@ -8,7 +8,6 @@ namespace SkillProfiApi.Data
 	internal static class PictureDirectory
 	{
 		private const string REPOSITORY = "Pictures";
-		private const string FORMAT = ".jpg";
 
         public static List<byte[]> GetImagesByte {
 
@@ -24,7 +23,7 @@ namespace SkillProfiApi.Data
 
 		}
 
-        public static async Task GetPictureAcync(this IPicture picture) {
+        public static async Task GetPictureAsync(this IPicture picture) {
 
 			string path = Path.Combine(REPOSITORY, picture.PictureName);
             picture.PictureBytePresentation = await File.ReadAllBytesAsync(path);
@@ -32,7 +31,7 @@ namespace SkillProfiApi.Data
 
 		private static void SetOriginalName(this IPicture picture) 
 		{
-			picture.PictureName = Guid.NewGuid().ToString() + FORMAT;
+			picture.PictureName = Guid.NewGuid().ToString();
 
 			if (File.Exists(Path.Combine(REPOSITORY, picture.PictureName)))
 			{
@@ -66,8 +65,6 @@ namespace SkillProfiApi.Data
 
 			Directory.CreateDirectory(REPOSITORY);
 		}
-
-		public static void ClearDirectory() { }
 
 	}
 }

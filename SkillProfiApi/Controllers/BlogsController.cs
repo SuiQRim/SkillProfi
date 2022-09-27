@@ -33,7 +33,7 @@ namespace SkillProfiApi.Controllers
 
             List<Blog> blogs = await _context.Blogs.ToListAsync();
 
-            foreach (var p in blogs) await p.GetPictureAcync();
+            foreach (var p in blogs) await p.GetPictureAsync();
 
             return blogs;
         }
@@ -55,7 +55,7 @@ namespace SkillProfiApi.Controllers
             }
 
             if(isPictureNeed)
-                await blog.GetPictureAcync();
+                await blog.GetPictureAsync();
 
             return blog;
         }

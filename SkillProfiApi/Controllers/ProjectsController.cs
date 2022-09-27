@@ -32,7 +32,7 @@ namespace SkillProfiApi.Controllers
             }
             List<Project> projects = await _context.Projects.ToListAsync();
 
-            foreach (var p in projects) await p.GetPictureAcync();
+            foreach (var p in projects) await p.GetPictureAsync();
 
             return projects;
         }
@@ -52,7 +52,7 @@ namespace SkillProfiApi.Controllers
             }
 
             if (isPictureNeed)
-                await project.GetPictureAcync();
+                await project.GetPictureAsync();
 
             return project;
         }

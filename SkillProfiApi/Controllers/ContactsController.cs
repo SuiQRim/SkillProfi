@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SkillProfiApi.Data;
 using SkillProfi;
+using SkillProfiApi.Data;
 
 namespace SkillProfiApi.Controllers
 {
@@ -18,6 +18,11 @@ namespace SkillProfiApi.Controllers
             if (contacts == null)
             {
                 return NotFound();
+            }
+
+            foreach (var sn in contacts.SocialNetworks)
+            {
+                sn.GetPictureAsync();
             }
 
             return contacts;
