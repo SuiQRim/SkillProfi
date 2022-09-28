@@ -123,3 +123,46 @@ input[type=text] {
     width: 100%;
     object-fit: cover;
 }
+
+
+.social-network {
+    display: inline-block;
+    cursor: pointer;
+    margin: 10px;
+    padding: 2px;
+    border-radius: 8px;
+    border-style: solid;
+    border-color: #4299d9;
+    border-width: 2px;
+    height: 50px;
+    width: 50px;
+}
+
+.social-network img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+.contacts {
+    position: relative;
+    margin: 40px;
+
+}
+
+.contacts-data {
+    margin-top: 40px;
+    position: relative;
+    text-align: center;
+}
+
+.contacts-data div {
+
+    margin: 20px;
+}
+
+.map {
+    position: relative;
+    float: right;
+}
+
