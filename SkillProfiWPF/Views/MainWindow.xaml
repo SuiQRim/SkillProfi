@@ -5,9 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkillProfiWPF"
         mc:Ignorable="d"
-        Title="MainWindow"
-        Height="450"
-        Width="800"
+        Title="SkillProfi"
+        MinHeight="450"
+        MinWidth="800"
         Background="#ededed">
     <Grid>
         <Grid.RowDefinitions>
@@ -15,62 +15,74 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
         <StackPanel
-            Background="#1266a1" Grid.ColumnSpan="2">
+            Background="#1266a1" 
+            Grid.ColumnSpan="2" 
+            Height="50">
             
         </StackPanel>
 
         <StackPanel
-            Background="#1266a1" Grid.RowSpan="2" >
+            Background="#1266a1" Grid.Row="1" >
 
             <Button 
                 Height="32px"
                 Margin="10px"
-                Content="Рабочий стол">
+                Content="Рабочий стол"/>
 
-            </Button>
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Главная">
-
-            </Button>
 
             <Button 
                 Height="32px"
                 Margin="10px"
-                Content="Проекты">
+                Content="Главная"/>
 
-            </Button>
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Услуги">
-
-            </Button>
 
             <Button 
                 Height="32px"
                 Margin="10px"
-                Content="Блог">
+                Content="Проекты"/>
 
-            </Button>
+
 
             <Button 
                 Height="32px"
                 Margin="10px"
-                Content="Контакты">
+                Content="Услуги"/>
 
-            </Button>
+
+
+            <Button 
+                Height="32px"
+                Margin="10px"
+                Content="Блог"/>
+
+
+
+            <Button 
+                Height="32px"
+                Margin="10px"
+                Content="Контакты"/>
+
+
         </StackPanel>
-        <Grid Margin="185,33,10,10">
-            
+        
+        <Grid Grid.Row="1"
+              Grid.Column="1"
+              Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
         </Grid>
     </Grid>
 </Window>
