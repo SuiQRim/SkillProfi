@@ -67,9 +67,9 @@
                                     <a>${created.toLocaleString()}</a>
                                 </div>
                                 
-                                <div class="block-image"> 
+                                <a href="Blog.html?id=${element["id"]}"><div class="block-image"> 
                                     <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
-                                </div>
+                                </div></a>
                                
                                 <div class="block-title-under">
                                     <p>${element["title"]}</p>
@@ -79,10 +79,6 @@
                         });
                     }
                 });
-
-                function openDescription(id) {
-                    window.location.href = 'Blog.html?id=' + id;
-                }
             </script>
 
         </div>

@@ -75,7 +75,6 @@
 
             function createMap(linkToContructor)
             {
-                alert(linkToContructor);
                 let frame = document.createElement('iframe');
                 frame.setAttribute('width','500');
                 frame.setAttribute('height','400');
@@ -91,17 +90,12 @@
                     let div = document.createElement('div');
                     div.className = "social-network";
                     div.innerHTML = `
-                        <img onclick="pushSocialNetworkLink('${socNet["link"]}')" src="data:image/png;base64,${socNet["pictureBytePresentation"]}">
+                        <a href="${socNet["link"]}"><img src="data:image/png;base64,${socNet["pictureBytePresentation"]}"></a>
                         `;
 
                     document.getElementById("contacts").append(div);
                 });
             }
-
-            function pushSocialNetworkLink(link)
-            {
-                window.location.href = link;
-            }  
               
         </script>
 

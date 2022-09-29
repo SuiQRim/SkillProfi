@@ -59,22 +59,21 @@
                             div.id = element["id"];
                             div.className = "block";
                             div.innerHTML = `
-                                <div class="block-image"> 
-                                    <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
-                                </div>
-                                <div class="block-title-in">
-                                    <p>${element["title"]}</p>
-                                </div>`;
+                                <a href="Project.html?id=${element["id"]}">
+                                    <div class="block-image"> 
+                                        <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
+                                    </div>
+                                    <div class="block-title-in">
+                                        <p>${element["title"]}</p>
+                                    </div>
+                                </a>`
+                                ;
 
                             document.getElementById("projectScroller").append(div);
                         });
                     }
 
                 });
-
-                function openDescription(id) {
-                    window.location.href = 'Project.html?id=' + id;
-                }
             </script>
         </div>
 
