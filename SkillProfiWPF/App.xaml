@@ -4,6 +4,8 @@
              xmlns:local="clr-namespace:SkillProfiWPF"
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+        <Color x:Key="MainColor">#4299d9</Color>
+        <Color x:Key="HoverColor">#61ADE8</Color>
+        <Color x:Key="ClickedColor">#3f6c8f</Color>
     </Application.Resources>
 </Application>

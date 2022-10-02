@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.ObjectModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace SkillProfi
 {
@@ -18,5 +19,17 @@ namespace SkillProfi
         public string? Status { get; set; }
 
         public DateTime Created { get; set; }
+
+        public static List<ConsultationStatus> Statuses
+        {
+            get
+            {
+                List<ConsultationStatus> a = new();
+                foreach (ConsultationStatus i in Enum.GetValues(typeof(ConsultationStatus)))
+                    a.Add(i);
+
+                return a;
+            }
+        }
     }
 }

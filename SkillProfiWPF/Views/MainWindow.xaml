@@ -4,11 +4,17 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkillProfiWPF"
+        xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
         mc:Ignorable="d"
         Title="SkillProfi"
         MinHeight="450"
         MinWidth="800"
         Background="#ededed">
+
+    <Window.DataContext>
+        <ViewModels:MainWindowVeiwModel/>
+    </Window.DataContext>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
@@ -22,16 +28,19 @@
         <StackPanel
             Background="#1266a1" 
             Grid.ColumnSpan="2" 
-            Height="50">
+            Height="80">
             
         </StackPanel>
 
-        <StackPanel
-            Background="#1266a1" Grid.Row="1" >
+        <StackPanel         
+            Background="#1266a1"
+            Width="180" 
+            Grid.Row="1" >
 
             <Button 
                 Height="32px"
                 Margin="10px"
+                Command="{Binding OpenConsultationPage}"
                 Content="Рабочий стол"/>
 
 
@@ -71,18 +80,13 @@
 
 
         </StackPanel>
-        
-        <Grid Grid.Row="1"
-              Grid.Column="1"
-              Margin="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-        </Grid>
+
+        <UserControl 
+            Grid.Row="1"
+            Grid.Column="1"
+            Content="{Binding Page, UpdateSourceTrigger=PropertyChanged}"
+            Margin="10">
+            
+        </UserControl>
     </Grid>
 </Window>
