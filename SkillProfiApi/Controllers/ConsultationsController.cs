@@ -92,7 +92,7 @@ namespace SkillProfiApi.Controllers
             }
 
             consultation.Id = Guid.NewGuid();
-            consultation.Status = "Receveid";
+            consultation.Status = ConsultationStatus.Received;
             consultation.Created = DateTime.Now;
 
             await _context.Consultations.AddAsync(consultation);

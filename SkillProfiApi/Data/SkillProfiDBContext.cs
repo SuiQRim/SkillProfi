@@ -32,7 +32,7 @@ namespace SkillProfiApi.Data
                     Name = "Тест1",
                     Description="Тест1",
                     EMail="Test1@gmail.com",
-                    Status = "Получена",
+                    Status = ConsultationStatus.Received,
                     Created = DateTime.Now
                 },
                 new Consultation()
@@ -41,7 +41,7 @@ namespace SkillProfiApi.Data
                     Name = "Тест2",
                     Description="Тест2",
                     EMail="Test1@gmail.com",
-                    Status = "В работе",
+                    Status = ConsultationStatus.Completed,
                     Created = DateTime.Now
                 }
             });
