@@ -7,6 +7,7 @@
              xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
              xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
              xmlns:local="clr-namespace:SkillProfiWPF.Views"
+             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
              mc:Ignorable="d" 
              FontFamily="Arial"
              d:DesignHeight="600" d:DesignWidth="1000">
@@ -26,15 +27,22 @@
             <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="0 20"/>
         </Style>
-        
+
         <Converters:VisibilityReverter x:Key="VisibilityReverter"/>
         <Converters:ObjectValueConverter x:Key="ObjectValueConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
         <Converters:CombiningConverter
-    x:Key="NegatedBoolToVisibilityConverter"
-    Converter1="{StaticResource ObjectValueConverter}"
-    Converter2="{StaticResource BoolToVis}" />
+            x:Key="NegatedBoolToVisibilityConverter"
+            Converter1="{StaticResource ObjectValueConverter}"
+            Converter2="{StaticResource BoolToVis}" />
+
+        <CollectionViewSource x:Key="cvs" Source="{Binding FilteredConsultations}">
+            <CollectionViewSource.SortDescriptions>
+                <scm:SortDescription PropertyName="Created" Direction="Descending" />
+            </CollectionViewSource.SortDescriptions>
+        </CollectionViewSource>
+        
     </UserControl.Resources>
 
     <Grid>
@@ -294,7 +302,7 @@
             x:Name="ListOfConsultations"
             Grid.Row="4"
             HorizontalContentAlignment="Stretch"
-            ItemsSource="{Binding FilteredConsultations, UpdateSourceTrigger=PropertyChanged}"
+            ItemsSource="{Binding Source={StaticResource cvs}, UpdateSourceTrigger=PropertyChanged}"
             SelectedItem="{Binding SelectedConsultation}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
@@ -304,7 +312,6 @@
                     <Setter Property="Padding" Value="5"/>
                 </Style>
             </ListBox.ItemContainerStyle>
-
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <Border
