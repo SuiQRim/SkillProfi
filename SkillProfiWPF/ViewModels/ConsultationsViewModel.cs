@@ -130,7 +130,12 @@ namespace SkillProfiWPF.ViewModels
         public ObservableCollection<Consultation> FilteredConsultations
         {
             get => _filteredConsultations;
-            set => Set(ref _filteredConsultations, value);
+            set 
+            {
+                value = new ( value.OrderByDescending(c => c.Created));
+                Set(ref _filteredConsultations, value);
+                    
+            }
         }
     }
 }
