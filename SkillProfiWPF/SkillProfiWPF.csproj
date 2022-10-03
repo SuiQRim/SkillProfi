@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkillProfiModels\SkillProfi.csproj" />
+    <ProjectReference Include="..\SkillProfiRequestsToAPI\SkillProfiRequestsToAPI.csproj" />
   </ItemGroup>
 
 </Project>

@@ -13,6 +13,7 @@ using SkillProfiWPF.Models;
 using SkillProfiWPF.Views;
 using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
+using SkillProfiRequestsToAPI.Consultations;
 
 namespace SkillProfiWPF.ViewModels
 {
@@ -27,10 +28,21 @@ namespace SkillProfiWPF.ViewModels
 
             IsOpenEditStatusMenuElement = false;
 
-            Consultations = new ObservableCollection<Consultation>(GetConsultations() ?? new());
+            UpdateConsultations();
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
+
         }
+
+        public void UpdateConsultations()
+        {
+            Consultations = new 
+                (ConsultationsRequests.GetConsultations() ?? new());
+
+            FilteredConsultations = new 
+                (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
+        }
+            
 
         private ConsultationStatus _selectedStatus;
         public ConsultationStatus SelectedStatus
@@ -50,6 +62,9 @@ namespace SkillProfiWPF.ViewModels
         private void OnSaveConsultationStatus(object p)
         {
             IsOpenEditStatusMenuElement = false;
+            ConsultationsRequests.EditConsultation(SelectedConsultation.Id.ToString(), SelectedConsultation);
+            UpdateConsultations();
+
         }
 
         public ICommand EditConsultationStatus { get; }
@@ -78,7 +93,8 @@ namespace SkillProfiWPF.ViewModels
             set
             {
                 Set(ref _firstDate, value);
-                FilteredConsultations = new(ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
+                FilteredConsultations = new
+                    (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
             }
         }
 
@@ -89,7 +105,8 @@ namespace SkillProfiWPF.ViewModels
             set
             {
                 Set(ref _lastDate, value);
-                FilteredConsultations = new (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
+                FilteredConsultations = new 
+                    (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
             }
         }
 
@@ -114,24 +131,6 @@ namespace SkillProfiWPF.ViewModels
         {
             get => _filteredConsultations;
             set => Set(ref _filteredConsultations, value);
-        }
-
-        public static List<Consultation>? GetConsultations(string uri = "https://localhost:7120/api/Consultations")
-        {
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(uri);
-            request.AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate;
-
-            string text;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new(stream))
-            {
-                text = reader.ReadToEnd();
-            }
-            
-            return JsonConvert.DeserializeObject<List<Consultation>>(text);
         }
     }
 }
