@@ -21,15 +21,55 @@ namespace SkillProfiWPF.ViewModels
         public ConsultationsViewModel()
         {
 
-            SetDateDiapasoneToday = new LamdaCommand(OnSetDateDiapasoneToday, CanAnyWay);
-            SetDateDiapasoneYesterday = new LamdaCommand(OnSetDateDiapasoneYesterday, CanAnyWay);
-            SetDateDiapasoneWeek = new LamdaCommand(OnSetDateDiapasoneWeek, CanAnyWay);
-            SetDateDiapasoneMonth = new LamdaCommand(OnSetDateDiapasoneMonth, CanAnyWay);
+            SetDateDiapasone =  new LamdaCommand(OnSetDateDiapasone, CanAnyWay);
+            EditConsultationStatus = new LamdaCommand(OnEditConsultationStatus, CanAnyWay);
+            SaveConsultationStatus = new LamdaCommand(OnSaveConsultationStatus, CanAnyWay);
+
+            IsOpenEditStatusMenuElement = false;
 
             Consultations = new ObservableCollection<Consultation>(GetConsultations() ?? new());
             FirstDate = DateTime.Now;
             LastDate = DateTime.Now;
         }
+
+        private ConsultationStatus _selectedStatus;
+        public ConsultationStatus SelectedStatus
+        {
+            get => _selectedStatus;
+            set => Set(ref _selectedStatus, value);
+        }
+
+        private Consultation _selectedConsultation;
+        public Consultation SelectedConsultation
+        {
+            get => _selectedConsultation;
+            set => Set(ref _selectedConsultation, value);
+        }
+
+        public ICommand SaveConsultationStatus { get; }
+        private void OnSaveConsultationStatus(object p)
+        {
+            IsOpenEditStatusMenuElement = false;
+        }
+
+        public ICommand EditConsultationStatus { get; }
+        private void OnEditConsultationStatus(object p)
+        {
+            IsOpenEditStatusMenuElement = true;
+        }
+
+        private bool _isOpenEditStatusMenuElement;
+        public bool IsOpenEditStatusMenuElement
+        {
+            get => _isOpenEditStatusMenuElement;
+            set => Set(ref _isOpenEditStatusMenuElement, value);
+        }
+
+        public List<ConsultationStatus> ConsultationStatuses 
+        {
+            get => Consultation.Statuses;
+        }
+
 
         private DateTime _firstDate;
         public DateTime FirstDate 
@@ -38,7 +78,7 @@ namespace SkillProfiWPF.ViewModels
             set
             {
                 Set(ref _firstDate, value);
-                FilteredConsultations = new(ConsultationsFilter.FilterByDate(Consultations, FirstDate, LastDate));
+                FilteredConsultations = new(ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
             }
         }
 
@@ -49,37 +89,18 @@ namespace SkillProfiWPF.ViewModels
             set
             {
                 Set(ref _lastDate, value);
-                FilteredConsultations = new (ConsultationsFilter.FilterByDate(Consultations, FirstDate, LastDate));
+                FilteredConsultations = new (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
             }
         }
 
         private bool CanAnyWay(object p) => true;
-        public ICommand SetDateDiapasoneToday { get; }
-        private void OnSetDateDiapasoneToday(object p)
+
+        public ICommand SetDateDiapasone { get; }
+        private void OnSetDateDiapasone(object p)
         {
             LastDate = DateTime.Now;
-            FirstDate = DateTime.Now;
+            FirstDate = DateTime.Now.AddDays(-Convert.ToDouble(p));
         }
-        public ICommand SetDateDiapasoneYesterday { get; }
-        private void OnSetDateDiapasoneYesterday(object p)
-        {
-            LastDate = DateTime.Now.AddDays(-1);
-            FirstDate = DateTime.Now;
-        }
-        public ICommand SetDateDiapasoneWeek { get; }
-        private void OnSetDateDiapasoneWeek(object p)
-        {
-            LastDate = DateTime.Now.AddDays(-7);
-            FirstDate = DateTime.Now;
-        }
-        public ICommand SetDateDiapasoneMonth { get; }
-        private void OnSetDateDiapasoneMonth(object p)
-        {
-            LastDate = DateTime.Now.AddMonths(-1);
-            FirstDate = DateTime.Now;
-        }
-
-
 
         private ObservableCollection<Consultation> _consultations;
         public ObservableCollection<Consultation> Consultations

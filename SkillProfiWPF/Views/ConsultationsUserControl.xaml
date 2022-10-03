@@ -3,22 +3,49 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:Models="clr-namespace:SkillProfi;assembly=SkillProfi"
              xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+             xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
              xmlns:local="clr-namespace:SkillProfiWPF.Views"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             FontFamily="Arial"
+             d:DesignHeight="600" d:DesignWidth="1000">
+    
+    
     <UserControl.DataContext>
         <ViewModels:ConsultationsViewModel/>
     </UserControl.DataContext>
+
+    <UserControl.Resources>
+        <Style x:Key="DatePanel" TargetType="Button" >
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="Width" Value="120" />
+            <Setter Property="Background" Value="#4299d9"/>
+            <Setter Property="BorderBrush" Value="#3f6c8f"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Margin" Value="0 10"/>
+            <Setter Property="Padding" Value="0 20"/>
+        </Style>
+        
+        <Converters:VisibilityReverter x:Key="VisibilityReverter"/>
+        <Converters:ObjectValueConverter x:Key="ObjectValueConverter"/>
+        <BooleanToVisibilityConverter x:Key="BoolToVis" />
+        <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <Converters:CombiningConverter
+    x:Key="NegatedBoolToVisibilityConverter"
+    Converter1="{StaticResource ObjectValueConverter}"
+    Converter2="{StaticResource BoolToVis}" />
+    </UserControl.Resources>
 
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
+            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        
+
         <StackPanel 
             Margin="0 10"
             Grid.Row="0"
@@ -52,53 +79,95 @@
 
         </StackPanel>
         <StackPanel 
+            
             Grid.Row="1"
-            Orientation="Horizontal"
-            Height="64">
-            
+            Orientation="Horizontal">
+
             <Button
+                Style="{DynamicResource DatePanel}"
                 Content="Today"
-                Width="120"
-                Command="{Binding SetDateDiapasoneToday}">
-                
+                Command="{Binding SetDateDiapasone}"
+                CommandParameter="0"
+                Margin="5 10 0 10">
+
             </Button>
 
             <Button
+                Style="{DynamicResource DatePanel}"
                 Content="Yesterday"
-                Width="120"
-                Command="{Binding SetDateDiapasoneYesterday}">
+                Command="{Binding SetDateDiapasone}"
+                CommandParameter="1">
 
             </Button>
 
             <Button
+                Style="{DynamicResource DatePanel}"
                 Content="Last Week"
-                Width="120"
-                Command="{Binding SetDateDiapasoneWeek}">
+                Command="{Binding SetDateDiapasone}"
+                CommandParameter="7">
 
             </Button>
-            
+
             <Button
+                Style="{DynamicResource DatePanel}"
                 Content="Last Month"
-                Width="120"
-                Command="{Binding SetDateDiapasoneMonth}">
+                Command="{Binding SetDateDiapasone}"
+                CommandParameter="30">
 
             </Button>
 
             <StackPanel 
+                Margin="10"
                 Orientation="Horizontal">
+
+
+                <Border 
+                    CornerRadius="8"
+                    Background="#4299d9"
+                    VerticalAlignment="Center">
+
+                    <TextBlock
+                        Padding="20 10"
+                        FontSize="18px"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Text="From">
+
+                    </TextBlock>
+
+                </Border>
 
                 <DatePicker
                     Text="Период с"
                     Margin="10"
                     VerticalAlignment="Center"
-                    SelectedDate="{Binding LastDate}">
+                    SelectedDate="{Binding FirstDate}">
 
                 </DatePicker>
-                
+
+
+                <Border 
+                    VerticalAlignment="Center"
+                    CornerRadius="8"
+                    Background="#4299d9">
+
+                    <TextBlock
+                        Padding="20 10"
+                        FontSize="18"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Text="To">
+
+                    </TextBlock>
+
+                </Border>
+
                 <DatePicker
                     Margin="10"
                     VerticalAlignment="Center"
-                    SelectedDate="{Binding FirstDate}">
+                    SelectedDate="{Binding LastDate}">
 
                 </DatePicker>
 
@@ -112,7 +181,7 @@
             Grid.Row="2"
             HorizontalAlignment="Left"
             Orientation="Horizontal">
-            
+
             <TextBlock 
                 Padding="10"
                 FontSize="20px"
@@ -125,7 +194,7 @@
             <Border 
                 CornerRadius="8"
                 Background="#4299d9">
-                
+
                 <TextBlock
                     Padding="20 10"
                     FontSize="20px"
@@ -133,19 +202,100 @@
                     VerticalAlignment="Center"
                     HorizontalAlignment="Center"
                     Text="{Binding FilteredConsultations.Count}">
-                    
+
                 </TextBlock>
-      
+
             </Border>
 
         </StackPanel>
 
+        <StackPanel
+            d:Visibility="Visible"
+            Orientation="Horizontal"
+            Grid.Row="3">
+            <StackPanel.Resources>
+                <Style TargetType="StackPanel">
+                    <Setter Property="Visibility">
+                        <Setter.Value>
+
+                            <Binding Path="SelectedConsultation"
+                                     UpdateSourceTrigger="PropertyChanged"
+                                          Converter="{StaticResource NegatedBoolToVisibilityConverter}">
+                            </Binding>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </StackPanel.Resources>
+            
+         
+            <Button
+                Foreground="White"
+                FontSize="18"
+                Content="Изменить"
+                Padding="20 10"
+                Background="#4299d9"
+                BorderThickness="0"
+                Command="{Binding EditConsultationStatus}"
+                IsEnabled="{Binding IsOpenEditStatusMenuElement, Converter={StaticResource InverseBooleanConverter}}"
+                Margin="5 10">
+                
+                <Button.Resources>
+                    <Style TargetType="{x:Type Border}">
+                        <Setter Property="CornerRadius" Value="8"/>
+                    </Style>
+                </Button.Resources>
+
+            </Button>   
+            
+            <StackPanel
+                d:Visibility="Visible"
+                Visibility="{Binding IsOpenEditStatusMenuElement, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}"
+                Orientation="Horizontal">
+
+             
+
+                <ComboBox 
+                    Width="120"
+                    Margin="5 10"
+                    FontSize="18"
+                    ItemsSource="{Binding ConsultationStatuses}"
+                    SelectedItem="{Binding SelectedConsultation.Status}">
+
+                </ComboBox>  
+                
+                <Button
+                    Foreground="White"
+                    Content="✔"
+                    Padding="10"
+                    Margin="5 10"
+                    Background="#4299d9"
+                    BorderThickness="0"
+                    Command="{Binding SaveConsultationStatus}">
+
+                    <Button.Resources>
+
+                        <Style TargetType="{x:Type Border}">
+                            <Setter Property="CornerRadius" Value="8"/>
+                        </Style>
+
+                    </Button.Resources>
+               
+                </Button>
+
+            </StackPanel>
+
+         
+        </StackPanel>
+        
+        
         
         <ListBox
+            Margin="0 10"
             x:Name="ListOfConsultations"
-            Grid.Row="3"
+            Grid.Row="4"
             HorizontalContentAlignment="Stretch"
             ItemsSource="{Binding FilteredConsultations, UpdateSourceTrigger=PropertyChanged}"
+            SelectedItem="{Binding SelectedConsultation}"
             ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 
             <ListBox.ItemContainerStyle>
@@ -177,51 +327,25 @@
                             <Grid 
                                 Height="auto">
 
-                                <Button 
-                                    Padding="10"
-                                    BorderThickness="0"
-                                    Background="#4299d9"
-                                    HorizontalAlignment="Left"
-                                    Content="{Binding Status}" 
-                                    Width="160"
-                                    FontSize="18">
+                                <Border
+                                    HorizontalAlignment="Left"    
+                                    CornerRadius="4"
+                                    Background="#4299d9">
+                                    <TextBlock 
+                                        Foreground="White"
+                                        Padding="10"
+                                        TextAlignment="Center"
+                                        Text="{Binding Status}" 
+                                        Width="160"
+                                        FontSize="18"/>
 
-                                    <Button.Resources>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="CornerRadius" Value="4"/>
-                                        </Style>
-                                    </Button.Resources>
-                                </Button>
-
-                                <ComboBox
-                                    FontSize="18"
-                                    Width="160"
-                                    Background="#4299d9"
-                                    ItemsSource="{Binding Statuses}"
-                                    SelectedItem="{Binding Status}"
-                                    Text="Выберите"
-                                    HorizontalAlignment="Left" Margin="165,0,0,0"/>
+                                </Border>
 
 
                                 <TextBlock   
                                     Text="{Binding Created}"
                                     VerticalAlignment="Bottom"
                                     HorizontalAlignment="Right"/>
-                                
-                                <Button 
-                                    Padding="10"
-                                    BorderThickness="0"
-                                    Background="#4299d9"
-                                    HorizontalAlignment="Left"
-                                    Content="✔" 
-                                    FontSize="18" Margin="330,0,0,0">
-
-                                    <Button.Resources>
-                                        <Style TargetType="{x:Type Border}">
-                                            <Setter Property="CornerRadius" Value="4"/>
-                                        </Style>
-                                    </Button.Resources>
-                                </Button>
 
                             </Grid>
 
