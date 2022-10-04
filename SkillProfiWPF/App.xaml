@@ -21,8 +21,14 @@
         </Style>
 
         <Converters:VisibilityReverter x:Key="VisibilityReverter"/>
-        <Converters:ObjectValueConverter x:Key="ObjectValueConverter"/>
+        <Converters:ObjectValueExcistToBoolConverter x:Key="ObjectValueConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        
+        <Converters:ObjectValueExcistToVisibilityCombinConverter
+            x:Key="ObjectValueExcistToVisibiliyConverter"
+            Converter1="{StaticResource ObjectValueConverter}"
+            Converter2="{StaticResource BoolToVis}" />
+        
     </Application.Resources>
 </Application>

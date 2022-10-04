@@ -10,7 +10,7 @@ using SkillProfi;
 
 namespace SkillProfiWPF.ViewModels.Converters
 {
-    internal class ObjectValueConverter : IValueConverter
+    internal class ObjectValueExcistToBoolConverter : IValueConverter
     {
         public object Convert(object values, Type targetType, object parameter, CultureInfo culture)
         {

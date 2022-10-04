@@ -8,7 +8,7 @@ using System.Windows.Data;
 
 namespace SkillProfiWPF.ViewModels.Converters
 {
-    public class CombiningConverter : IValueConverter
+    public class ObjectValueExcistToVisibilityCombinConverter : IValueConverter
     {
         public IValueConverter Converter1 { get; set; }
         public IValueConverter Converter2 { get; set; }
