@@ -13,11 +13,12 @@ using SkillProfiWPF.Views;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class MainWindowVeiwModel : Prefab.ViewModel
+    internal class MainWindowVeiwModel : ViewModel
     {
         public MainWindowVeiwModel()
         {
             OpenConsultationPage = new LamdaCommand(OnOpenConsultationPage, CanAnyWay);
+            OpenProjectsUserControl = new LamdaCommand(OnOpenProjectsUserControl, CanAnyWay);
         }
 
         private UserControl _page;
@@ -34,6 +35,12 @@ namespace SkillProfiWPF.ViewModels
         private void OnOpenConsultationPage(object p)
         {
             Page = new ConsultationsUserControl();
+        }
+
+        public ICommand OpenProjectsUserControl { get; }
+        private void OnOpenProjectsUserControl(object p)
+        {
+            Page = new ProjectsUserControl();
         }
     }
 }

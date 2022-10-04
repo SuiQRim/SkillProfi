@@ -55,7 +55,8 @@
             <Button 
                 Height="32px"
                 Margin="10px"
-                Content="Проекты"/>
+                Content="Проекты"
+                Command="{Binding OpenProjectsUserControl}"/>
 
 
 
