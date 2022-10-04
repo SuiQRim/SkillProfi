@@ -8,17 +8,86 @@
     <Application.Resources>
         <SolidColorBrush x:Key="MainColor">#4299d9</SolidColorBrush>
         <SolidColorBrush x:Key="HoverColor">#61ADE8</SolidColorBrush>
-        <SolidColorBrush x:Key="ClickedColor">#3f6c8f</SolidColorBrush>
+        <SolidColorBrush x:Key="PressedColor">#3f6c8f</SolidColorBrush>
+        <SolidColorBrush x:Key="DefaultButtonForeground">White</SolidColorBrush>
 
-        <Style x:Key="DatePanel" TargetType="Button" >
+        <SolidColorBrush x:Key="DatePanel.MouseOver.Background">#61ADE8</SolidColorBrush>
+
+        <Style x:Key="DefaultButton"  TargetType="Button">
+            
+            <Setter Property="Background" Value="{DynamicResource MainColor}"/>
+            <Setter Property="Foreground" Value="{DynamicResource DefaultButtonForeground}"/>
+            <Setter Property="Margin" Value="10" />
+            <Setter Property="Padding" Value="40 10" />
+            <Setter Property="FontFamily" Value="Arial" />
+            <Setter Property="FontSize" Value="18" />
+            <Setter Property="BorderThickness" Value="0"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Resources>
+                <Style TargetType="{x:Type Border}">
+                    <Setter Property="CornerRadius" Value="4"/>
+                </Style>
+            </Style.Resources>
+            
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource HoverColor}"/>
+                </Trigger>  
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedColor}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Background" Value="White"/>
+                    <Setter Property="Foreground" Value="Black"/>
+                    <Setter Property="BorderThickness" Value="2"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource MainColor}"/>
+                </Trigger>
+            </Style.Triggers>
+
+
+
+        </Style>
+        
+        
+
+        <Style x:Key="StickyButton" TargetType="Button" >
             <Setter Property="FontSize" Value="18" />
             <Setter Property="Width" Value="120" />
             <Setter Property="Background" Value="{DynamicResource MainColor}"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource ClickedColor}"/>
             <Setter Property="Foreground" Value="White"/>
             <Setter Property="Margin" Value="0 10"/>
             <Setter Property="Padding" Value="0 20"/>
+            
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                            <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource HoverColor}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource PressedColor}"/>
+                </Trigger>
+            </Style.Triggers>
+
         </Style>
+        
 
         <Converters:VisibilityReverter x:Key="VisibilityReverter"/>
         <Converters:ObjectValueExcistToBoolConverter x:Key="ObjectValueConverter"/>

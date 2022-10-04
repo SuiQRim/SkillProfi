@@ -17,8 +17,8 @@ namespace SkillProfiWPF.ViewModels
     {
         public MainWindowVeiwModel()
         {
-            OpenConsultationPage = new LamdaCommand(OnOpenConsultationPage, CanAnyWay);
-            OpenProjectsUserControl = new LamdaCommand(OnOpenProjectsUserControl, CanAnyWay);
+            OpenConsultationPage = new LamdaCommand(OnOpenConsultationPage, CanIfConsultationPageNotSelected);
+            OpenProjectsUserControl = new LamdaCommand(OnOpenProjectsUserControl, CanIfProjectsUserControlNotSelected);
         }
 
         private UserControl _page;
@@ -31,12 +31,14 @@ namespace SkillProfiWPF.ViewModels
         private bool CanAnyWay(object p) => true;
 
 
+        private bool CanIfConsultationPageNotSelected(object p) => !(Page != null && Page.GetType() == typeof(ConsultationsUserControl));
         public ICommand OpenConsultationPage { get; }
         private void OnOpenConsultationPage(object p)
         {
             Page = new ConsultationsUserControl();
         }
 
+        private bool CanIfProjectsUserControlNotSelected(object p) => !(Page != null && Page.GetType() == typeof(ProjectsUserControl));
         public ICommand OpenProjectsUserControl { get; }
         private void OnOpenProjectsUserControl(object p)
         {

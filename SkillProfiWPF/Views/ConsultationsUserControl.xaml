@@ -64,37 +64,28 @@
             Orientation="Horizontal">
 
             <Button
-                Style="{DynamicResource DatePanel}"
+                Style="{DynamicResource StickyButton}"
                 Content="Today"
                 Command="{Binding SetDateDiapasone}"
                 CommandParameter="0"
-                Margin="5 10 0 10">
-
-            </Button>
+                Margin="5 10 0 10"/>
 
             <Button
-                Style="{DynamicResource DatePanel}"
+                Style="{DynamicResource StickyButton}"
                 Content="Yesterday"
                 Command="{Binding SetDateDiapasone}"
-                CommandParameter="1">
-
-            </Button>
-
+                CommandParameter="1"/>
             <Button
-                Style="{DynamicResource DatePanel}"
+                Style="{DynamicResource StickyButton}"
                 Content="Last Week"
                 Command="{Binding SetDateDiapasone}"
-                CommandParameter="7">
-
-            </Button>
+                CommandParameter="7"/>
 
             <Button
-                Style="{DynamicResource DatePanel}"
+                Style="{DynamicResource StickyButton}"
                 Content="Last Month"
                 Command="{Binding SetDateDiapasone}"
-                CommandParameter="30">
-
-            </Button>
+                CommandParameter="30"/>
 
             <StackPanel 
                 Margin="10"
@@ -206,27 +197,15 @@
                     </Setter>
                 </Style>
             </StackPanel.Resources>
-            
-         
+
+
             <Button
-                Foreground="White"
-                FontSize="18"
-                Content="Изменить"
-                Padding="20 10"
-                Background="#4299d9"
-                BorderThickness="0"
+                Style="{StaticResource DefaultButton}"
+                Content="Edit status"
                 Command="{Binding EditConsultationStatus}"
                 IsEnabled="{Binding IsOpenEditStatusMenuElement, Converter={StaticResource InverseBooleanConverter}}"
-                Margin="5 10">
-                
-                <Button.Resources>
-                    <Style TargetType="{x:Type Border}">
-                        <Setter Property="CornerRadius" Value="8"/>
-                    </Style>
-                </Button.Resources>
+                Margin="5 10"/>
 
-            </Button>   
-            
             <StackPanel
                 d:Visibility="Visible"
                 Visibility="{Binding IsOpenEditStatusMenuElement, Converter={StaticResource BoolToVis}, UpdateSourceTrigger=PropertyChanged}"
@@ -241,26 +220,14 @@
                     ItemsSource="{Binding ConsultationStatuses}"
                     SelectedItem="{Binding SelectedConsultation.Status}">
 
-                </ComboBox>  
-                
+                </ComboBox>
+
                 <Button
-                    Foreground="White"
+                    Style="{StaticResource DefaultButton}"
                     Content="✔"
                     Padding="10"
                     Margin="5 10"
-                    Background="#4299d9"
-                    BorderThickness="0"
-                    Command="{Binding SaveConsultationStatus}">
-
-                    <Button.Resources>
-
-                        <Style TargetType="{x:Type Border}">
-                            <Setter Property="CornerRadius" Value="8"/>
-                        </Style>
-
-                    </Button.Resources>
-               
-                </Button>
+                    Command="{Binding SaveConsultationStatus}"/>
 
             </StackPanel>
 

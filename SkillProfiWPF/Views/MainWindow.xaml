@@ -32,56 +32,52 @@
             
         </StackPanel>
 
-        <StackPanel         
-            Background="#1266a1"
-            Width="180" 
-            Grid.Row="1" >
+        <Grid Grid.Row="1"
+              Background="#1266a1">
+            
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Command="{Binding OpenConsultationPage}"
-                Content="Рабочий стол"/>
-
-
-
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Главная"/>
+            <StackPanel 
+                Margin="20 0"
+                >
+                <Button
+                    Style="{DynamicResource DefaultButton}"
+                    Command="{Binding OpenConsultationPage}"
+                    Content="Рабочий стол"/>
 
 
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Проекты"
-                Command="{Binding OpenProjectsUserControl}"/>
+                <Button 
+                    Style="{DynamicResource DefaultButton}"
+                    Content="Главная"/>
 
 
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Услуги"/>
+                <Button 
+                    Style="{DynamicResource DefaultButton}"
+                    Content="Проекты"
+                    Command="{Binding OpenProjectsUserControl}"/>
 
 
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Блог"/>
+                <Button 
+                    Style="{DynamicResource DefaultButton}"
+                    Content="Услуги"/>
 
 
 
-            <Button 
-                Height="32px"
-                Margin="10px"
-                Content="Контакты"/>
+                <Button 
+                    Style="{DynamicResource DefaultButton}"
+                    Content="Блог"/>
 
 
-        </StackPanel>
 
+                <Button 
+                    Style="{DynamicResource DefaultButton}"
+                    Content="Контакты"/>
+
+
+            </StackPanel>
+        </Grid>
         <UserControl 
             Grid.Row="1"
             Grid.Column="1"
