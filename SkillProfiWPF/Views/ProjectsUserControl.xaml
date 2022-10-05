@@ -19,7 +19,6 @@
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
             <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <StackPanel 
@@ -140,53 +139,75 @@
 
             <Grid
                 Margin="10">
-                
-                <Border 
-                    Margin="10"
-                    HorizontalAlignment="Left"
-                    VerticalAlignment="Bottom"
-                    CornerRadius="8"
-                    Background="#4299d9">
 
-                    <TextBlock
-                        Padding="40 10"
-                        FontSize="32"
-                        Foreground="White"
-                        VerticalAlignment="Center"
-                        HorizontalAlignment="Center"
-                        Text="{Binding SelectedProject.Title}">
-
-                    </TextBlock>
-
-                </Border>
-
-                <WrapPanel 
+                <StackPanel
+                    Orientation="Horizontal">
                     
-                    Margin="10"
+                    <Border 
+                        Margin="10"
+                        HorizontalAlignment="Left"
+                        VerticalAlignment="Bottom"
+                        CornerRadius="8"
+                        Background="#4299d9">
+
+                        <TextBlock
+                            Padding="40 10"
+                            FontSize="32"
+                            Foreground="White"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Text="{Binding SelectedProject.Title}">
+
+                        </TextBlock>
+
+                    </Border>
+
+                    <Button
+                        Style="{StaticResource EditButton}"
+                        Padding="10"
+                        VerticalAlignment="Bottom">
+
+                    </Button>
+
+
+                </StackPanel>
+
+                <StackPanel 
                     HorizontalAlignment="Right"
-                    Name ="containerMini"
-                    Height="90"
-                    Width="160">
+                    Orientation="Horizontal">
 
-                    <Image Source="{Binding SelectedProject.PictureBytePresentation}"
-                           HorizontalAlignment="Center" 
-                           VerticalAlignment="Center"
-                           Stretch="UniformToFill"/>
+                    <Button
+                        Style="{StaticResource EditButton}"
+                        Padding="10 10"
+                        VerticalAlignment="Bottom"/>
 
-                    <WrapPanel.OpacityMask>
-                        <VisualBrush >
-                            <VisualBrush.Visual>
+                    <WrapPanel 
+                        Margin="10"
+                        Name ="containerMini"
+                        Height="90"
+                        Width="160">
 
-                                <Border 
-                                    Height="{Binding ElementName=containerMini, Path=ActualHeight}" 
-                                    Width="{Binding ElementName=containerMini, Path=ActualWidth}"
-                                    Background="White" CornerRadius="8" />
+                        <Image Source="{Binding SelectedProject.PictureBytePresentation}"
+                               HorizontalAlignment="Center" 
+                               VerticalAlignment="Center"
+                               Stretch="UniformToFill"/>
 
-                            </VisualBrush.Visual>
-                        </VisualBrush>
-                    </WrapPanel.OpacityMask>
+                        <WrapPanel.OpacityMask>
+                            <VisualBrush >
+                                <VisualBrush.Visual>
 
-                </WrapPanel>
+                                    <Border 
+                                        Height="{Binding ElementName=containerMini, Path=ActualHeight}" 
+                                        Width="{Binding ElementName=containerMini, Path=ActualWidth}"
+                                        Background="White" CornerRadius="8" />
+
+                                </VisualBrush.Visual>
+                            </VisualBrush>
+                        </WrapPanel.OpacityMask>
+
+                    </WrapPanel>
+                    
+                </StackPanel>
             </Grid>
 
             <Grid
@@ -204,18 +225,28 @@
             </Grid>
 
 
-            <Grid
-                Margin="20"
-                ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+            <StackPanel
+                   Margin="20">
                 
-                <TextBlock 
-                    FontSize="20"
-                    TextWrapping="WrapWithOverflow"
-                    Margin="10"
-                    Text="{Binding SelectedProject.Description}"/>  
-            </Grid>
+                <Button
+                    Style="{StaticResource EditButton}"
+                    Padding="10 10"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Bottom"/>
+                
+                <Grid
+                 
+                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                
+                    <TextBlock 
+                        FontSize="20"
+                        TextWrapping="WrapWithOverflow"
+                        Margin="10"
+                        Text="{Binding SelectedProject.Description}"/>  
+                    
+                </Grid>
 
-
+            </StackPanel>
         </StackPanel>
         
     </Grid>
