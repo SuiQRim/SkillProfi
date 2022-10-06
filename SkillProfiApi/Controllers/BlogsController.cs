@@ -71,12 +71,12 @@ namespace SkillProfiApi.Controllers
             }
 
             _context.Entry(blog).State = EntityState.Modified;
-
+            await PictureDirectory.SavePictureAsync(blog);
 
             try
             {
                 await _context.SaveChangesAsync(); 
-                await PictureDirectory.SavePictureAsync(blog);
+                
             }
             catch (DbUpdateConcurrencyException)
             {
