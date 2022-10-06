@@ -20,14 +20,12 @@
             <Setter Property="Margin" Value="10" />
             <Setter Property="Padding" Value="40 10" />
             <Setter Property="FontFamily" Value="Arial" />
-            <Setter Property="FontSize" Value="18" />
-            <Setter Property="BorderThickness" Value="2"/>
-            <Setter Property="BorderBrush" Value="{DynamicResource MainColor}"/>
+            <Setter Property="FontSize" Value="18"/>
 
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type Button}">
-                        <Border x:Name="border" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
+                        <Border x:Name="border" Background="{TemplateBinding Background}" SnapsToDevicePixels="true">
                             <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Border>
                     </ControlTemplate>
@@ -35,7 +33,9 @@
             </Setter>
             <Style.Resources>
                 <Style TargetType="{x:Type Border}">
+                    <Setter Property="BorderThickness" Value="2"/>
                     <Setter Property="CornerRadius" Value="4"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource MainColor}"/>
                 </Style>
             </Style.Resources>
             
@@ -45,6 +45,7 @@
                 </Trigger>  
                 <Trigger Property="IsPressed" Value="True">
                     <Setter Property="Background" Value="{DynamicResource PressedColor}"/>
+                    <Setter Property="Foreground" Value="Black"/>
                 </Trigger>
                 <Trigger Property="IsEnabled" Value="False">
                     <Setter Property="Background" Value="White"/>
@@ -58,9 +59,7 @@
 
         </Style>
 
-        <Style x:Key="EditButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
-
-            <Setter Property="Content" Value="✎"/>
+        <Style x:Key="MiniButton" TargetType="{x:Type Button}" BasedOn="{StaticResource DefaultButton}">
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="BorderThickness" Value="0"/>
 
@@ -70,7 +69,14 @@
                 </Style>
             </Style.Resources>
         </Style>
-        
+
+        <Style x:Key="EditButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MiniButton}">
+            <Setter Property="Content" Value="✎"/>
+        </Style>
+
+        <Style x:Key="AcceptButton" TargetType="{x:Type Button}" BasedOn="{StaticResource MiniButton}">
+            <Setter Property="Content" Value="✔"/>
+        </Style>
 
         <Style x:Key="StickyButton" TargetType="Button" >
             <Setter Property="FontSize" Value="18" />
@@ -100,16 +106,20 @@
             </Style.Triggers>
 
         </Style>
-        
 
         <Converters:VisibilityReverter x:Key="VisibilityReverter"/>
         <Converters:ObjectValueExcistToBoolConverter x:Key="ObjectValueConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
-        
+
         <Converters:ObjectValueExcistToVisibilityCombinConverter
             x:Key="ObjectValueExcistToVisibiliyConverter"
             Converter1="{StaticResource ObjectValueConverter}"
+            Converter2="{StaticResource BoolToVis}" />
+        
+        <Converters:ObjectValueExcistToVisibilityCombinConverter
+            x:Key="BollToVisRevertCombineConverter"
+            Converter1="{StaticResource InverseBooleanConverter}"
             Converter2="{StaticResource BoolToVis}" />
         
     </Application.Resources>
