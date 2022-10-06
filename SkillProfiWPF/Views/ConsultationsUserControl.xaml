@@ -26,26 +26,31 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <StackPanel 
-            Margin="0 10"
-            Grid.Row="0"
-            HorizontalAlignment="Left"
+        <StackPanel
             Orientation="Horizontal">
 
-            <TextBlock 
+
+            <StackPanel 
+                
+                Margin="0 10 10 10"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
+
+                <TextBlock 
                 Padding="10"
                 FontSize="20px"
                 Foreground="Black"
                 TextAlignment="Center"
                 Text="Requests for all time">
 
-            </TextBlock>
+                </TextBlock>
 
-            <Border 
-                CornerRadius="8"
+                <Border 
+                CornerRadius="4"
                 Background="#4299d9">
 
-                <TextBlock
+                    <TextBlock
                     Padding="20 10"
                     FontSize="20px"
                     Foreground="White"
@@ -53,9 +58,43 @@
                     HorizontalAlignment="Center"
                     Text="{Binding Consultations.Count}">
 
+                    </TextBlock>
+
+                </Border>
+
+            </StackPanel>
+            <StackPanel 
+            Margin="10 10"
+            Grid.Row="2"
+            HorizontalAlignment="Left"
+            Orientation="Horizontal">
+
+                <TextBlock 
+                Padding="10"
+                FontSize="20px"
+                Foreground="Black"
+                TextAlignment="Center"
+                Text="Requests for the specified period">
+
                 </TextBlock>
 
-            </Border>
+                <Border 
+                CornerRadius="4"
+                Background="#4299d9">
+
+                    <TextBlock
+                    Padding="20 10"
+                    FontSize="20px"
+                    Foreground="White"
+                    VerticalAlignment="Center"
+                    HorizontalAlignment="Center"
+                    Text="{Binding FilteredConsultations.Count}">
+
+                    </TextBlock>
+
+                </Border>
+
+            </StackPanel>
 
         </StackPanel>
         <StackPanel 
@@ -146,40 +185,6 @@
 
         </StackPanel>
 
-
-        <StackPanel 
-            Margin="0 10"
-            Grid.Row="2"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal">
-
-            <TextBlock 
-                Padding="10"
-                FontSize="20px"
-                Foreground="Black"
-                TextAlignment="Center"
-                Text="Requests for the specified period">
-
-            </TextBlock>
-
-            <Border 
-                CornerRadius="8"
-                Background="#4299d9">
-
-                <TextBlock
-                    Padding="20 10"
-                    FontSize="20px"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Text="{Binding FilteredConsultations.Count}">
-
-                </TextBlock>
-
-            </Border>
-
-        </StackPanel>
-
         <StackPanel
             d:Visibility="Visible"
             Orientation="Horizontal"
@@ -200,8 +205,9 @@
 
 
             <Button
-                Style="{StaticResource DefaultButton}"
-                Content="Edit status"
+                Style="{StaticResource EditButton}"
+                Padding="10"
+                VerticalAlignment="Bottom"
                 Command="{Binding EditConsultationStatus}"
                 IsEnabled="{Binding IsOpenEditStatusMenuElement, Converter={StaticResource InverseBooleanConverter}}"
                 Margin="5 10"/>
@@ -223,7 +229,7 @@
                 </ComboBox>
 
                 <Button
-                    Style="{StaticResource DefaultButton}"
+                    Style="{StaticResource AcceptButton}"
                     Content="✔"
                     Padding="10"
                     Margin="5 10"
