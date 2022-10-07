@@ -121,12 +121,20 @@
 
         <StackPanel
             d:Visibility="Visible"
-            Visibility="{Binding SelectedProject, Converter={StaticResource ObjectValueExcistToVisibiliyConverter}}"
             Orientation="Horizontal"
             Margin="0 10"
             Grid.Row="2">
-
+            
             <Button
+                HorizontalAlignment="Left"
+                Style="{StaticResource EditButton}"
+                Command="{Binding AddProject}"
+                Content="➕"
+                Padding="10"/>
+            
+            <Button
+                d:Visibility="Visible"
+                Visibility="{Binding IsProjectSelect, Converter={StaticResource BoolToVis}}"
                 HorizontalAlignment="Left"
                 Style="{StaticResource EditButton}"
                 Command="{Binding EditProject}"
@@ -153,13 +161,14 @@
         </StackPanel>
         <StackPanel 
             d:Visibility="Visible"
-            Visibility="{Binding SelectedProject, Converter={StaticResource ObjectValueExcistToVisibiliyConverter}}"
+            Visibility="{Binding IsProjectSelect, Converter={StaticResource BoolToVis}}"
             Grid.Row="3">
 
             <Grid
                 Margin="10">
 
                 <StackPanel
+                    HorizontalAlignment="Left"
                     Orientation="Horizontal">
 
                     <TextBlock  
@@ -210,7 +219,7 @@
                         Height="90"
                         Width="160">
 
-                        <Image Source="{Binding SelectedProject.PictureBytePresentation}"
+                        <Image Source="{Binding PictureBytePresentation, UpdateSourceTrigger=PropertyChanged}"
                                HorizontalAlignment="Center" 
                                VerticalAlignment="Center"
                                Stretch="UniformToFill"/>

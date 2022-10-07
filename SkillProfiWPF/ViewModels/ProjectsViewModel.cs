@@ -22,10 +22,39 @@ namespace SkillProfiWPF.ViewModels
             Projects = new(ProjectsRequests.GetProjects());
             EditProject = new LamdaCommand(OnEditProject, CanEditProject);
             SaveProject = new LamdaCommand(OnSaveProject, CanSaveProject);
+            AddProject = new LamdaCommand(OnAddProject, CanAddProject);
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
 
 
             ReturnProject = new LamdaCommand(OnReturnProject, CanReturnProject);
+        }
+
+
+        private bool _isAddProject = false;
+        public bool IsAddProject
+        {
+            get => _isAddProject;
+            set => Set(ref _isAddProject, value);
+        }
+
+        private bool CanAddProject(object p)
+        {
+            if (IsAddProject || IsProjectEdit)
+            {
+                return false;
+            }
+            return true;
+        } 
+        public ICommand AddProject { get; }
+        private void OnAddProject(object p)
+        {
+            Title = "Title";
+            Description = "Description";
+            PictureBytePresentation = Array.Empty<byte>();
+            IsProjectEdit = true;
+            IsAddProject = true; 
+            IsProjectSelect = true;
+
         }
 
 
@@ -34,7 +63,6 @@ namespace SkillProfiWPF.ViewModels
         private void OnEditProject(object p)
         {
             IsProjectEdit = true;
-
         }
 
 
@@ -42,48 +70,67 @@ namespace SkillProfiWPF.ViewModels
         public ICommand SelectImage { get; }
         private void OnSelectImage(object p)
         {
-            var fileContent = string.Empty;
-            var filePath = string.Empty;
-
             OpenFileDialog openFileDialog = new ();
-            
-            openFileDialog.InitialDirectory = "c:\\";
-            openFileDialog.Filter = "Файлы рисунков (*.png, *.jpg)|*.png;*.jpg";
-            openFileDialog.FilterIndex = 2;
-            openFileDialog.RestoreDirectory = true;
+            openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                //Read the contents of the file into a stream
-
-                SelectedProject.PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
-                OnPropertyChanged(nameof(SelectedProject));
-                OnPropertyChanged(nameof(Projects));
-            }
-
-
+                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
+            
         }
 
         private bool CanReturnProject(object p) => true;
         public ICommand ReturnProject { get; }
         private void OnReturnProject(object p)
-        {
-            Projects = new(ProjectsRequests.GetProjects());
-            SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+        { 
+            if (!IsAddProject)
+            {
+                Projects = new(ProjectsRequests.GetProjects());
+                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+            }
+            IsAddProject = false;
             IsProjectEdit = false;
+            IsProjectSelect = false;
         }
 
 
-        private bool CanSaveProject(object p) => IsProjectEdit;
+        private bool CanSaveProject(object p)
+        {
+            if (IsAddProject)
+            {
+                if (PictureBytePresentation == Array.Empty<byte>() || Title == string.Empty || Description == string.Empty)
+                {
+                    return false;
+                }
+                return true;
+            }
+            return true;
+        }
         public ICommand SaveProject { get; }
         private void OnSaveProject(object p)
         {
-            SelectedProject.Title = Title;
-            SelectedProject.Description = Description;
-            ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject);
-            Projects = new(ProjectsRequests.GetProjects());
-            SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+            if (IsAddProject)
+            {
+                Project newProject = new()
+                {
+                    Title = Title,
+                    PictureName = "SomePictureName",
+                    Description = Description,
+                    PictureBytePresentation = PictureBytePresentation,
+                };
+                ProjectsRequests.AddProject(newProject);
+                Projects = new(ProjectsRequests.GetProjects());
 
+            }
+            else
+            {
+                SelectedProject.Title = Title;
+                SelectedProject.Description = Description;
+                SelectedProject.PictureBytePresentation = PictureBytePresentation;
+
+                ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject);
+                Projects = new(ProjectsRequests.GetProjects());
+                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+            }
 
             IsProjectEdit = false;
         }
@@ -104,6 +151,16 @@ namespace SkillProfiWPF.ViewModels
 
         }
 
+
+        private byte[] _pictureBytePresentation;
+        public byte[] PictureBytePresentation
+        {
+            get => _pictureBytePresentation;
+            set => Set(ref _pictureBytePresentation, value);
+
+        }
+
+
         private bool _isProjectEdit = false;
         public bool IsProjectEdit
         {
@@ -113,6 +170,16 @@ namespace SkillProfiWPF.ViewModels
         }
 
         private Guid _lastSelectedProjectId;
+
+
+        private bool _isProjectSelect = false;
+        public bool IsProjectSelect
+        {
+            get => _isProjectSelect;
+            set => Set(ref _isProjectSelect, value);
+
+        }
+
 
         private Project _selectedProject;
         public Project SelectedProject
@@ -124,8 +191,13 @@ namespace SkillProfiWPF.ViewModels
                 {
                     Title = value.Title;
                     Description = value.Description;
+                    PictureBytePresentation = value.PictureBytePresentation;
                     _lastSelectedProjectId = value.Id;
+                    IsProjectSelect = true;
                 }
+                else IsProjectSelect = false;
+
+                IsAddProject = false;
                 IsProjectEdit = false;
                 Set(ref _selectedProject, value);
             } 
