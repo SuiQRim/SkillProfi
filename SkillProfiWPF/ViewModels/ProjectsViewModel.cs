@@ -12,6 +12,7 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
 using System.Diagnostics;
+using System.Threading;
 
 namespace SkillProfiWPF.ViewModels
 {
@@ -20,6 +21,7 @@ namespace SkillProfiWPF.ViewModels
         public ProjectsViewModel()
         {
             Projects = new(ProjectsRequests.GetProjects());
+            DeleteProject = new LamdaCommand(OnDeleteProject, CanDeleteProject);
             EditProject = new LamdaCommand(OnEditProject, CanEditProject);
             SaveProject = new LamdaCommand(OnSaveProject, CanSaveProject);
             AddProject = new LamdaCommand(OnAddProject, CanAddProject);
@@ -54,6 +56,16 @@ namespace SkillProfiWPF.ViewModels
             IsProjectEdit = true;
             IsAddProject = true; 
             IsProjectSelect = true;
+
+        }
+
+        private bool CanDeleteProject(object p) => IsProjectSelect && !IsAddProject;
+        public ICommand DeleteProject { get; } 
+        private void OnDeleteProject(object p)
+        {
+            ProjectsRequests.DeleteProject(SelectedProject.Id.ToString());
+            Projects = new(ProjectsRequests.GetProjects());
+            IsProjectSelect = false;
 
         }
 
