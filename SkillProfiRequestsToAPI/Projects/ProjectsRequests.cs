@@ -153,6 +153,24 @@ namespace SkillProfiRequestsToAPI.Projects
             return result;
 
         }
+        public static string DeleteProject(string id)
+        {
+            var url = $"https://localhost:7120/api/Projects/{id}";
+
+            var request = WebRequest.Create(url);
+            request.Method = "DELETE";
+
+            using var reqStream = request.GetRequestStream();
+
+            using var response = request.GetResponse();
+
+            using var respStream = response.GetResponseStream();
+
+            using var reader = new StreamReader(respStream);
+            string data = reader.ReadToEnd();
+
+            return data;
+        }
 
         public static async Task<string> DeleteProjectAsync(string id)
         {

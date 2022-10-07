@@ -150,6 +150,25 @@ namespace SkillProfiRequestsToAPI.Consultations
 
         }
 
+        public static string DeleteConsultation(string id)
+        {
+            var url = $"https://localhost:7120/api/Consultations/{id}";
+
+            var request = WebRequest.Create(url);
+            request.Method = "DELETE";
+
+            using var reqStream = request.GetRequestStream();
+
+            using var response = request.GetResponse();
+
+            using var respStream = response.GetResponseStream();
+
+            using var reader = new StreamReader(respStream);
+            string data = reader.ReadToEnd();
+
+            return data;
+        }
+
         public static async Task<string> DeleteConsultationAsync(string id) 
         {
             var url = $"https://localhost:7120/api/Consultations/{id}";
