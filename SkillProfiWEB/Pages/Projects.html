@@ -57,11 +57,22 @@
 
                             let div = document.createElement('div');
                             div.id = element["id"];
+
+                            let img;
+
+                            if(element["pictureBytePresentation"] == null){
+                                img = "../Images/ImageError.png";
+                            }
+                            else{
+                                img = `data:image/png;base64,${element["pictureBytePresentation"]}`;
+                            }
+
+
                             div.className = "block";
                             div.innerHTML = `
                                 <a href="Project.html?id=${element["id"]}">
                                     <div class="block-image"> 
-                                        <img onclick="openDescription('${element["id"]}')" src="data:image/png;base64,${element["pictureBytePresentation"]}">
+                                        <img onclick="openDescription('${element["id"]}')" src="${img}">
                                     </div>
                                     <div class="block-title-in">
                                         <p>${element["title"]}</p>

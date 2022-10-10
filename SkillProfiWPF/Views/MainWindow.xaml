@@ -41,7 +41,7 @@
                 >
                 <Button
                     Style="{DynamicResource DefaultButton}"
-                    Command="{Binding OpenConsultationPage}"
+                    Command="{Binding OpenConsultationUC}"
                     Content="Рабочий стол"/>
 
 
@@ -55,13 +55,14 @@
                 <Button 
                     Style="{DynamicResource DefaultButton}"
                     Content="Проекты"
-                    Command="{Binding OpenProjectsUserControl}"/>
+                    Command="{Binding OpenProjectsUC}"/>
 
 
 
                 <Button 
                     Style="{DynamicResource DefaultButton}"
-                    Content="Услуги"/>
+                    Content="Услуги"
+                    Command="{Binding OpenServicesUC}"/>
 
 
 

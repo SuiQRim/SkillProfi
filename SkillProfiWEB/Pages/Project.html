@@ -61,11 +61,20 @@
 
                         let div = document.createElement('div');
                         div.id = data["id"];
+
+                        let img;
+                        if(data["pictureBytePresentation"] == null) {
+                                img = "../Images/ImageError.png";
+                        }
+                        else {
+                                img = `data:image/png;base64,${data["pictureBytePresentation"]}`;
+                        }
+                            
                         div.innerHTML = `
 
                             <div class="title">${data["title"]}  
                                 <div class="image-block-title">
-                                    <img src="data:image/png;base64,${data["pictureBytePresentation"]}">
+                                    <img src="${img}">
                                 </div>
                             </div>
   

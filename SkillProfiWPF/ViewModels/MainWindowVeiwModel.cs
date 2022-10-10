@@ -17,8 +17,9 @@ namespace SkillProfiWPF.ViewModels
     {
         public MainWindowVeiwModel()
         {
-            OpenConsultationPage = new LamdaCommand(OnOpenConsultationPage, CanIfConsultationPageNotSelected);
-            OpenProjectsUserControl = new LamdaCommand(OnOpenProjectsUserControl, CanIfProjectsUserControlNotSelected);
+            OpenConsultationUC = new LamdaCommand(OnOpenConsultationUC, CanOpenConsultationUC);
+            OpenProjectsUC = new LamdaCommand(OnOpenProjectsUC, CanOpenProjectsUC);
+            OpenServicesUC = new LamdaCommand(OnOpenServicesUC, CanOpenServicesUC);
         }
 
         private UserControl _page;
@@ -28,21 +29,25 @@ namespace SkillProfiWPF.ViewModels
             set => Set(ref _page, value);
         } 
 
-        private bool CanAnyWay(object p) => true;
-
-
-        private bool CanIfConsultationPageNotSelected(object p) => !(Page != null && Page.GetType() == typeof(ConsultationsUserControl));
-        public ICommand OpenConsultationPage { get; }
-        private void OnOpenConsultationPage(object p)
+        private bool CanOpenConsultationUC(object p) => !(Page != null && Page is ConsultationsUserControl);
+        public ICommand OpenConsultationUC { get; }
+        private void OnOpenConsultationUC(object p)
         {
             Page = new ConsultationsUserControl();
         }
 
-        private bool CanIfProjectsUserControlNotSelected(object p) => !(Page != null && Page.GetType() == typeof(ProjectsUserControl));
-        public ICommand OpenProjectsUserControl { get; }
-        private void OnOpenProjectsUserControl(object p)
+        private bool CanOpenProjectsUC(object p) => !(Page != null && Page is ProjectsUserControl);
+        public ICommand OpenProjectsUC{ get; }
+        private void OnOpenProjectsUC(object p)
         {
             Page = new ProjectsUserControl();
+        }
+
+        private bool CanOpenServicesUC(object p) => !(Page != null && Page is ServicesUserControl);
+        public ICommand OpenServicesUC { get; }
+        private void OnOpenServicesUC(object p)
+        {
+            Page = new ServicesUserControl();
         }
     }
 }

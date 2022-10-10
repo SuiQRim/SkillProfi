@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using SkillProfiApi.Data;
 var builder = WebApplication.CreateBuilder(args);
 
+PictureDirectory.Configurate();
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = int.MaxValue;

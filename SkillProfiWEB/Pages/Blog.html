@@ -60,6 +60,15 @@
 
                         let div = document.createElement('div');
 
+                        let img;
+
+                        if(data["pictureBytePresentation"] == null) {
+                            img = "../Images/ImageError.png";
+                        }
+                        else {
+                            img = `data:image/png;base64,${data["pictureBytePresentation"]}`;
+                        }
+
                         div.id = data["id"];
                         div.innerHTML = `
 
@@ -69,7 +78,7 @@
                             
                             <div>
                                 <div class="image-block-content">
-                                    <img src="data:image/png;base64,${data["pictureBytePresentation"]}">
+                                    <img src="${img}">
                                 </div>
                                 <div class="description">
                                     <a>${data["description"]}</a>

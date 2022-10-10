@@ -26,6 +26,8 @@ namespace SkillProfiApi.Data
         public static async Task GetPictureAsync(this IPicture picture) {
 
 			string path = Path.Combine(REPOSITORY, picture.PictureName);
+			if (!File.Exists(path)) return;
+			
             picture.PictureBytePresentation = await File.ReadAllBytesAsync(path);
 		}
 
@@ -59,7 +61,7 @@ namespace SkillProfiApi.Data
 			File.Delete(path);
         }
 
-		public static void CreateFolder() 
+		public static void Configurate() 
 		{
 			if (Directory.Exists("Pictures")) return;
 

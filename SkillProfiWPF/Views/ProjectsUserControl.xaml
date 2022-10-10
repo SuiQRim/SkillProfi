@@ -79,10 +79,20 @@
                                 Height="180"
                                 Width="320">
 
-                                <Image Source="{Binding PictureBytePresentation}"
-                                        HorizontalAlignment="Center" 
-                                        VerticalAlignment="Center"
-                                        Stretch="UniformToFill"/>
+                                <Image
+                                    d:Source="../Assets/ImageError.png"
+                                    HorizontalAlignment="Center" 
+                                    VerticalAlignment="Center"
+                                    Stretch="UniformToFill">
+                                    <Image.Source>
+                                        <Binding Path="PictureBytePresentation" >
+                                            <Binding.TargetNullValue>
+                                                <ImageSource>../../Assets/ImageError.png</ImageSource>
+                                            </Binding.TargetNullValue>
+                                        </Binding>
+                                    </Image.Source>
+                                </Image>
+                                
                                 
                                 <WrapPanel.OpacityMask>
                                     <VisualBrush >

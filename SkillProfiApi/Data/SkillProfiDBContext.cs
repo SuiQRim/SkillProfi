@@ -47,7 +47,7 @@ namespace SkillProfiApi.Data
             });
 
             modelBuilder.Entity<SkillProfi.Project>().HasData(new SkillProfi.Project[]
-{
+            {
                 new SkillProfi.Project()
                 {
                     Id = Guid.NewGuid(),
@@ -87,7 +87,7 @@ namespace SkillProfiApi.Data
             });
 
             modelBuilder.Entity<Service>().HasData(new Service[]
-           {
+            {
                 new Service()
                 {
                     Id = Guid.NewGuid(),
