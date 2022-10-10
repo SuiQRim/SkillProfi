@@ -27,8 +27,8 @@ namespace SkillProfiWPF.ViewModels
         {
             get => _page;
             set => Set(ref _page, value);
-        } 
-
+        }
+  
         private bool CanOpenConsultationUC(object p) => !(Page != null && Page is ConsultationsUserControl);
         public ICommand OpenConsultationUC { get; }
         private void OnOpenConsultationUC(object p)

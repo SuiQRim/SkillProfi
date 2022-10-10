@@ -16,98 +16,54 @@ using System.Threading;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class ProjectsViewModel : ViewModel
+    internal class ProjectsViewModel : EditorViewModel
     {
         public ProjectsViewModel()
         {
             Projects = new(ProjectsRequests.GetProjects());
-            DeleteProject = new LamdaCommand(OnDeleteProject, CanDeleteProject);
-            EditProject = new LamdaCommand(OnEditProject, CanEditProject);
-            SaveProject = new LamdaCommand(OnSaveProject, CanSaveProject);
-            AddProject = new LamdaCommand(OnAddProject, CanAddProject);
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
-
-
-            ReturnProject = new LamdaCommand(OnReturnProject, CanReturnProject);
         }
 
+        #region Commands
 
-        private bool _isAddProject = false;
-        public bool IsAddProject
-        {
-            get => _isAddProject;
-            set => Set(ref _isAddProject, value);
-        }
+        #region Main Commands
 
-        private bool CanAddProject(object p)
+        protected override bool CanAdd(object p) => base.CanAdd(p);
+        protected override void OnAdd(object p)
         {
-            if (IsAddProject || IsProjectEdit)
-            {
-                return false;
-            }
-            return true;
-        } 
-        public ICommand AddProject { get; }
-        private void OnAddProject(object p)
-        {
+            base.OnAdd(p);
+
             Title = "Title";
             Description = "Description";
             PictureBytePresentation = Array.Empty<byte>();
-            IsProjectEdit = true;
-            IsAddProject = true; 
-            IsProjectSelect = true;
-
         }
 
-        private bool CanDeleteProject(object p) => IsProjectSelect && !IsAddProject;
-        public ICommand DeleteProject { get; } 
-        private void OnDeleteProject(object p)
+
+        protected override bool CanDelete(object p) => base.CanDelete(p);
+        protected override void OnDelete(object p)
         {
-            ProjectsRequests.DeleteProject(SelectedProject.Id.ToString());
+            ProjectsRequests.DeleteProject(SelectedProject!.Id.ToString());
             Projects = new(ProjectsRequests.GetProjects());
-            IsProjectSelect = false;
+            IsObjectSelect = false;
 
         }
 
-
-        private bool CanEditProject(object p) => !IsProjectEdit;
-        public ICommand EditProject { get; }
-        private void OnEditProject(object p)
-        {
-            IsProjectEdit = true;
-        }
-
-
-        private bool CanSelectImage(object p) => true;
-        public ICommand SelectImage { get; }
-        private void OnSelectImage(object p)
-        {
-            OpenFileDialog openFileDialog = new ();
-            openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
-            
-        }
-
-        private bool CanReturnProject(object p) => true;
-        public ICommand ReturnProject { get; }
-        private void OnReturnProject(object p)
+        protected override bool CanReturn(object p) => base.CanReturn(p);
+        protected override void OnReturn(object p)
         { 
-            if (!IsAddProject)
+            if (!IsAddObject)
             {
                 Projects = new(ProjectsRequests.GetProjects());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
-            IsAddProject = false;
-            IsProjectEdit = false;
-            IsProjectSelect = false;
+
+            base.OnReturn(p);
         }
 
 
-        private bool CanSaveProject(object p)
+        protected override bool CanSave(object p)
         {
-            if (IsAddProject)
+            if (IsAddObject)
             {
                 if (PictureBytePresentation == Array.Empty<byte>() || Title == string.Empty || Description == string.Empty)
                 {
@@ -117,10 +73,10 @@ namespace SkillProfiWPF.ViewModels
             }
             return true;
         }
-        public ICommand SaveProject { get; }
-        private void OnSaveProject(object p)
+
+        protected override void OnSave(object p)
         {
-            if (IsAddProject)
+            if (IsAddObject)
             {
                 Project newProject = new()
                 {
@@ -144,9 +100,27 @@ namespace SkillProfiWPF.ViewModels
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
 
-            IsProjectEdit = false;
+            IsObjectEdit = false;
         }
 
+        #endregion
+
+        #region Original Commands
+        private bool CanSelectImage(object p) => true;
+        public ICommand SelectImage { get; }
+        private void OnSelectImage(object p)
+        {
+            OpenFileDialog openFileDialog = new();
+            openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
+
+        }
+
+        #endregion
+
+        #endregion
 
         private string _title = "";
         public string Title
@@ -164,37 +138,19 @@ namespace SkillProfiWPF.ViewModels
         }
 
 
-        private byte[] _pictureBytePresentation;
-        public byte[] PictureBytePresentation
+        private byte[]? _pictureBytePresentation;
+        public byte[]? PictureBytePresentation
         {
             get => _pictureBytePresentation;
             set => Set(ref _pictureBytePresentation, value);
 
         }
 
-
-        private bool _isProjectEdit = false;
-        public bool IsProjectEdit
-        {
-            get => _isProjectEdit;
-            set =>  Set(ref _isProjectEdit, value);
-
-        }
-
         private Guid _lastSelectedProjectId;
 
 
-        private bool _isProjectSelect = false;
-        public bool IsProjectSelect
-        {
-            get => _isProjectSelect;
-            set => Set(ref _isProjectSelect, value);
-
-        }
-
-
-        private Project _selectedProject;
-        public Project SelectedProject
+        private Project? _selectedProject;
+        public Project? SelectedProject
         {
             get => _selectedProject;
             set {
@@ -205,12 +161,12 @@ namespace SkillProfiWPF.ViewModels
                     Description = value.Description;
                     PictureBytePresentation = value.PictureBytePresentation;
                     _lastSelectedProjectId = value.Id;
-                    IsProjectSelect = true;
+                    IsObjectSelect = true;
                 }
-                else IsProjectSelect = false;
+                else IsObjectSelect = false;
 
-                IsAddProject = false;
-                IsProjectEdit = false;
+                IsAddObject = false;
+                IsObjectEdit = false;
                 Set(ref _selectedProject, value);
             } 
         }

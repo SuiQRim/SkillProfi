@@ -132,68 +132,67 @@
         <StackPanel
             d:Visibility="Visible"
             Orientation="Horizontal"
-            Margin="0 10"
+            Margin="10"
             Grid.Row="2">
 
             <Button
                 HorizontalAlignment="Left"
                 Style="{StaticResource EditButton}"
-                Command="{Binding AddProject}"
+                Command="{Binding Add}"
                 Content="➕"
                 Padding="10"/>
                         
             <Button
                 d:Visibility="Visible"
-                Visibility="{Binding IsProjectSelect, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
                 Style="{StaticResource EditButton}"
-                Command="{Binding DeleteProject}"
+                Command="{Binding Delete}"
                 Content="➖"
                 Padding="10"/>
             
             <Button
                 d:Visibility="Visible"
-                Visibility="{Binding IsProjectSelect, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
                 HorizontalAlignment="Left"
                 Style="{StaticResource EditButton}"
-                Command="{Binding EditProject}"
+                Command="{Binding Edit}"
                 Padding="10"/>
 
             <Button
                 Style="{StaticResource EditButton}"
                 d:Visibility="Visible"
-                Visibility="{Binding IsProjectEdit, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
                 VerticalAlignment="Bottom"
                 Content="✖"
                 Padding="10"
-                Command="{Binding ReturnProject}"/>
+                Command="{Binding Return}"/>
 
 
             <Button
                 d:Visibility="Visible"
-                Visibility="{Binding IsProjectEdit, Converter={StaticResource BoolToVis}}"
+                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
                 Style="{StaticResource AcceptButton}"
                 VerticalAlignment="Bottom"
                 Padding="10"
-                Command="{Binding SaveProject}"/>
+                Command="{Binding Save}"/>
             
 
 
         </StackPanel>
         <StackPanel 
             d:Visibility="Visible"
-            Visibility="{Binding IsProjectSelect, Converter={StaticResource BoolToVis}}"
+            Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
             Grid.Row="3">
 
             <Grid
                 Margin="10">
 
-                <StackPanel
-                    HorizontalAlignment="Left"
-                    Orientation="Horizontal">
+                <Grid
+                    HorizontalAlignment="Left">
 
                     <TextBlock  
                         Name="title"
-                        Visibility="{Binding IsProjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
                         Background="{x:Null}"
                         VerticalAlignment="Bottom"
                         Margin="10 0"
@@ -203,6 +202,7 @@
                         Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
 
                     <TextBox  
+                        d:Visibility="Visible"
                         Visibility="{Binding ElementName=title, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
                         Background="{x:Null}"
                         VerticalAlignment="Bottom"
@@ -220,14 +220,14 @@
                         </TextBox.Resources>
                     </TextBox>
 
-                </StackPanel>
+                </Grid>
 
                 <StackPanel 
                     HorizontalAlignment="Right"
                     Orientation="Horizontal">
                     
                     <Button
-                        Visibility="{Binding IsProjectEdit, Converter={StaticResource BoolToVis}}"
+                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
                         Style="{StaticResource EditButton}"
                         Command="{Binding SelectImage}"
                         VerticalAlignment="Bottom"
@@ -293,7 +293,7 @@
                     <TextBlock 
                         Padding="12"
                         Name="description"
-                        Visibility="{Binding IsProjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
                         FontSize="20"
                         TextWrapping="WrapWithOverflow"
                         Margin="10"
