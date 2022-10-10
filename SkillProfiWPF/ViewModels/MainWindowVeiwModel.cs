@@ -43,11 +43,5 @@ namespace SkillProfiWPF.ViewModels
             Page = new ProjectsUserControl();
         }
 
-        private bool CanOpenServicesUC(object p) => !(Page != null && Page is ServicesUserControl);
-        public ICommand OpenServicesUC { get; }
-        private void OnOpenServicesUC(object p)
-        {
-            Page = new ServicesUserControl();
-        }
     }
 }
