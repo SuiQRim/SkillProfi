@@ -1,26 +1,23 @@
-﻿using System;
+﻿using SkillProfi;
+using SkillProfiRequestsToAPI.Blogs;
+using SkillProfiWPF.ViewModels.Prefab;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfi;
-using SkillProfiRequestsToAPI.Projects;
-using System.Windows.Input;
-using System.ComponentModel;
-using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading;
+using System.Windows.Input;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class ProjectsViewModel : EditorViewModel
+    internal class BlogsViewModel : EditorViewModel
     {
-        public ProjectsViewModel()
+        public BlogsViewModel() : base()
         {
-            Projects = new(ProjectsRequests.GetProjects());
+            Blogs = new(BlogsRequests.GetBlogs());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
 
@@ -42,19 +39,19 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            ProjectsRequests.DeleteProject(SelectedProject!.Id.ToString());
-            Projects = new(ProjectsRequests.GetProjects());
+            BlogsRequests.DeleteBlog(SelectedBlog!.Id.ToString());
+            Blogs = new(BlogsRequests.GetBlogs());
             IsObjectSelect = false;
 
         }
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
         protected override void OnReturn(object p)
-        { 
+        {
             if (!IsAddObject)
             {
-                Projects = new(ProjectsRequests.GetProjects());
-                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+                Blogs = new(BlogsRequests.GetBlogs());
+                SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
 
             base.OnReturn(p);
@@ -63,37 +60,39 @@ namespace SkillProfiWPF.ViewModels
 
         protected override bool CanSave(object p)
         {
+
             if (PictureBytePresentation == Array.Empty<byte>() || PictureBytePresentation == null || Title == string.Empty || Description == string.Empty)
             {
                 return false;
             }
             return true;
+
         }
 
         protected override void OnSave(object p)
         {
             if (IsAddObject)
             {
-                Project newProject = new()
+                Blog newBlog = new()
                 {
                     Title = Title,
                     PictureName = "SomePictureName",
                     Description = Description,
                     PictureBytePresentation = PictureBytePresentation,
                 };
-                ProjectsRequests.AddProject(newProject);
-                Projects = new(ProjectsRequests.GetProjects());
+                BlogsRequests.AddBlog(newBlog);
+                Blogs = new(BlogsRequests.GetBlogs());
 
             }
             else
             {
-                SelectedProject.Title = Title;
-                SelectedProject.Description = Description;
-                SelectedProject.PictureBytePresentation = PictureBytePresentation;
+                SelectedBlog.Title = Title;
+                SelectedBlog.Description = Description;
+                SelectedBlog.PictureBytePresentation = PictureBytePresentation;
 
-                ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject);
-                Projects = new(ProjectsRequests.GetProjects());
-                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+                BlogsRequests.EditBlog(SelectedBlog.Id.ToString(), SelectedBlog);
+                Blogs = new(BlogsRequests.GetBlogs());
+                SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
 
             IsObjectEdit = false;
@@ -142,37 +141,37 @@ namespace SkillProfiWPF.ViewModels
 
         }
 
-        private Guid _lastSelectedProjectId;
+        private Guid _lastSelectedBlogId;
 
 
-        private Project? _selectedProject;
-        public Project? SelectedProject
+        private Blog? _selectedBlog;
+        public Blog? SelectedBlog
         {
-            get => _selectedProject;
-            set {
+            get => _selectedBlog;
+            set
+            {
 
                 if (value != null)
                 {
                     Title = value.Title;
                     Description = value.Description;
                     PictureBytePresentation = value.PictureBytePresentation;
-                    _lastSelectedProjectId = value.Id;
+                    _lastSelectedBlogId = value.Id;
                     IsObjectSelect = true;
                 }
                 else IsObjectSelect = false;
 
                 IsAddObject = false;
                 IsObjectEdit = false;
-                Set(ref _selectedProject, value);
-            } 
+                Set(ref _selectedBlog, value);
+            }
         }
 
-        private ObservableCollection<Project> _projects;
-        public ObservableCollection<Project> Projects
+        private ObservableCollection<Blog> _Blogs;
+        public ObservableCollection<Blog> Blogs
         {
-            get => _projects;
-            set => Set(ref _projects, value);
+            get => _Blogs;
+            set => Set(ref _Blogs, value);
         }
-
     }
 }

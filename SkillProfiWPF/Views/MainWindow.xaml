@@ -68,7 +68,8 @@
 
                 <Button 
                     Style="{DynamicResource DefaultButton}"
-                    Content="Блог"/>
+                    Content="Блог"
+                    Command="{Binding OpenBlogsUC}"/>
 
 
 

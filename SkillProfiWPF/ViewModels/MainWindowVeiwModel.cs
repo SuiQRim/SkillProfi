@@ -20,6 +20,7 @@ namespace SkillProfiWPF.ViewModels
             OpenConsultationUC = new LamdaCommand(OnOpenConsultationUC, CanOpenConsultationUC);
             OpenProjectsUC = new LamdaCommand(OnOpenProjectsUC, CanOpenProjectsUC);
             OpenServicesUC = new LamdaCommand(OnOpenServicesUC, CanOpenServicesUC);
+            OpenBlogsUC = new LamdaCommand(OnOpenBlogsUC, CanOpenBlogsUC);
         }
 
         private UserControl _page;
@@ -48,6 +49,13 @@ namespace SkillProfiWPF.ViewModels
         private void OnOpenServicesUC(object p)
         {
             Page = new ServicesUserControl();
+        }
+
+        private bool CanOpenBlogsUC(object p) => !(Page != null && Page is BlogsUserControl);
+        public ICommand OpenBlogsUC { get; }
+        private void OnOpenBlogsUC(object p)
+        {
+            Page = new BlogsUserControl();
         }
 
     }
