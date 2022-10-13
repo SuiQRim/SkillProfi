@@ -9,7 +9,7 @@ using System.Windows.Input;
 using System.Xml.Linq;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiWPF.Views;
-
+using SkillProfiWPF.Views.Contacts;
 
 namespace SkillProfiWPF.ViewModels
 {
@@ -21,6 +21,7 @@ namespace SkillProfiWPF.ViewModels
             OpenProjectsUC = new LamdaCommand(OnOpenProjectsUC, CanOpenProjectsUC);
             OpenServicesUC = new LamdaCommand(OnOpenServicesUC, CanOpenServicesUC);
             OpenBlogsUC = new LamdaCommand(OnOpenBlogsUC, CanOpenBlogsUC);
+            OpenContactsUC = new LamdaCommand(OnOpenContactsUC, CanOpenContactsUC);
         }
 
         private UserControl _page;
@@ -58,5 +59,11 @@ namespace SkillProfiWPF.ViewModels
             Page = new BlogsUserControl();
         }
 
+        private bool CanOpenContactsUC(object p) => !(Page != null && Page is ContactsUserControl);
+        public ICommand OpenContactsUC { get; }
+        private void OnOpenContactsUC(object p)
+        {
+            Page = new ContactsUserControl();
+        }
     }
 }

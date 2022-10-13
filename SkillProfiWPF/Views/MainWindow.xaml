@@ -7,8 +7,8 @@
         xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
         mc:Ignorable="d"
         Title="SkillProfi"
-        MinHeight="450"
-        MinWidth="800"
+        MinHeight="600"
+        MinWidth="1000"
         Background="#ededed">
    
     <Window.DataContext>
@@ -37,8 +37,7 @@
             
 
             <StackPanel 
-                Margin="20 0"
-                >
+                Margin="20 0">
                 <Button
                     Style="{DynamicResource DefaultButton}"
                     Command="{Binding OpenConsultationUC}"
@@ -75,7 +74,8 @@
 
                 <Button 
                     Style="{DynamicResource DefaultButton}"
-                    Content="Контакты"/>
+                    Content="Контакты"
+                    Command="{Binding OpenContactsUC}"/>
 
 
             </StackPanel>

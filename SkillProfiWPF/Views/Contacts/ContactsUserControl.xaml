@@ -1,0 +1,35 @@
+﻿<UserControl x:Class="SkillProfiWPF.Views.Contacts.ContactsUserControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SkillProfiWPF.Views.Contacts"
+             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+             mc:Ignorable="d" 
+             d:DesignHeight="800" d:DesignWidth="1200">
+
+    <UserControl.DataContext>
+        <ViewModels:ContactsViewModel/>
+    </UserControl.DataContext>
+    
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <UserControl
+            Grid.Row="0"
+            Content="{Binding MainContactsDataUC}">
+        </UserControl>
+        
+        <UserControl
+            Grid.Row="1"
+            Content="{Binding SocialNetworksUC}">
+            
+        </UserControl>
+    </Grid>
+</UserControl>
