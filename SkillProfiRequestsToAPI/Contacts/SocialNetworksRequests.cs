@@ -11,142 +11,28 @@ namespace SkillProfiRequestsToAPI.Contacts
 {
     public static class SocialNetworksRequests
     {
-        public static List<SocialNetwork> GetSocialNetworks()
-        {
-            var url = "https://localhost:7120/api/Contacts/SocialNetworks";
 
-            var request = WebRequest.Create(url);
-            request.Method = WebRequestMethods.Http.Get;
+        private const string _mainUrl = "https://localhost:7120/api/Contacts/SocialNetworks";
 
-            using var webResponse = request.GetResponse();
-            using var webStream = webResponse.GetResponseStream();
+        public static List<SocialNetwork> GetSocialNetworks() => Request.Get<List<SocialNetwork>>(_mainUrl);
 
-            using var reader = new StreamReader(webStream);
-            string SocialNetworksJson = reader.ReadToEnd();
+        public static async Task<List<SocialNetwork>> GetSocialNetworksAsync() => await Request.GetAsync<List<SocialNetwork>>(_mainUrl);
 
-            var socialNetworks = JsonConvert.DeserializeObject<List<SocialNetwork>>(SocialNetworksJson);
 
-            return socialNetworks;
-        }
 
-        public static string AddSocialNetwork(SocialNetwork SocialNetwork)
-        {
-            var url = "https://localhost:7120/api/Contacts/SocialNetworks";
+        public static string AddSocialNetwork(SocialNetwork SocialNetwork) => Request.Add(SocialNetwork, _mainUrl);
 
-            var request = WebRequest.Create(url);
-            request.Method = WebRequestMethods.Http.Post;
+        public static async Task<string> AddSocialNetworkAsync(SocialNetwork SocialNetwork) => await Request.AddAsync(SocialNetwork, _mainUrl);
 
-            var json = JsonConvert.SerializeObject(SocialNetwork);
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
 
-            request.ContentType = "application/json";
-            request.ContentLength = byteArray.Length;
 
-            using var reqStream = request.GetRequestStream();
-            reqStream.Write(byteArray, 0, byteArray.Length);
+        public static string EditSocialNetwork(string id, SocialNetwork SocialNetwork) => Request.Edit(id, SocialNetwork , _mainUrl);
 
-            using var response = request.GetResponse();
+        public static async Task<string> EditSocialNetworkAsync(string id, SocialNetwork SocialNetwork) => await Request.EditAsync(id, SocialNetwork, _mainUrl);
 
-            using var respStream = response.GetResponseStream();
 
-            using var reader = new StreamReader(respStream);
-            string data = reader.ReadToEnd();
+        public static string DeleteSocialNetwork(string id) => Request.Delete(id, _mainUrl);
 
-            return data;
-        }
-
-        public static async Task<string> AddSocialNetworkAsync(SocialNetwork SocialNetwork)
-        {
-
-            var json = JsonConvert.SerializeObject(SocialNetwork);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var url = "https://localhost:7120/api/Contacts/SocialNetworks";
-
-            using var client = new HttpClient();
-
-            var response = await client.PostAsync(url, data);
-
-            string result = response.Content.ReadAsStringAsync().Result;
-
-            return result;
-
-        }
-
-        public static string EditSocialNetwork(string id, SocialNetwork SocialNetwork)
-        {
-            var url = $"https://localhost:7120/api/Contacts/SocialNetworks?id={id}";
-
-            var request = WebRequest.Create(url);
-            request.Method = WebRequestMethods.Http.Put;
-
-            var json = JsonConvert.SerializeObject(SocialNetwork);
-            byte[] byteArray = Encoding.UTF8.GetBytes(json);
-
-            request.ContentType = "application/json";
-            request.ContentLength = byteArray.Length;
-
-            using var reqStream = request.GetRequestStream();
-            reqStream.Write(byteArray, 0, byteArray.Length);
-
-            using var response = request.GetResponse();
-
-            using var respStream = response.GetResponseStream();
-
-            using var reader = new StreamReader(respStream);
-            string data = reader.ReadToEnd();
-
-            return data;
-
-        }
-
-        public static async Task<string> EditSocialNetworkAsync(string id, SocialNetwork SocialNetwork)
-        {
-
-            var json = JsonConvert.SerializeObject(SocialNetwork);
-            var data = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var url = $"https://localhost:7120/api/Contacts/SocialNetworks?id={id}";
-            using var client = new HttpClient();
-
-            var response = await client.PutAsync(url, data);
-
-            string result = response.Content.ReadAsStringAsync().Result;
-
-            return result;
-
-        }
-
-        public static string DeleteSocialNetwork(string id)
-        {
-            var url = $"https://localhost:7120/api/Contacts/SocialNetworks?id={id}";
-
-            var request = WebRequest.Create(url);
-            request.Method = "DELETE";
-
-            using var reqStream = request.GetRequestStream();
-
-            using var response = request.GetResponse();
-
-            using var respStream = response.GetResponseStream();
-
-            using var reader = new StreamReader(respStream);
-            string data = reader.ReadToEnd();
-
-            return data;
-        }
-
-        public static async Task<string> DeleteSocialNetworkAsync(string id)
-        {
-            var url = $"https://localhost:7120/api/Contacts/SocialNetworks?id={id}";
-            using var client = new HttpClient();
-
-            var response = await client.DeleteAsync(url);
-
-            string result = response.Content.ReadAsStringAsync().Result;
-
-            return result;
-
-        }
+        public static async Task<string> DeleteSocialNetworkAsync(string id) => await Request.DeleteAsync(id, _mainUrl);
     }
 }

@@ -9,34 +9,21 @@ using System.Threading.Tasks;
 
 namespace SkillProfiRequestsToAPI.Contacts
 {
-    public class ContactsRequests
+    public static class ContactsRequests
     {
-        public static SkillProfi.Contacts GetContacts()
+        private const string _mainUrl = "https://localhost:7120/api/Contacts";
+
+        public static SkillProfi.Contacts GetContacts() => Request.Get<SkillProfi.Contacts>("https://localhost:7120/api/Contacts");
+        
+
+        public static string EditContacts(SkillProfi.Contacts contact)
         {
-            var url = "https://localhost:7120/api/Contacts";
-
-            var request = WebRequest.Create(url);
-            request.Method = WebRequestMethods.Http.Get;
-
-            using var webResponse = request.GetResponse();
-            using var webStream = webResponse.GetResponseStream();
-
-            using var reader = new StreamReader(webStream);
-            string SocialNetworksJson = reader.ReadToEnd();
-
-            var socialNetworks = JsonConvert.DeserializeObject<SkillProfi.Contacts>(SocialNetworksJson);
-
-            return socialNetworks;
-        }
-
-        public static string EditContacts(SkillProfi.Contacts SocialNetwork)
-        {
-            var url = $"https://localhost:7120/api/Contacts";
+            var url = _mainUrl;
 
             var request = WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Put;
 
-            var json = JsonConvert.SerializeObject(SocialNetwork);
+            var json = JsonConvert.SerializeObject(contact);
             byte[] byteArray = Encoding.UTF8.GetBytes(json);
 
             request.ContentType = "application/json";
@@ -56,13 +43,13 @@ namespace SkillProfiRequestsToAPI.Contacts
 
         }
 
-        public static async Task<string> EditContactsAsync(SkillProfi.Contacts SocialNetwork)
+        public static async Task<string> EditContactsAsync(SkillProfi.Contacts contact)
         {
 
-            var json = JsonConvert.SerializeObject(SocialNetwork);
+            var json = JsonConvert.SerializeObject(contact);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var url = $"https://localhost:7120/api/Contacts";
+            var url = _mainUrl;
             using var client = new HttpClient();
 
             var response = await client.PutAsync(url, data);
