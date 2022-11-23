@@ -1,0 +1,30 @@
+﻿@model Project
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div id="project" style="min-height: 520px;">
+
+    <div id="@Model.Id">
+
+            <div class="title">
+
+            @Model.Title
+
+            <div class="image-block-title">
+                <img src='@(ImagesRequests.GetURL(Model.PictureName))' onerror="this.src='/Assets/ImageError.png'">
+            </div>
+        </div>
+
+        <div class="description">
+            <a>@Model.Description</a>
+        </div>
+
+    </div>
+
+</div>
+
+<button class="button" style="float: right;" onclick="@("window.location.href='" + @Url.Action("Projects", "Projects") + "'");">
+    Назад
+</button>

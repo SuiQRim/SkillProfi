@@ -1,0 +1,59 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+    <head>
+    <meta charset="utf-8" />
+    <title>@ViewData["title"]</title>
+
+    <script src="https://code.jquery.com/jquery-3.6.1.js" integrity="sha256-3zlB5s2uwoUzrXK3BT7AX3FyvojsraNFxCc2vC/7pNI=" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="/css/MainStyle.css" />
+    <link rel="stylesheet" href="/css/Header.css" />
+    <link rel="stylesheet" href="/css/Toggle.css" />
+    <link rel="stylesheet" href="/css/ScrollbarStyle.css" />
+    <link rel="stylesheet" href="/css/Block.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+    <body>
+
+        <div id="header" class="header">
+            <div class="topnav">
+                <div>
+                    @functions {
+                    public string GetNavActive(string navTitle)
+                    {
+                        var title = ViewData["title"];
+                        if (navTitle == title)
+                            return "active";
+                        return "";
+                    }
+                    }   
+
+                    <a href="@Url.Action("Main", "Main")" class='@GetNavActive("Main")'>Main</a>
+                    <a href="@Url.Action("Services", "Services")" class='@GetNavActive("Services")'>Services</a>
+                    <a href="@Url.Action("Projects", "Projects")" class='@GetNavActive("Projects")'>Projects</a>
+                    <a href="@Url.Action("Blogs", "Blogs")" class='@GetNavActive("Blogs")'>Blogs</a>
+                    <a href="@Url.Action("Contacts", "Contacts")" class='@GetNavActive("Contacts")'>Contacts</a>
+                </div>
+            </div>
+
+            <div class="slogan">
+                <p>"Expanding the possibilities"</p>
+            </div>
+
+            <div>
+                <img class="image">
+            </div>
+
+        </div>
+
+            <div id="content" class="content">
+		        @RenderBody()
+            </div>
+  
+    </body>
+</html>

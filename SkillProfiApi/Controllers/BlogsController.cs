@@ -33,14 +33,12 @@ namespace SkillProfiApi.Controllers
 
             List<Blog> blogs = await _context.Blogs.ToListAsync();
 
-            foreach (var p in blogs) await p.GetPictureAsync();
-
             return blogs;
         }
 
         // GET: api/Blogs/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Blog>> GetBlog(Guid id, [Required] bool isPictureNeed)
+        public async Task<ActionResult<Blog>> GetBlog(Guid id)
         {
             if (_context.Blogs == null)
             {
@@ -48,15 +46,10 @@ namespace SkillProfiApi.Controllers
             }
             var blog = await _context.Blogs.FindAsync(id);
 
-
             if (blog == null)
             {
                 return NotFound();
             }
-
-            if(isPictureNeed)
-                await blog.GetPictureAsync();
-
             return blog;
         }
 

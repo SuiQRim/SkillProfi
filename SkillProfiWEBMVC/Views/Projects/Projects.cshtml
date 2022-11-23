@@ -1,0 +1,28 @@
+﻿@model List<Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="title">
+    <a>Projects</a>
+</div>
+
+<div id="projectScroller" class="scroller">
+
+    @{ 
+    foreach (var proj in Model)
+    {
+        <div class="block">
+            <a href="@Url.Action("Project", "Projects", new{id = proj.Id})">
+                <div class="block-image">       
+                     <img src='@(ImagesRequests.GetURL(proj.PictureName))' onerror="this.src='/Assets/ImageError.png'">
+                </div>
+                <div class="block-title-in">
+                    <p>@proj.Title</p>
+                </div>
+            </a>
+        </div>
+    }
+    }
+</div>

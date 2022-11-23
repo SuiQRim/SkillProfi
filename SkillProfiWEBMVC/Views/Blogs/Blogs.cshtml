@@ -1,0 +1,34 @@
+﻿@model List<Blog>
+
+@{
+    ViewData["Title"] = "Blogs";
+}
+
+<div class="title">
+    <a>Blogs</a>
+</div>
+
+<div id="blogsScroller" class="scroller">
+
+    @{
+    foreach (SkillProfi.Blog blog in Model)
+    {
+        <div class="block">
+            <div class="created">
+                <a>@blog.Created</a>
+            </div>
+
+            <a href="@Url.Action("Blog", "Blogs", new{id = blog.Id})">
+                <div class="block-image"> 
+                    <img src='@(ImagesRequests.GetURL(blog.PictureName))' onerror="this.src='/Assets/ImageError.png'">
+                </div>
+            </a>
+
+            <div class="block-title-under">
+                <p>@blog.Title</p>
+            </div>
+        </div>
+    }
+    }
+   
+</div>
