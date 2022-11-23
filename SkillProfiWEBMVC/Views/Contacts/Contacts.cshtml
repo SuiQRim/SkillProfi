@@ -18,13 +18,9 @@
         @{
         foreach (var sn in Model.SocialNetworks)
         {
-
             <a href="@sn.Link">
-                <img src='@(sn.PictureBytePresentation != null ? 
-                    "data:image/png;base64," + Convert.ToBase64String(sn.PictureBytePresentation)  : 
-                    "/Assets/ImageError.png" )'>
+                <img src='@(ImagesRequests.GetURL(sn.PictureName))' onerror="this.src='/Assets/ImageError.png'">
             </a>
-
         }
         }
     </div>

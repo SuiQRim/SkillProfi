@@ -9,26 +9,12 @@ namespace SkillProfiApi.Data
 	{
 		private const string REPOSITORY = "Pictures";
 
-        public static List<byte[]> GetImagesByte {
+		public static async Task<byte[]?> GetPictureAsync(Guid guid)
+		{
+			string path = Path.Combine(REPOSITORY, guid.ToString());
+			if (!File.Exists(path)) return null;
 
-			get
-			{
-				List<byte[]> images = new ();
-				foreach (var r in Directory.GetFiles(REPOSITORY))
-				{
-                    images.Add(File.ReadAllBytes(r));
-				}
-				return images;
-			}
-
-		}
-
-        public static async Task GetPictureAsync(this IPicture picture) {
-
-			string path = Path.Combine(REPOSITORY, picture.PictureName);
-			if (!File.Exists(path)) return;
-			
-            picture.PictureBytePresentation = await File.ReadAllBytesAsync(path);
+			return await File.ReadAllBytesAsync(path);
 		}
 
 		private static void SetOriginalName(this IPicture picture) 

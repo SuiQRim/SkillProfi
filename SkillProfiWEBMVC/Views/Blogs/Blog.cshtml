@@ -12,9 +12,7 @@
 
         <div>
             <div class="image-block-content">
-                <img src='@(Model.PictureBytePresentation != null ? 
-                            "data:image/png;base64," + Convert.ToBase64String(Model.PictureBytePresentation)  : 
-                            "/Assets/ImageError.png" )'>
+                <img src='@(ImagesRequests.GetURL(Model.PictureName))' onerror="this.src='/Assets/ImageError.png'">
             </div>
             <div class="description">
                 <a>@Model.Description</a>

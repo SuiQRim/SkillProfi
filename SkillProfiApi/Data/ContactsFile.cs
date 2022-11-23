@@ -29,8 +29,6 @@ namespace SkillProfiApi.Data
         {
             Contacts? contacts = await GetContactsAsync();
 
-            foreach (var sc in contacts.SocialNetworks) sc.GetPictureAsync();
-
             return contacts;
         }
 

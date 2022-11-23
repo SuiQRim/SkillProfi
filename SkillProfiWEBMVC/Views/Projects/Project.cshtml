@@ -13,9 +13,7 @@
             @Model.Title
 
             <div class="image-block-title">
-                <img src='@(Model.PictureBytePresentation != null ? 
-                        "data:image/png;base64," + Convert.ToBase64String(Model.PictureBytePresentation)  : 
-                        "/Assets/ImageError.png" )'>
+                <img src='@(ImagesRequests.GetURL(Model.PictureName))' onerror="this.src='/Assets/ImageError.png'">
             </div>
         </div>
 

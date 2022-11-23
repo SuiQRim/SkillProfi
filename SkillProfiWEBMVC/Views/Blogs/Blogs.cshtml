@@ -20,9 +20,7 @@
 
             <a href="@Url.Action("Blog", "Blogs", new{id = blog.Id})">
                 <div class="block-image"> 
-                    <img src='@(blog.PictureBytePresentation != null ? 
-                        "data:image/png;base64," + Convert.ToBase64String(blog.PictureBytePresentation) : 
-                        "/Assets/ImageError.png" )'/>
+                    <img src='@(ImagesRequests.GetURL(blog.PictureName))' onerror="this.src='/Assets/ImageError.png'">
                 </div>
             </a>
 
