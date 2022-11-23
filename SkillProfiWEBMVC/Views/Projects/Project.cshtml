@@ -1,0 +1,32 @@
+﻿@model Project
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div id="project" style="min-height: 520px;">
+
+    <div id="@Model.Id">
+
+            <div class="title">
+
+            @Model.Title
+
+            <div class="image-block-title">
+                <img src='@(Model.PictureBytePresentation != null ? 
+                        "data:image/png;base64," + Convert.ToBase64String(Model.PictureBytePresentation)  : 
+                        "/Assets/ImageError.png" )'>
+            </div>
+        </div>
+
+        <div class="description">
+            <a>@Model.Description</a>
+        </div>
+
+    </div>
+
+</div>
+
+<button class="button" style="float: right;" onclick="@("window.location.href='" + @Url.Action("Projects", "Projects") + "'");">
+    Назад
+</button>

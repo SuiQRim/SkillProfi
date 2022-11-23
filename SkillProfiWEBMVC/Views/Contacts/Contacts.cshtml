@@ -1,0 +1,39 @@
+﻿@model Contacts
+
+@{
+    ViewData["Title"] = "Contacts";
+}
+
+<div class="title">
+    <a>Contacts</a>
+</div>
+
+<div id="contacts" class="contacts">       
+            
+    <div id="map" class="map">
+        <iframe width="500" height="400" frameborder="0" src="@Model.LinkToMapContructor"></iframe>
+    </div>
+
+    <div class="social-network">
+        @{
+        foreach (var sn in Model.SocialNetworks)
+        {
+
+            <a href="@sn.Link">
+                <img src='@(sn.PictureBytePresentation != null ? 
+                    "data:image/png;base64," + Convert.ToBase64String(sn.PictureBytePresentation)  : 
+                    "/Assets/ImageError.png" )'>
+            </a>
+
+        }
+        }
+    </div>
+            
+    <div class="contacts-data">
+        <div>@Model.Adress</div>
+        <div>@Model.PhoneNumber</div>
+        <div>@Model.Email</div>
+    </div>
+
+</div>
+

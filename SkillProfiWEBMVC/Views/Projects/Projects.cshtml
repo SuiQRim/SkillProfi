@@ -1,0 +1,31 @@
+﻿@model List<Project>
+
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="title">
+    <a>Projects</a>
+</div>
+
+<div id="projectScroller" class="scroller">
+
+    @{
+    foreach (var proj in Model)
+    {
+        <div class="block">
+            <a href="@Url.Action("Project", "Projects", new{id = proj.Id})">
+                <div class="block-image">
+                         
+                        <img src='@(proj.PictureBytePresentation != null ? 
+                            "data:image/png;base64," + Convert.ToBase64String(proj.PictureBytePresentation)  : 
+                            "/Assets/ImageError.png" )'>
+                </div>
+                <div class="block-title-in">
+                    <p>@proj.Title</p>
+                </div>
+            </a>
+        </div>
+    }
+    }
+</div>

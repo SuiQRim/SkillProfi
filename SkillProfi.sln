@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiWPF", "SkillProfi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiApi", "SkillProfiApi\SkillProfiApi.csproj", "{08AB47D4-A1B8-448B-BDCC-6BECB13ECF77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillProfiRequestsToAPI", "SkillProfiRequestsToAPI\SkillProfiRequestsToAPI.csproj", "{B4914CF2-62EA-4A20-9A98-EE0B5C3273AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SkillProfiRequestsToAPI", "SkillProfiRequestsToAPI\SkillProfiRequestsToAPI.csproj", "{B4914CF2-62EA-4A20-9A98-EE0B5C3273AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SkillProfiWEBMVC", "SkillProfiWEBMVC\SkillProfiWEBMVC.csproj", "{304B3DD3-0E5A-4FCC-9A9E-18077764E23C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{B4914CF2-62EA-4A20-9A98-EE0B5C3273AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4914CF2-62EA-4A20-9A98-EE0B5C3273AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4914CF2-62EA-4A20-9A98-EE0B5C3273AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{304B3DD3-0E5A-4FCC-9A9E-18077764E23C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{304B3DD3-0E5A-4FCC-9A9E-18077764E23C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{304B3DD3-0E5A-4FCC-9A9E-18077764E23C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{304B3DD3-0E5A-4FCC-9A9E-18077764E23C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

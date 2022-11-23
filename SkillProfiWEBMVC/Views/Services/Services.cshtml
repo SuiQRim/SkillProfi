@@ -1,0 +1,38 @@
+﻿@model List<Service>
+
+@{
+    ViewData["Title"] = "Services";
+}
+
+<div class="title">
+    <p>What can we do</p>
+</div>
+
+<div id="toggle-list" class="toggle-list">
+    @{
+        foreach (var srvc in Model)
+        {
+            <div id="@srvc.Id" class="toggle">
+
+                <div class="toggle-title">
+                    <p>@srvc.Title</p>
+                </div>
+
+                <div class="toggle-context">
+                    <p>@srvc.Description</p>
+                </div>
+
+
+            </div>                        
+
+        }
+    }  
+    <script>
+        const accordion = document.getElementsByClassName('toggle')
+        for (i = 0; i < accordion.length; i++) {
+            accordion[i].addEventListener('click', function() {
+                this.classList.toggle('active')
+            })
+        }
+    </script>
+</div>

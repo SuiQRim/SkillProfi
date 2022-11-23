@@ -38,7 +38,7 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Project>> GetProject(Guid id,[Required] bool isPictureNeed)
+        public async Task<ActionResult<Project>> GetProject(Guid id, bool isPictureNeed = true)
         {
             if (_context.Projects == null)
             {

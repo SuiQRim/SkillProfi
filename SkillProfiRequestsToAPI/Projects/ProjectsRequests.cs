@@ -15,19 +15,19 @@ namespace SkillProfiRequestsToAPI.Projects
 
         public static List<Project> GetProjects() => Request.Get<List<Project>>(_mainUrl);
 
-        public static async Task<List<Project>> GetServicesAsync() => await Request.GetAsync<List<Project>>(_mainUrl);
+        public static async Task<List<Project>> GetProjectsAsync() => await Request.GetAsync<List<Project>>(_mainUrl);
 
 
 
         public static Project GetProject(string id) => Request.Get<Project>(_mainUrl + $"/{id}");
 
-        public static async Task<Project> GetServiceAsync(string id) => await Request.GetAsync<Project>(_mainUrl + $"/{id}");
+        public static async Task<Project> GetProjectAsync(string id) => await Request.GetAsync<Project>(_mainUrl + $"/{id}");
 
 
 
         public static string AddProject(Project project) => Request.Add(project, "https://localhost:7120/api/Projects");
 
-        public static async Task<string> AddServiceAsync(Project project) => await Request.AddAsync(project, _mainUrl);
+        public static async Task<string> AddProjectAsync(Project project) => await Request.AddAsync(project, _mainUrl);
 
 
 
