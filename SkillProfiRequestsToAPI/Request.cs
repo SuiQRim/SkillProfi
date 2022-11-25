@@ -18,9 +18,11 @@ namespace SkillProfiRequestsToAPI
             request.Method = WebRequestMethods.Http.Get;
 
             using var webResponse = request.GetResponse();
+
             using var webStream = webResponse.GetResponseStream();
 
             using var reader = new StreamReader(webStream);
+            
             string json = reader.ReadToEnd();
 
             T obj = JsonConvert.DeserializeObject<T>(json);

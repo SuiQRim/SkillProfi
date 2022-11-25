@@ -9,11 +9,11 @@ using System.Threading.Tasks;
 using System.Windows.Controls;
 using SkillProfi;
 using Newtonsoft.Json;
-using SkillProfiWPF.Models;
 using SkillProfiWPF.Views;
 using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiRequestsToAPI.Consultations;
+using SkillProfiWPF.Extensions;
 
 namespace SkillProfiWPF.ViewModels
 {

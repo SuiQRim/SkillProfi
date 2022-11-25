@@ -61,7 +61,7 @@ namespace SkillProfiApi.Data
                     Id = Guid.NewGuid(),
                     Title = "Тест2",
                     Description="Тест2",
-                    PictureName = "Проект2",
+                    PictureName = Guid.NewGuid().ToString(),
                     Created = DateTime.Now
                 }
             });
@@ -81,7 +81,7 @@ namespace SkillProfiApi.Data
                     Id = Guid.NewGuid(),
                     Title = "Тест2",
                     Description="Тест2",
-                    PictureName="Блог2",
+                    PictureName= Guid.NewGuid().ToString(),
                     Created = DateTime.Now
                 }
             });

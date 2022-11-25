@@ -9,7 +9,9 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using SkillProfi;
 using SkillProfiRequestsToAPI.Contacts;
+using SkillProfiRequestsToAPI.Projects;
 using SkillProfiRequestsToAPI.Services;
+using SkillProfiWPF.Extensions;
 using SkillProfiWPF.ViewModels.Prefab;
 
 namespace SkillProfiWPF.ViewModels
@@ -18,16 +20,19 @@ namespace SkillProfiWPF.ViewModels
     {
         public SocialNetworksViewModel() : base()
         {
-            SocialNetworks = new(SocialNetworksRequests.GetSocialNetworks());
+            SocialNetworks = new(GetProjectsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
+
+        private static List<SocialNetwork> GetProjectsWithImage() =>
+            Task.Run(async () => await SocialNetworksRequests.GetSocialNetworksAsync()).Result.LoadImage();
 
         protected override bool CanAdd(object p) => base.CanAdd(p);
         protected override void OnAdd(object p)
         {
             base.OnAdd(p);
 
-            Link = "Title";
+            Link = "Link";
             PictureBytePresentation = Array.Empty<byte>();
         }
 
@@ -36,7 +41,7 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnDelete(object p)
         {
             SocialNetworksRequests.DeleteSocialNetwork(SelectedSocialNetwork!.Id.ToString());
-            SocialNetworks = new(SocialNetworksRequests.GetSocialNetworks());
+            SocialNetworks = new(GetProjectsWithImage());
             IsObjectSelect = false;
 
         }
@@ -46,7 +51,7 @@ namespace SkillProfiWPF.ViewModels
         {
             if (!IsAddObject)
             {
-                SocialNetworks = new(SocialNetworksRequests.GetSocialNetworks());
+                SocialNetworks = new(GetProjectsWithImage());
                 SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }
 
@@ -74,7 +79,7 @@ namespace SkillProfiWPF.ViewModels
                     PictureBytePresentation = PictureBytePresentation,
                 };
                 SocialNetworksRequests.AddSocialNetwork(newSocialNetwork);
-                SocialNetworks = new(SocialNetworksRequests.GetSocialNetworks());
+                SocialNetworks = new(GetProjectsWithImage());
 
             }
             else
@@ -83,7 +88,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedSocialNetwork.PictureBytePresentation = PictureBytePresentation;
 
                 SocialNetworksRequests.EditSocialNetwork(SelectedSocialNetwork.Id.ToString(), SelectedSocialNetwork);
-                SocialNetworks = new(SocialNetworksRequests.GetSocialNetworks());
+                SocialNetworks = new(GetProjectsWithImage());
                 SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }
 

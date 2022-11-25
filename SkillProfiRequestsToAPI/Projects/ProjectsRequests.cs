@@ -31,7 +31,16 @@ namespace SkillProfiRequestsToAPI.Projects
 
 
 
-        public static string EditProject(string id, Project project) => Request.Edit(id, project, _mainUrl);
+        public static string EditProject(string id, Project project, byte[] picture)
+        {
+            var data = new
+            {
+                project,
+                picture
+            };
+            return Request.Edit(id, data, _mainUrl);
+
+        }
 
         public static async Task<string> EditProjectAsync(string id, Project project) => await Request.EditAsync(id, project, _mainUrl);
 

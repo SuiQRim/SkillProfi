@@ -8,12 +8,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SkillProfiWPF.Models
+namespace SkillProfiWPF.Extensions
 {
     internal static class ConsultationsFilter
     {
         public static IList<Consultation> FilterByDate(IList<Consultation> consultations,
-           DateTime firstDate, DateTime lastDate) 
+           DateTime firstDate, DateTime lastDate)
         {
 
             List<Consultation> filtered = new();

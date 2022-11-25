@@ -239,11 +239,21 @@
                         Height="90"
                         Width="160">
 
-                        <Image Source="{Binding PictureBytePresentation, UpdateSourceTrigger=PropertyChanged}"
-                               HorizontalAlignment="Center" 
-                               VerticalAlignment="Center"
-                               Stretch="UniformToFill"/>
+                        <Image
+                            HorizontalAlignment="Center" 
+                            VerticalAlignment="Center"
+                            Stretch="UniformToFill">
 
+                            <Image.Source>
+                                <Binding Path="PictureBytePresentation" 
+                                         UpdateSourceTrigger="PropertyChanged">
+                                    <Binding.TargetNullValue>
+                                        <ImageSource>../../Assets/ImageError.png</ImageSource>
+                                    </Binding.TargetNullValue>
+                                </Binding>
+                            </Image.Source>
+                        </Image>
+                        
                         <WrapPanel.OpacityMask>
                             <VisualBrush >
                                 <VisualBrush.Visual>

@@ -1,5 +1,7 @@
 ﻿using SkillProfi;
 using SkillProfiRequestsToAPI.Blogs;
+using SkillProfiRequestsToAPI.Projects;
+using SkillProfiWPF.Extensions;
 using SkillProfiWPF.ViewModels.Prefab;
 using System;
 using System.Collections.Generic;
@@ -17,9 +19,12 @@ namespace SkillProfiWPF.ViewModels
     {
         public BlogsViewModel() : base()
         {
-            Blogs = new(BlogsRequests.GetBlogs());
+            Blogs = new(GetBlogsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
+
+        private static List<Blog> GetBlogsWithImage() => 
+            Task.Run(async () => await BlogsRequests.GetBlogsAsync()).Result.LoadImage();
 
         #region Commands
 
@@ -40,7 +45,7 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnDelete(object p)
         {
             BlogsRequests.DeleteBlog(SelectedBlog!.Id.ToString());
-            Blogs = new(BlogsRequests.GetBlogs());
+            Blogs = new(GetBlogsWithImage());
             IsObjectSelect = false;
 
         }
@@ -50,7 +55,7 @@ namespace SkillProfiWPF.ViewModels
         {
             if (!IsAddObject)
             {
-                Blogs = new(BlogsRequests.GetBlogs());
+                Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
 
@@ -81,7 +86,7 @@ namespace SkillProfiWPF.ViewModels
                     PictureBytePresentation = PictureBytePresentation,
                 };
                 BlogsRequests.AddBlog(newBlog);
-                Blogs = new(BlogsRequests.GetBlogs());
+                Blogs = new(GetBlogsWithImage());
 
             }
             else
@@ -91,7 +96,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedBlog.PictureBytePresentation = PictureBytePresentation;
 
                 BlogsRequests.EditBlog(SelectedBlog.Id.ToString(), SelectedBlog);
-                Blogs = new(BlogsRequests.GetBlogs());
+                Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
 
