@@ -1,4 +1,5 @@
-﻿using SkillProfiWPF.ViewModels.Prefab;
+﻿using SkillProfiRequestsToAPI.Accounts;
+using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiWPF.Views;
 using System;
 using System.Collections.Generic;
@@ -21,20 +22,61 @@ namespace SkillProfiWPF.ViewModels
         public bool IsLogined { get; private set; }
 
 
-        protected bool _isObjectSelect = false;
-        public bool IsObjectSelect
+        private string _name = "";
+        public string Name
         {
-            get => _isObjectSelect;
-            set => Set(ref _isObjectSelect, value);
+            get => _name;
+            set => Set(ref _name, value);
 
         }
+
+
+        private string _password = "";
+        public string Password
+        {
+            get => _password;
+            set => Set(ref _password, value);
+
+        }
+
+
+        private string _error = "";
+        public string Error
+        {
+            get => _error;
+            set
+            {
+                Set(ref _error, value);
+                OnPropertyChanged("ErrorExcist");
+            }
+        }
+
+        public bool ErrorExcist
+        {
+            get => !(Error == string.Empty);
+            
+        }
+
         private bool CanAnyWay(object p) => true;
         public ICommand JoinWithLogin { get; }
         private void OnJoinWithLogin(object window)
         {
             if (window != null)
             {
-                IsLogined = true;
+                if (Name == string.Empty || Password == string.Empty)
+                {
+                    Error = "Fields Cannot be Empty";
+                    return;
+                }
+
+                IsLogined = AccountsRequests.Login(new SkillProfi.Account() { Name= Name, Password= Password });
+
+                if (!IsLogined)
+                {
+                    Error = "Name or Password is Wrong!";
+                    return;
+                }
+
                 (window as Window).DialogResult = true;
                 (window as Window).Close();
             }

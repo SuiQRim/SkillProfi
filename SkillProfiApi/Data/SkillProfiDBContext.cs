@@ -21,6 +21,8 @@ namespace SkillProfiApi.Data
 
         public DbSet<Service> Services { get; set; }
 
+        public DbSet<Account> Accounts { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
 
@@ -53,7 +55,7 @@ namespace SkillProfiApi.Data
                     Id = Guid.NewGuid(),
                     Title = "Тест1",
                     Description="Тест1",
-                    PictureName= "0d01043b-d33b-4cbc-9099-df3485de8e81", 
+                    PictureName= "0d01043b-d33b-4cbc-9099-df3485de8e81",
                     Created = DateTime.Now
                 },
                 new SkillProfi.Project()
@@ -103,6 +105,16 @@ namespace SkillProfiApi.Data
                     Created = DateTime.Now
                 }
            });
+
+            modelBuilder.Entity<Account>().HasData(new Account[]
+            {
+                new Account()
+                {
+                    Id = Guid.NewGuid(),
+                    Name = "admin",
+                    Password= "admin",
+                }
+            });
         }
     }
 }
