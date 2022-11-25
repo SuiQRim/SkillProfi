@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillProfiWPF.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,9 +21,10 @@ namespace SkillProfiWPF.Views
     /// </summary>
     public partial class BlogsUserControl : UserControl
     {
-        public BlogsUserControl()
+        public BlogsUserControl(Func<bool> getLoginStatus)
         {
             InitializeComponent();
+            DataContext = new BlogsViewModel(getLoginStatus);
         }
     }
 }

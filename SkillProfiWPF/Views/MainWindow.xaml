@@ -5,15 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SkillProfiWPF"
         xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+        d:DataContext="{d:DesignInstance Type=ViewModels:MainWindowVeiwModel}"
         mc:Ignorable="d"
         Title="SkillProfi"
         MinHeight="600"
         MinWidth="1000"
         Background="#ededed">
-   
-    <Window.DataContext>
-        <ViewModels:MainWindowVeiwModel/>
-    </Window.DataContext>
+
     
     <Grid>
         <Grid.RowDefinitions>

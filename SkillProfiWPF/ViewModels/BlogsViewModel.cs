@@ -17,7 +17,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class BlogsViewModel : EditorViewModel
     {
-        public BlogsViewModel() : base()
+        public BlogsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             Blogs = new(GetBlogsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);

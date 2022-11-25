@@ -11,9 +11,9 @@ using System.Windows;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class MainContactsViewModel: EditorViewModel
+    internal class MainContactsViewModel : EditorViewModel
     {
-        public MainContactsViewModel()
+        public MainContactsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             Contacts = ContactsRequests.GetContacts();
             CopyLink = new LamdaCommand(OnCopyLink, CanCopyLink);

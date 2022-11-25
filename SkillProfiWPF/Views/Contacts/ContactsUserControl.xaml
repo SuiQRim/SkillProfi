@@ -4,13 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillProfiWPF.Views.Contacts"
-             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=ViewModels:ContactsViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
 
-    <UserControl.DataContext>
-        <ViewModels:ContactsViewModel/>
-    </UserControl.DataContext>
     
     <Grid>
         <Grid.RowDefinitions>

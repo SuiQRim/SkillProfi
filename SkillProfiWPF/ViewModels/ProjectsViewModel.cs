@@ -16,12 +16,13 @@ using System.Threading;
 using SkillProfiRequestsToAPI.Images;
 using SkillProfiRequestsToAPI;
 using SkillProfiWPF.Extensions;
+using SkillProfiWPF.ViewModels.Prefabs;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class ProjectsViewModel : EditorViewModel
     {
-        public ProjectsViewModel()
+        public ProjectsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             Projects = new (GetProjectsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);

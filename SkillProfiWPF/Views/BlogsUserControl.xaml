@@ -6,13 +6,10 @@
              xmlns:local="clr-namespace:SkillProfiWPF.Views"
              mc:Ignorable="d"
              xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
-             xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
+             d:DataContext="{d:DesignInstance Type=ViewModels:BlogsViewModel}"
              FontFamily="arial"
              d:DesignHeight="800" d:DesignWidth="1200">
 
-    <UserControl.DataContext>
-        <ViewModels:BlogsViewModel/>
-    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -130,6 +127,7 @@
         </ListBox>
 
         <StackPanel
+            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
             d:Visibility="Visible"
             Orientation="Horizontal"
             Margin="10"

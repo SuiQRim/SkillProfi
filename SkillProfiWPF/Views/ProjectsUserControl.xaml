@@ -5,14 +5,11 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillProfiWPF.Views"
              xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
-             xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
+             xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters" 
+             d:DataContext="{d:DesignInstance Type=ViewModels:ProjectsViewModel}"
              mc:Ignorable="d" 
              FontFamily="arial"
              d:DesignHeight="800" d:DesignWidth="1200">
-
-    <UserControl.DataContext>
-        <ViewModels:ProjectsViewModel/>
-    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -130,6 +127,7 @@
         </ListBox>
 
         <StackPanel
+            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
             d:Visibility="Visible"
             Orientation="Horizontal"
             Margin="10"

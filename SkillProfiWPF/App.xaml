@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SkillProfiWPF"
              xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
-             StartupUri="Views/MainWindow.xaml">
+             Startup="ApplicationStart">
     
     <Application.Resources>
         <SolidColorBrush x:Key="MainColor">#4299d9</SolidColorBrush>

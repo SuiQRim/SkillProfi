@@ -14,14 +14,14 @@ using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiRequestsToAPI.Consultations;
 using SkillProfiWPF.Extensions;
+using SkillProfiWPF.ViewModels.Prefabs;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class ConsultationsViewModel : Prefab.ViewModel
+    internal class ConsultationsViewModel : WithLoginViewModel
     {
-        public ConsultationsViewModel()
+        public ConsultationsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
-
             SetDateDiapasone =  new LamdaCommand(OnSetDateDiapasone, CanAnyWay);
             EditConsultationStatus = new LamdaCommand(OnEditConsultationStatus, CanAnyWay);
             SaveConsultationStatus = new LamdaCommand(OnSaveConsultationStatus, CanAnyWay);
@@ -33,6 +33,7 @@ namespace SkillProfiWPF.ViewModels
             LastDate = DateTime.Now;
 
         }
+
 
         public void UpdateConsultations()
         {

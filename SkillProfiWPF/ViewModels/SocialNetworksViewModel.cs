@@ -18,7 +18,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class SocialNetworksViewModel : EditorViewModel
     {
-        public SocialNetworksViewModel() : base()
+        public SocialNetworksViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             SocialNetworks = new(GetProjectsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);

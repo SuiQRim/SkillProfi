@@ -12,7 +12,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class ServicesViewModel : EditorViewModel
     {
-        public ServicesViewModel()
+        public ServicesViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             Services = new (ServicesRequests.GetServices());
         }

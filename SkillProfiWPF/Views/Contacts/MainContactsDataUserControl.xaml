@@ -4,14 +4,11 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillProfiWPF.Views.Contacts"
-             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=ViewModels:MainContactsViewModel}"
              mc:Ignorable="d" 
              FontFamily="arial"
              d:DesignWidth="1200">
-
-    <UserControl.DataContext>
-        <ViewModels:MainContactsViewModel/>
-    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -27,6 +24,7 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel
+            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
             Margin="10,10,10,10"
             Grid.Row="0"
             d:Visibility="Visible"

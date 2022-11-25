@@ -2,20 +2,12 @@
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:Models="clr-namespace:SkillProfi;assembly=SkillProfi"
-             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
-             xmlns:Converters="clr-namespace:SkillProfiWPF.ViewModels.Converters"
-             xmlns:local="clr-namespace:SkillProfiWPF.Views"
-             xmlns:scm="clr-namespace:System.ComponentModel;assembly=WindowsBase"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewmodels="clr-namespace:SkillProfiWPF.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=viewmodels:ConsultationsViewModel}"
              mc:Ignorable="d" 
              FontFamily="Arial"
              d:DesignHeight="600" d:DesignWidth="1000">
-
-
-    <UserControl.DataContext>
-        <ViewModels:ConsultationsViewModel/>
-    </UserControl.DataContext>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -186,6 +178,7 @@
         </StackPanel>
 
         <StackPanel
+            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
             d:Visibility="Visible"
             Orientation="Horizontal"
             Grid.Row="3">

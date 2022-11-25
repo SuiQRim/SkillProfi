@@ -1,6 +1,7 @@
 ﻿using SkillProfi;
 using SkillProfiRequestsToAPI.Projects;
 using SkillProfiWPF.ViewModels.Prefab;
+using SkillProfiWPF.ViewModels.Prefabs;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ using System.Windows.Input;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal abstract class EditorViewModel : ViewModel
+    internal abstract class EditorViewModel : WithLoginViewModel
     {
-        public EditorViewModel()
+        public EditorViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
         {
             Delete = new LamdaCommand(OnDelete, CanDelete);
             Edit = new LamdaCommand(OnEdit, CanEdit);
