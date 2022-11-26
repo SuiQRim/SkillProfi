@@ -21,10 +21,10 @@ namespace SkillProfiWPF.Views
     /// </summary>
     public partial class ProjectsUserControl : UserControl
     {
-        public ProjectsUserControl(Func<bool> getLoginStatus)
+        public ProjectsUserControl()
         {
             InitializeComponent();
-            DataContext = new ProjectsViewModel(getLoginStatus);
+            DataContext = new ProjectsViewModel();
         }
     }
 }

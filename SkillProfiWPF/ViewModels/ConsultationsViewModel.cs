@@ -1,26 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Controls;
 using SkillProfi;
-using Newtonsoft.Json;
-using SkillProfiWPF.Views;
 using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiRequestsToAPI.Consultations;
 using SkillProfiWPF.Extensions;
-using SkillProfiWPF.ViewModels.Prefabs;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class ConsultationsViewModel : WithLoginViewModel
+    internal class ConsultationsViewModel : ViewModel
     {
-        public ConsultationsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
+        public ConsultationsViewModel()
         {
             SetDateDiapasone =  new LamdaCommand(OnSetDateDiapasone, CanAnyWay);
             EditConsultationStatus = new LamdaCommand(OnEditConsultationStatus, CanAnyWay);
@@ -38,7 +30,7 @@ namespace SkillProfiWPF.ViewModels
         public void UpdateConsultations()
         {
             Consultations = new 
-                (ConsultationsRequests.GetConsultations() ?? new());
+                (ConsultationsRequests.GetConsultations(AccessToken) ?? new());
 
             FilteredConsultations = new 
                 (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
@@ -63,7 +55,7 @@ namespace SkillProfiWPF.ViewModels
         private void OnSaveConsultationStatus(object p)
         {
             IsOpenEditStatusMenuElement = false;
-            ConsultationsRequests.EditConsultation(SelectedConsultation.Id.ToString(), SelectedConsultation);
+            ConsultationsRequests.EditConsultation(SelectedConsultation.Id.ToString(), SelectedConsultation, AccessToken);
             UpdateConsultations();
 
         }

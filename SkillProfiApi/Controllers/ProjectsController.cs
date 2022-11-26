@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -43,7 +44,7 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
             Project? project = await _context.Projects.FindAsync(id);
-;
+            ;
             if (project == null)
             {
                 return NotFound();
@@ -53,6 +54,7 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutProject(Guid id, Project project)
         {
             if (id != project.Id)
@@ -66,7 +68,7 @@ namespace SkillProfiApi.Controllers
             try
             {
                 await _context.SaveChangesAsync();
-                
+
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -84,6 +86,7 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Project>> PostProject(Project project)
         {
             if (_context.Projects == null)
@@ -99,6 +102,7 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteProject(Guid id)
         {
             if (_context.Projects == null)

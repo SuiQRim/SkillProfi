@@ -1,11 +1,6 @@
-﻿using SkillProfiRequestsToAPI.Accounts;
+﻿using SkillProfi;
+using SkillProfiRequestsToAPI.Accounts;
 using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfiWPF.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -19,7 +14,7 @@ namespace SkillProfiWPF.ViewModels
             JoinAsGuest = new LamdaCommand(OnJoinAsGuest, CanAnyWay);
         }
 
-        public bool IsLogined { get; private set; }
+        public AuthParameters AuthParams { get; private set; }
 
 
         private string _name = "";
@@ -69,14 +64,13 @@ namespace SkillProfiWPF.ViewModels
                     return;
                 }
 
-                IsLogined = AccountsRequests.Login(new SkillProfi.Account() { Name= Name, Password= Password });
+                AuthParams = AccountsRequests.Login(new Account() { Name= Name, Password= Password });
 
-                if (!IsLogined)
+                if (!AuthParams.IsLogin)
                 {
                     Error = "Name or Password is Wrong!";
                     return;
                 }
-
                 (window as Window).DialogResult = true;
                 (window as Window).Close();
             }
@@ -87,7 +81,7 @@ namespace SkillProfiWPF.ViewModels
         {
             if (window != null)
             {
-                IsLogined = false;
+                AuthParams = new (){IsLogin = false};
                 (window as Window).DialogResult = true;
                 (window as Window).Close();
             }

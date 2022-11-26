@@ -21,10 +21,10 @@ namespace SkillProfiWPF.Views
     /// </summary>
     public partial class MainWindow : Window
     {
-        public MainWindow(bool IsLogined)
+        public MainWindow()
         {
             InitializeComponent();
-            DataContext = new MainWindowVeiwModel(IsLogined);
+            DataContext = new MainWindowVeiwModel();
         }
     }
 }

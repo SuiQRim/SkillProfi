@@ -2,27 +2,20 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfi;
 using SkillProfiRequestsToAPI.Projects;
 using System.Windows.Input;
-using System.ComponentModel;
 using System.IO;
 using System.Windows.Forms;
-using System.Diagnostics;
-using System.Threading;
-using SkillProfiRequestsToAPI.Images;
-using SkillProfiRequestsToAPI;
 using SkillProfiWPF.Extensions;
-using SkillProfiWPF.ViewModels.Prefabs;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class ProjectsViewModel : EditorViewModel
     {
-        public ProjectsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
+        public ProjectsViewModel()
         {
             Projects = new (GetProjectsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
@@ -49,7 +42,7 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            ProjectsRequests.DeleteProject(SelectedProject!.Id.ToString());
+            ProjectsRequests.DeleteProject(SelectedProject!.Id.ToString(), AccessToken);
             Projects = new(GetProjectsWithImage());
             IsObjectSelect = false;
 
@@ -57,14 +50,14 @@ namespace SkillProfiWPF.ViewModels
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
         protected override void OnReturn(object p)
-        { 
+        {  
+            base.OnReturn(p);
             if (!IsAddObject)
             {
                 Projects = new(GetProjectsWithImage());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
 
-            base.OnReturn(p);
         }
 
 
@@ -88,7 +81,7 @@ namespace SkillProfiWPF.ViewModels
                     Description = Description,
                     PictureBytePresentation = PictureBytePresentation,
                 };
-                ProjectsRequests.AddProject(newProject);
+                ProjectsRequests.AddProject(newProject, AccessToken);
                 Projects = new(GetProjectsWithImage());
 
             }
@@ -98,7 +91,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedProject.Description = Description;
                 SelectedProject.PictureBytePresentation = PictureBytePresentation;
 
-                ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject, PictureBytePresentation);
+                ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject, AccessToken);
                 Projects = new(GetProjectsWithImage());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }

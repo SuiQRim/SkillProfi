@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -23,6 +24,7 @@ namespace SkillProfiApi.Controllers
 
         // GET: api/Consultations
         [HttpGet]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<Consultation>>> GetConsultations()
         {
             if (_context.Consultations == null)
@@ -34,6 +36,7 @@ namespace SkillProfiApi.Controllers
 
         // GET: api/Consultations/5
         [HttpGet("{id}")]
+        [Authorize]
         public async Task<ActionResult<Consultation>> GetConsultation(Guid id)
         {
             if (_context.Consultations == null)
@@ -53,6 +56,7 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Consultations/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutConsultation(Guid id, Consultation consultation)
         {
             if (id != consultation.Id)
@@ -103,6 +107,7 @@ namespace SkillProfiApi.Controllers
 
         // DELETE: api/Consultations/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteConsultation(Guid id)
         {
             if (_context.Consultations == null)

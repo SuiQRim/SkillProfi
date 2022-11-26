@@ -1,20 +1,11 @@
-﻿using SkillProfi;
-using SkillProfiRequestsToAPI.Projects;
-using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfiWPF.ViewModels.Prefabs;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+﻿using SkillProfiWPF.ViewModels.Prefab;
 using System.Windows.Input;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal abstract class EditorViewModel : WithLoginViewModel
+    internal abstract class EditorViewModel : ViewModel
     {
-        public EditorViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
+        public EditorViewModel()
         {
             Delete = new LamdaCommand(OnDelete, CanDelete);
             Edit = new LamdaCommand(OnEdit, CanEdit);

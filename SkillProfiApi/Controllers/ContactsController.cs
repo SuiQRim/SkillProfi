@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
@@ -23,6 +24,7 @@ namespace SkillProfiApi.Controllers
 
         // PUT: api/Contacts
         [HttpPut]
+        [Authorize]
         public async Task<ActionResult<Contacts>> PutContacts(Contacts contacts)
         { 
             if (contacts == null) return NotFound();
@@ -45,6 +47,7 @@ namespace SkillProfiApi.Controllers
 
         // PUT: api/Contacts/SocialNetworks
         [HttpPut("SocialNetworks/{id}")]
+        [Authorize]
         public async Task<ActionResult> PutSocialNetworks(Guid id, SocialNetwork socialNetwork)
         {
 
@@ -58,6 +61,7 @@ namespace SkillProfiApi.Controllers
 
         // DELETE: api/Contacts/SocialNetworks
         [HttpDelete("SocialNetworks/{id}")]
+        [Authorize]
         public async Task<ActionResult> DeleteSocialNetworks(Guid id)
         {
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
@@ -69,6 +73,7 @@ namespace SkillProfiApi.Controllers
          
         // POST: api/Contacts/SocialNetworks
         [HttpPost("SocialNetworks")]
+        [Authorize]
         public async Task<ActionResult> PostSocialNetworks(SocialNetwork socialNetwork)
         {
             await ContactsFile.AddSocialNetwork(socialNetwork);

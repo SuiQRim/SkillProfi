@@ -1,21 +1,15 @@
 ﻿using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfiWPF.ViewModels.Prefabs;
 using SkillProfiWPF.Views.Contacts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
 namespace SkillProfiWPF.ViewModels
 {
-    internal class ContactsViewModel : WithLoginViewModel
+    internal class ContactsViewModel : ViewModel
     {
-        public ContactsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
+        public ContactsViewModel()
         {
-            SocialNetworksUC = new SocialNetworksUserControl(getLoginStatus);
-            MainContactsDataUC = new MainContactsDataUserControl(getLoginStatus);
+            SocialNetworksUC = new SocialNetworksUserControl();
+            MainContactsDataUC = new MainContactsDataUserControl();
         }
 
         private UserControl _socialNetworksUC;

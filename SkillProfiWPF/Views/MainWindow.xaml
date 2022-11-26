@@ -36,11 +36,12 @@
 
             <StackPanel 
                 Margin="20 0">
+                
                 <Button
+                    Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
                     Style="{DynamicResource DefaultButton}"
                     Command="{Binding OpenConsultationUC}"
                     Content="Рабочий стол"/>
-
 
 
                 <Button 

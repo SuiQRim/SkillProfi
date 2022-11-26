@@ -21,10 +21,10 @@ namespace SkillProfiWPF.Views.Contacts
     /// </summary>
     public partial class MainContactsDataUserControl : UserControl
     {
-        public MainContactsDataUserControl(Func<bool> getLoginStatus)
+        public MainContactsDataUserControl()
         {
             InitializeComponent();
-            DataContext = new MainContactsViewModel(getLoginStatus);
+            DataContext = new MainContactsViewModel();
         }
     }
 }

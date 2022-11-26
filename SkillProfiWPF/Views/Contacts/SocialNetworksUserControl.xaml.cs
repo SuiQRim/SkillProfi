@@ -21,10 +21,10 @@ namespace SkillProfiWPF.Views.Contacts
     /// </summary>
     public partial class SocialNetworksUserControl : UserControl
     {
-        public SocialNetworksUserControl(Func<bool> getLoginStatus)
+        public SocialNetworksUserControl()
         {
             InitializeComponent();
-            DataContext = new SocialNetworksViewModel(getLoginStatus);
+            DataContext = new SocialNetworksViewModel();
         }
     }
 }

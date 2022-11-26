@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -56,6 +57,7 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Blogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutBlog(Guid id, Blog blog)
         {
             if (id != blog.Id)
@@ -89,6 +91,7 @@ namespace SkillProfiApi.Controllers
         // POST: api/Blogs
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Blog>> PostBlog(Blog blog)
         {
             if (_context.Blogs == null)
@@ -104,6 +107,7 @@ namespace SkillProfiApi.Controllers
 
         // DELETE: api/Blogs/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteBlog(Guid id)
         {
             if (_context.Blogs == null)

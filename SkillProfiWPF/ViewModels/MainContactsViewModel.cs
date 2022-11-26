@@ -1,10 +1,6 @@
 ﻿using SkillProfi;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using SkillProfiRequestsToAPI.Contacts;
-using System.Threading.Tasks;
 using SkillProfiWPF.ViewModels.Prefab;
 using System.Windows.Input;
 using System.Windows;
@@ -13,7 +9,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class MainContactsViewModel : EditorViewModel
     {
-        public MainContactsViewModel(Func<bool> getLoginStatus) : base(getLoginStatus)
+        public MainContactsViewModel()
         {
             Contacts = ContactsRequests.GetContacts();
             CopyLink = new LamdaCommand(OnCopyLink, CanCopyLink);
@@ -38,6 +34,7 @@ namespace SkillProfiWPF.ViewModels
 
         protected override void OnReturn(object p)
         {
+            base.OnReturn(p);
             Contacts = ContactsRequests.GetContacts();
         }
 
@@ -52,7 +49,7 @@ namespace SkillProfiWPF.ViewModels
         }
         protected override void OnSave(object p)
         {
-            ContactsRequests.EditContacts(Contacts);
+            ContactsRequests.EditContacts(Contacts, AccessToken);
             Contacts = ContactsRequests.GetContacts();
         }
 

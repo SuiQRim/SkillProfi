@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Xml.Linq;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiWPF.Views;
 using SkillProfiWPF.Views.Contacts;
@@ -15,18 +8,14 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class MainWindowVeiwModel : ViewModel
     {
-        public MainWindowVeiwModel(bool isLogined)
+        public MainWindowVeiwModel()
         {
-            _isLogined = isLogined;
             OpenConsultationUC = new LamdaCommand(OnOpenConsultationUC, CanOpenConsultationUC);
             OpenProjectsUC = new LamdaCommand(OnOpenProjectsUC, CanOpenProjectsUC);
             OpenServicesUC = new LamdaCommand(OnOpenServicesUC, CanOpenServicesUC);
             OpenBlogsUC = new LamdaCommand(OnOpenBlogsUC, CanOpenBlogsUC);
             OpenContactsUC = new LamdaCommand(OnOpenContactsUC, CanOpenContactsUC);
         }
-
-        private bool _isLogined = false;
-        private bool GetLoginStatus() => _isLogined;
 
         private UserControl _page;
         public UserControl Page
@@ -39,35 +28,35 @@ namespace SkillProfiWPF.ViewModels
         public ICommand OpenConsultationUC { get; }
         private void OnOpenConsultationUC(object p)
         {
-            Page = new ConsultationsUserControl(GetLoginStatus);
+            Page = new ConsultationsUserControl();
         }
 
         private bool CanOpenProjectsUC(object p) => !(Page != null && Page is ProjectsUserControl);
         public ICommand OpenProjectsUC{ get; }
         private void OnOpenProjectsUC(object p)
         {
-            Page = new ProjectsUserControl(GetLoginStatus);
+            Page = new ProjectsUserControl();
         }
 
         private bool CanOpenServicesUC(object p) => !(Page != null && Page is ServicesUserControl);
         public ICommand OpenServicesUC { get; }
         private void OnOpenServicesUC(object p)
         {
-            Page = new ServicesUserControl(GetLoginStatus);
+            Page = new ServicesUserControl();
         }
 
         private bool CanOpenBlogsUC(object p) => !(Page != null && Page is BlogsUserControl);
         public ICommand OpenBlogsUC { get; }
         private void OnOpenBlogsUC(object p)
         {
-            Page = new BlogsUserControl(GetLoginStatus);
+            Page = new BlogsUserControl();
         }
 
         private bool CanOpenContactsUC(object p) => !(Page != null && Page is ContactsUserControl);
         public ICommand OpenContactsUC { get; }
         private void OnOpenContactsUC(object p)
         {
-            Page = new ContactsUserControl(GetLoginStatus);
+            Page = new ContactsUserControl();
         }
     }
 }

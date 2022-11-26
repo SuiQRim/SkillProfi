@@ -25,30 +25,29 @@ namespace SkillProfiRequestsToAPI.Projects
 
 
 
-        public static string AddProject(Project project) => Request.Add(project, "https://localhost:7120/api/Projects");
+        public static string AddProject(Project project, string accessToken) => 
+            Request.Add(project, "https://localhost:7120/api/Projects", accessToken);
 
-        public static async Task<string> AddProjectAsync(Project project) => await Request.AddAsync(project, _mainUrl);
+        public static async Task<string> AddProjectAsync(Project project, string accessToken) => 
+            await Request.AddAsync(project, _mainUrl, accessToken);
 
 
 
-        public static string EditProject(string id, Project project, byte[] picture)
+        public static string EditProject(string id, Project project, string accessToken)
         {
-            var data = new
-            {
-                project,
-                picture
-            };
-            return Request.Edit(id, data, _mainUrl);
-
+            return Request.Edit(project, _mainUrl, id, accessToken);
         }
 
-        public static async Task<string> EditProjectAsync(string id, Project project) => await Request.EditAsync(id, project, _mainUrl);
+        public static async Task<string> EditProjectAsync(string id, Project project, string accessToken) =>
+            await Request.EditAsync(project, _mainUrl, id, accessToken);
 
 
 
-        public static string DeleteProject(string id) => Request.Delete(id, _mainUrl);
+        public static string DeleteProject(string id, string accessToken) => 
+            Request.Delete(id, _mainUrl, accessToken);
 
-        public static async Task<string> DeleteProjectAsync(string id) => await Request.DeleteAsync(id, _mainUrl);
+        public static async Task<string> DeleteProjectAsync(string id, string accessToken) => 
+            await Request.DeleteAsync(id, _mainUrl, accessToken);
 
     }
 }

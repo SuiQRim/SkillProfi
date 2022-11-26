@@ -1,11 +1,9 @@
-﻿using SkillProfiWPF.ViewModels;
+﻿using SkillProfi;
+using SkillProfiWPF.Extensions;
+using SkillProfiWPF.ViewModels;
 using SkillProfiWPF.Views;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Diagnostics;
+using System.Net.Mail;
 using System.Windows;
 
 namespace SkillProfiWPF
@@ -24,17 +22,20 @@ namespace SkillProfiWPF
 
             if (dialog.ShowDialog() == true)
             {
-                var mainWindow = new MainWindow((dialog.DataContext as LoginViewModel).IsLogined);
+                AuthParameters ap =  (dialog.DataContext as LoginViewModel).AuthParams;
+
+                AuthData.Login = ap.Login;
+                AuthData.AccessToken = ap.AccessToken;
+                AuthData.IsLogin = ap.IsLogin;
+
+                var mainWindow = new MainWindow();
                 //Re-enable normal shutdown mode.
                 Current.ShutdownMode = ShutdownMode.OnMainWindowClose;
-                Current.MainWindow = mainWindow;
                 mainWindow.Show();
+ 
+
             }
-            else
-            {
-                MessageBox.Show("Unable to load data.", "Error", MessageBoxButton.OK);
-                Current.Shutdown(-1);
-            }
+
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SkillProfiWPF.Extensions;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
@@ -7,11 +8,13 @@ namespace SkillProfiWPF.ViewModels.Prefab
 {
     public abstract class ViewModel : INotifyPropertyChanged
     {
+        public bool IsLogin { get => AuthData.IsLogin; }
+        public string? AccessToken { get => AuthData.AccessToken; }
+
         public event PropertyChangedEventHandler? PropertyChanged;
 
         protected virtual void OnPropertyChanged([CallerMemberName] string? PropertyName = null)
         {
-
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(PropertyName));
         }
 

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -53,6 +54,7 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Services/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutService(Guid id, Service service)
         {
             if (id != service.Id)
@@ -84,6 +86,7 @@ namespace SkillProfiApi.Controllers
         // POST: api/Services
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult<Service>> PostService(Service service)
         {
             if (_context.Services == null)
@@ -102,6 +105,7 @@ namespace SkillProfiApi.Controllers
 
         // DELETE: api/Services/5
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteService(Guid id)
         {
             if (_context.Services == null)
