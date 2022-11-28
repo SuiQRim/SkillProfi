@@ -2,8 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SkillProfiApi;
-using SkillProfiApi.Data;
-var builder = WebApplication.CreateBuilder(args);
+using SkillProfiApi.Data;var builder = WebApplication.CreateBuilder(args);
 
 PictureDirectory.Configurate();
 builder.WebHost.ConfigureKestrel(serverOptions =>
