@@ -17,7 +17,7 @@ namespace SkillProfiWPF.ViewModels
         public ConsultationsViewModel()
         {
             SetDateDiapasone =  new LamdaCommand(OnSetDateDiapasone, CanAnyWay);
-            EditConsultationStatus = new LamdaCommand(OnEditConsultationStatus, CanAnyWay);
+            EditConsultationStatus = new LamdaCommand(OnEditConsultationStatus, CanEdit);
             SaveConsultationStatus = new LamdaCommand(OnSaveConsultationStatus, CanAnyWay);
 
             IsOpenEditStatusMenuElement = false;
@@ -50,7 +50,11 @@ namespace SkillProfiWPF.ViewModels
         public Consultation SelectedConsultation
         {
             get => _selectedConsultation;
-            set => Set(ref _selectedConsultation, value);
+            set
+            {
+				IsObjectSelected = value == null ? false : true;
+				Set(ref _selectedConsultation, value);
+            }
         }
 
         public ICommand SaveConsultationStatus { get; }
@@ -62,6 +66,7 @@ namespace SkillProfiWPF.ViewModels
 
         }
 
+        public bool CanEdit(object p) => IsObjectSelected;
         public ICommand EditConsultationStatus { get; }
         private void OnEditConsultationStatus(object p)
         {
@@ -114,11 +119,21 @@ namespace SkillProfiWPF.ViewModels
             FirstDate = DateTime.Now.AddDays(-Convert.ToDouble(p));
         }
 
-        private ObservableCollection<Consultation> _consultations;
+
+		private bool _isObjectSelected;
+		public bool IsObjectSelected
+		{
+			get => _isObjectSelected;
+			set => Set(ref _isObjectSelected, value);
+		}
+
+
+		private ObservableCollection<Consultation> _consultations;
         public ObservableCollection<Consultation> Consultations
         {
             get => _consultations;
-            set => Set(ref _consultations, value);
+            set =>Set(ref _consultations, value);
+            
         }
 
         private ObservableCollection<Consultation> _filteredConsultations;

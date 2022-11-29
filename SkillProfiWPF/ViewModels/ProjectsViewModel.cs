@@ -8,7 +8,6 @@ using SkillProfi;
 using System.Windows.Input;
 using System.IO;
 using System.Windows.Forms;
-using SkillProfiWPF.Extensions;
 using SkillProfiRequestsToAPI;
 
 namespace SkillProfiWPF.ViewModels
@@ -24,7 +23,7 @@ namespace SkillProfiWPF.ViewModels
         }
 
         private List<Project> GetProjectsWithImage() => 
-            Task.Run(async () => await _spClient.Projects.GetListAsync()).Result.LoadImage(_spClient);
+            Task.Run(async () => await _spClient.Projects.GetListAsync()).Result;
       
         
         #region Commands
@@ -65,7 +64,7 @@ namespace SkillProfiWPF.ViewModels
 
         protected override bool CanSave(object p)
         {
-            if (PictureBytePresentation == Array.Empty<byte>() || PictureBytePresentation == null || Title == string.Empty || Description == string.Empty)
+            if (!File.Exists(PictureName) || Title == string.Empty || Description == string.Empty)
             {
                 return false;
             }
@@ -74,16 +73,18 @@ namespace SkillProfiWPF.ViewModels
 
         protected override void OnSave(object p)
         {
-            if (IsAddObject)
+			FileStream fstream = File.OpenRead(PictureName);
+
+			if (IsAddObject)
             {
                 Project newProject = new()
                 {
                     Title = Title,
                     PictureName = "SomePictureName",
                     Description = Description,
-                    PictureBytePresentation = PictureBytePresentation,
                 };
-                _spClient.Projects.Add(newProject, AccessToken);
+
+				_spClient.Projects.Add(newProject, fstream, AccessToken);
                 Projects = new(GetProjectsWithImage());
 
             }
@@ -91,9 +92,8 @@ namespace SkillProfiWPF.ViewModels
             {
                 SelectedProject.Title = Title;
                 SelectedProject.Description = Description;
-                SelectedProject.PictureBytePresentation = PictureBytePresentation;
-
-                _spClient.Projects.Edit(SelectedProject.Id.ToString(), SelectedProject, AccessToken);
+				_spClient.Projects.Edit(SelectedProject.Id.ToString(), SelectedProject, fstream, AccessToken);
+               
                 Projects = new(GetProjectsWithImage());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
@@ -112,7 +112,7 @@ namespace SkillProfiWPF.ViewModels
             openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
-                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
+                PictureName = openFileDialog.FileName;
 
         }
 
@@ -127,22 +127,22 @@ namespace SkillProfiWPF.ViewModels
             set => Set(ref _title, value);
 
         }
-        private string _description = "";
+
+		private string _pictureName = "";
+		public string PictureName
+		{
+			get => _pictureName;
+			set => Set(ref _pictureName, value);
+
+		}
+
+		private string _description = "";
         public string Description
         {
             get => _description;
             set => Set(ref _description, value);
 
         }
-
-        private byte[]? _pictureBytePresentation;
-        public byte[]? PictureBytePresentation
-        {
-            get => _pictureBytePresentation;
-            set => Set(ref _pictureBytePresentation, value);
-
-        }
-
 
         private Guid _lastSelectedProjectId;
 
@@ -157,8 +157,8 @@ namespace SkillProfiWPF.ViewModels
                 {
                     Title = value.Title;
                     Description = value.Description;
-                    PictureBytePresentation = value.PictureBytePresentation;
                     _lastSelectedProjectId = value.Id;
+                    PictureName = value.PictureName;
                     IsObjectSelect = true;
                 }
                 else IsObjectSelect = false;

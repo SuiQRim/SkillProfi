@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SkillProfi;
+using SkillProfiApi.Models;
 
 namespace SkillProfiApi.Data
 {
@@ -21,13 +22,6 @@ namespace SkillProfiApi.Data
                 string json = await r.ReadToEndAsync();
                 contacts = JsonConvert.DeserializeObject<Contacts>(json);
             }
-
-            return contacts;
-        }
-
-        public static async Task<Contacts?> GetContactsWithImagesAsync()
-        {
-            Contacts? contacts = await GetContactsAsync();
 
             return contacts;
         }
@@ -55,26 +49,26 @@ namespace SkillProfiApi.Data
         }
 
 
-        public async static Task EditSocialNetwork(Guid id, SocialNetwork socialNetwork) 
+        public async static Task EditSocialNetwork(Guid id, ObjectWithImage<SocialNetwork> socialNetwork) 
         {
             Contacts contacts = await GetContactsAsync();
 
             int a = contacts.SocialNetworks.IndexOf(contacts.SocialNetworks.First(s => s.Id == id));
 
-            contacts.SocialNetworks[a] = socialNetwork;
+            contacts.SocialNetworks[a] = socialNetwork.Object;
 
             contacts.Save();
             
         }
 
-        public async static Task AddSocialNetwork(SocialNetwork socialNetwork)
+        public async static Task AddSocialNetwork(ObjectWithImage<SocialNetwork> socialNetwork)
         {
             Contacts contacts = await GetContactsAsync();
 
-            socialNetwork.Id = Guid.NewGuid();
+            socialNetwork.Object.Id = Guid.NewGuid();
 
-            contacts.SocialNetworks.Add(socialNetwork);
-            await socialNetwork.SavePictureAsync();
+            contacts.SocialNetworks.Add(socialNetwork.Object);
+            await PictureDirectory.SavePictureAsync(socialNetwork);
 
             contacts.Save();
 
@@ -94,15 +88,8 @@ namespace SkillProfiApi.Data
 
         private static void Save(this Contacts contacts)
         {
-            foreach (var sc in contacts.SocialNetworks)
-            {
-                if (sc.PictureBytePresentation != null) sc.PictureBytePresentation = null;
-            }
             string contactsJson = JsonConvert.SerializeObject(contacts);
-
-
             File.WriteAllText(CreatePath(), contactsJson);
-
         }
     }
 }

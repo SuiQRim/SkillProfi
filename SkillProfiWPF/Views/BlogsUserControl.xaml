@@ -80,15 +80,8 @@
                                     d:Source="../Assets/ImageError.png"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center"
-                                    Stretch="UniformToFill">
-                                    <Image.Source>
-                                        <Binding Path="PictureBytePresentation" >
-                                            <Binding.TargetNullValue>
-                                                <ImageSource>../../Assets/ImageError.png</ImageSource>
-                                            </Binding.TargetNullValue>
-                                        </Binding>
-                                    </Image.Source>
-                                </Image>
+                                    Stretch="UniformToFill"
+                                    Source="{Binding PictureName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NameToPictureConverter}}"/>
 
 
                                 <WrapPanel.OpacityMask>
@@ -240,16 +233,9 @@
                         <Image
                             HorizontalAlignment="Center" 
                             VerticalAlignment="Center"
-                            Stretch="UniformToFill">
+                            Stretch="UniformToFill"
+                            Source="{Binding PictureName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NameToPictureConverter}}">
 
-                            <Image.Source>
-                                <Binding Path="PictureBytePresentation" 
-                                         UpdateSourceTrigger="PropertyChanged">
-                                    <Binding.TargetNullValue>
-                                        <ImageSource>../../Assets/ImageError.png</ImageSource>
-                                    </Binding.TargetNullValue>
-                                </Binding>
-                            </Image.Source>
                         </Image>
                         
                         <WrapPanel.OpacityMask>

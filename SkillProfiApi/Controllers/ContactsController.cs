@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
 using SkillProfiApi.Data;
+using SkillProfiApi.Models;
 
 namespace SkillProfiApi.Controllers
 {
@@ -15,7 +16,7 @@ namespace SkillProfiApi.Controllers
         [HttpGet]
         public async Task<ActionResult<Contacts>> GetContacts()
         {
-            Contacts? contacts = await ContactsFile.GetContactsWithImagesAsync();
+            Contacts? contacts = await ContactsFile.GetContactsAsync();
 
             if (contacts == null) return NotFound();
 
@@ -38,7 +39,7 @@ namespace SkillProfiApi.Controllers
         [HttpGet("SocialNetworks")]
         public async Task<ActionResult<List<SocialNetwork>>> GetSocialNetworks()
         {
-            Contacts? contacts = await ContactsFile.GetContactsWithImagesAsync();
+            Contacts? contacts = await ContactsFile.GetContactsAsync();
 
             if (contacts == null || contacts.SocialNetworks == null) return NotFound();
 
@@ -48,14 +49,15 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Contacts/SocialNetworks
         [HttpPut("SocialNetworks/{id}")]
         [Authorize]
-        public async Task<ActionResult> PutSocialNetworks(Guid id, SocialNetwork socialNetwork)
+        public async Task<ActionResult> PutSocialNetworks(Guid id, ObjectWithImage<SocialNetwork> socialNetwork)
         {
 
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
             await ContactsFile.EditSocialNetwork(id, socialNetwork);
+			await PictureDirectory.SavePictureAsync(socialNetwork);
 
-            return Ok();
+			return Ok();
         }
 
 
@@ -74,7 +76,7 @@ namespace SkillProfiApi.Controllers
         // POST: api/Contacts/SocialNetworks
         [HttpPost("SocialNetworks")]
         [Authorize]
-        public async Task<ActionResult> PostSocialNetworks(SocialNetwork socialNetwork)
+        public async Task<ActionResult> PostSocialNetworks(ObjectWithImage<SocialNetwork> socialNetwork)
         {
             await ContactsFile.AddSocialNetwork(socialNetwork);
 

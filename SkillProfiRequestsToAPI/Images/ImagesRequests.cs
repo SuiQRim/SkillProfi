@@ -8,7 +8,7 @@ namespace SkillProfiRequestsToAPI.Images
 
         public string GetURL(string Id) => Url + $"?id={Id}";
 
-		public byte[]? GetImage(string Id)
+		public byte[]? GetPicture(string Id)
 		{
             HttpWebRequest lxRequest = (HttpWebRequest)WebRequest.Create(GetURL(Id));
             byte[]? lnByte;

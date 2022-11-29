@@ -21,9 +21,6 @@ namespace SkillProfi
         [Required]
         public string PictureName { get; set; }
 
-        [NotMapped]
-        public byte[]? PictureBytePresentation { get; set; }
-
         public DateTime Created { get; set; }
     }
 }

@@ -15,8 +15,5 @@ namespace SkillProfi
         public string? Link { get; set; }
 
         public string PictureName { get; set; }
-
-        [NotMapped]
-        public byte[]? PictureBytePresentation { get; set; }
     }
 }

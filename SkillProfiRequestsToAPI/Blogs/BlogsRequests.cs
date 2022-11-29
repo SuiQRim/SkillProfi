@@ -18,18 +18,74 @@ namespace SkillProfiRequestsToAPI.Blogs
 
 
 
-        public string Add(Blog Blog, string accessToken) => Request.Add(Blog, Url, accessToken);
+        public string Add(Blog blog, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte [] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
 
-        public async Task<string> AddAsync(Blog Blog, string accessToken) => 
-            await Request.AddAsync(Blog, Url, accessToken);
+                var obj = new ObjectWithImage<Blog> 
+                {
+                    Object = blog,
+                    Picture = buffer
+                };
+
+                return Request.Add(obj, Url, accessToken);
+            }
+
+        }
+
+        public async Task<string> AddAsync(Blog blog, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length);
+                var obj = new ObjectWithImage<Blog>
+				{
+                    Object = blog,
+                    Picture = buffer
+                };
+
+                return await Request.AddAsync(obj, Url, accessToken);
+            }
+        }
 
 
-        public string Edit(string id, Blog Blog, string accessToken) => 
-            Request.Edit(Blog, Url, id, accessToken);
 
-        public async Task<string> EditAsync(string id, Blog Blog, string accessToken) => 
-            await Request.EditAsync( Blog, Url, id, accessToken);
+        public string Edit(string id, Blog blog, Stream stream, string accessToken)
+		{
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                var obj = new ObjectWithImage<Blog>
+                {
+                    Object = blog,
+                    Picture = buffer
+                };
 
+                return Request.Edit(obj, Url, id, accessToken);
+            }
+        }
+           
+
+        public async Task<string> EditAsync(string id, Blog blog, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length);
+                var obj = new ObjectWithImage<Blog>
+				{
+                    Object = blog,
+                    Picture = buffer
+                };
+
+                return await Request.EditAsync(obj, Url, id, accessToken);
+            }
+        }
 
 
         public string DeleteById(string id, string accessToken) => 

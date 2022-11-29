@@ -111,6 +111,7 @@
         <Converters:ObjectValueExcistToBoolConverter x:Key="ObjectValueConverter"/>
         <BooleanToVisibilityConverter x:Key="BoolToVis" />
         <Converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <Converters:NameToPictureConverter x:Key="NameToPictureConverter"/>
 
         <Converters:ObjectValueExcistToVisibilityCombinConverter
             x:Key="ObjectValueExcistToVisibiliyConverter"

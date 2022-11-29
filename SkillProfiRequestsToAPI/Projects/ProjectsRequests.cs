@@ -1,4 +1,6 @@
 ﻿using SkillProfi;
+using System.IO;
+using System.Text;
 
 namespace SkillProfiRequestsToAPI.Projects
 {
@@ -18,21 +20,71 @@ namespace SkillProfiRequestsToAPI.Projects
 
 
 
-        public string Add(Project project, string accessToken) =>
-            Request.Add(project, Url, accessToken);
+        public string Add(Project project, Stream stream, string accessToken)
+        {
+			using (stream)
+			{
+				byte[] buffer = new byte[stream.Length];
+				stream.Read(buffer, 0, buffer.Length);
+				var obj = new ObjectWithImage<Project>()
+				{
+					Object = project,
+					Picture = buffer
+				};
+				return Request.Add(obj, Url, accessToken);
+			}
+		}
+            
 
-        public async Task<string> AddAsync(Project project, string accessToken) =>
-            await Request.AddAsync(project, Url, accessToken);
+        public async Task<string> AddAsync(Project project, Stream stream, string accessToken)
+        {
+			using (stream)
+			{
+				byte[] buffer = new byte[stream.Length];
+				await stream.ReadAsync(buffer, 0, buffer.Length);
+				var obj = new ObjectWithImage<Project>()
+				{
+					Object = project,
+					Picture = buffer
+				};
+				return await Request.AddAsync(obj, Url, accessToken);
+			}
+		}
+           
 
 
 
-        public string Edit(string id, Project project, string accessToken) =>
-             Request.Edit(project, Url, id, accessToken);
+        public string Edit(string id, Project project, Stream stream, string accessToken)
+        {
+			using (stream)
+			{
+				byte[] buffer = new byte[stream.Length];
+				stream.Read(buffer, 0, buffer.Length);
+				var obj = new ObjectWithImage<Project>()
+				{
+					Object = project,
+					Picture = buffer
+				};
+				return Request.Edit(obj, Url, id, accessToken);
+			}
+		}
+             
         
 
-        public async Task<string> EditAsync(string id, Project project, string accessToken) =>
-            await Request.EditAsync(project, Url, id, accessToken);
-
+        public async Task<string> EditAsync(string id, Project project, Stream stream, string accessToken)
+        {
+			using (stream)
+			{
+				byte[] buffer = new byte[stream.Length];
+				await stream.ReadAsync(buffer, 0, buffer.Length);
+				var obj = new ObjectWithImage<Project>()
+				{
+					Object = project,
+					Picture = buffer
+				};
+				return await Request.EditAsync(obj, Url, id, accessToken);
+			}
+		}
 
 
         public string DeleteById(string id, string accessToken) =>

@@ -198,6 +198,7 @@
 
 
             <Button
+                Visibility="{Binding IsObjectSelected, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource BoolToVis}}"
                 Style="{StaticResource EditButton}"
                 Padding="10"
                 VerticalAlignment="Bottom"

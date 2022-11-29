@@ -4,7 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:SkillProfiWPF.Views.Contacts"
-             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels"
+             xmlns:ViewModels="clr-namespace:SkillProfiWPF.ViewModels" 
+             d:DataContext="{d:DesignInstance Type=ViewModels:SocialNetworksViewModel}"
              mc:Ignorable="d" 
              d:DesignHeight="400" d:DesignWidth="1200">
 
@@ -57,14 +58,8 @@
                                     d:Source="../Assets/ImageError.png"
                                     HorizontalAlignment="Center" 
                                     VerticalAlignment="Center"
-                                    Stretch="UniformToFill">
-                                    <Image.Source>
-                                        <Binding Path="PictureBytePresentation" >
-                                            <Binding.TargetNullValue>
-                                                <ImageSource>../../Assets/ImageError.png</ImageSource>
-                                            </Binding.TargetNullValue>
-                                        </Binding>
-                                    </Image.Source>
+                                    Stretch="UniformToFill"
+                                    Source="{Binding PictureName, Converter={StaticResource NameToPictureConverter}}">
                                 </Image>
 
 
@@ -140,6 +135,7 @@
         </StackPanel>
         
         <StackPanel 
+            Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
             Margin="10"
             Orientation="Horizontal"
             Grid.Row="2">
@@ -172,14 +168,8 @@
                     <Image
                         HorizontalAlignment="Center" 
                         VerticalAlignment="Center"
-                        Stretch="UniformToFill">
-                        <Image.Source>
-                            <Binding Path="PictureBytePresentation" >
-                                <Binding.TargetNullValue>
-                                    <ImageSource>../../Assets/ImageError.png</ImageSource>
-                                </Binding.TargetNullValue>
-                            </Binding>
-                        </Image.Source>
+                        Stretch="UniformToFill"
+                        Source="{Binding PictureName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NameToPictureConverter}}">
                     </Image>
 
                 </WrapPanel>

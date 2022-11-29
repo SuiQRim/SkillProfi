@@ -14,19 +14,78 @@ namespace SkillProfiRequestsToAPI.Contacts
 
 
 
-        public string Add(SocialNetwork SocialNetwork, string accessToken) =>
-            Request.Add(SocialNetwork, Url, accessToken);
+        public string Add(SocialNetwork socialNetwork, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
 
-        public async Task<string> AddAsync(SocialNetwork SocialNetwork, string accessToken) =>
-            await Request.AddAsync(SocialNetwork, Url, accessToken);
+                var obj = new ObjectWithImage<SocialNetwork>()
+                {
+                    Object = socialNetwork,
+                    Picture = buffer,
+                };
+
+                return Request.Add(obj, Url, accessToken);
+            }
+           
+        }
+
+
+        public async Task<string> AddAsync(SocialNetwork socialNetwork, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length);
+
+                var obj = new ObjectWithImage<SocialNetwork>()
+                {
+                    Object = socialNetwork,
+                    Picture = buffer,
+                };
+                return await Request.AddAsync(obj, Url, accessToken);
+            }
+        }
 
 
 
-        public string Edit(string id, SocialNetwork SocialNetwork, string accessToken) =>
-            Request.Edit(SocialNetwork, Url, id, accessToken);
 
-        public async Task<string> EditAsync(string id, SocialNetwork SocialNetwork, string accessToken) =>
-            await Request.EditAsync(SocialNetwork, Url, id, accessToken);
+        public string Edit(string id, SocialNetwork socialNetwork, Stream stream, string accessToken)
+        {
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+
+                var obj = new ObjectWithImage<SocialNetwork>()
+                {
+                    Object = socialNetwork,
+                    Picture = buffer,
+                };
+                return Request.Edit(obj, Url, id, accessToken);
+            }
+        }
+
+
+        public async Task<string> EditAsync(string id, SocialNetwork socialNetwork, Stream stream, string accessToken)
+        {
+
+            using (stream)
+            {
+                byte[] buffer = new byte[stream.Length];
+                await stream.ReadAsync(buffer, 0, buffer.Length);
+
+                var obj = new ObjectWithImage<SocialNetwork>()
+                {
+                    Object = socialNetwork,
+                    Picture = buffer,
+                };
+                return await Request.EditAsync(obj, Url, id, accessToken);
+            }
+        }
+
 
 
         public string DeleteById(string id, string accessToken) =>

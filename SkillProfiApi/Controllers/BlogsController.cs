@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
@@ -58,14 +52,14 @@ namespace SkillProfiApi.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutBlog(Guid id, Blog blog)
+        public async Task<IActionResult> PutBlog(Guid id, ObjectWithImage<Blog> blog)
         {
-            if (id != blog.Id)
+            if (id != blog.Object.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(blog).State = EntityState.Modified;
+            _context.Entry(blog.Object).State = EntityState.Modified;
             await PictureDirectory.SavePictureAsync(blog);
 
             try
@@ -92,17 +86,17 @@ namespace SkillProfiApi.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Blog>> PostBlog(Blog blog)
+        public async Task<ActionResult<Blog>> PostBlog(ObjectWithImage<Blog> blog)
         {
             if (_context.Blogs == null)
             {
                 return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
             }
-            _context.Blogs.Add(blog);
-            await blog.SavePictureAsync();
-            await _context.SaveChangesAsync();
+            _context.Blogs.Add(blog.Object);
+			await PictureDirectory.SavePictureAsync(blog);
+			await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBlog", new { id = blog.Id }, blog);
+            return CreatedAtAction("GetBlog", new { id = blog.Object.Id }, blog);
         }
 
         // DELETE: api/Blogs/5

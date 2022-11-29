@@ -1,6 +1,5 @@
 ﻿using SkillProfi;
 using SkillProfiRequestsToAPI;
-using SkillProfiWPF.Extensions;
 using SkillProfiWPF.ViewModels.Prefab;
 using System;
 using System.Collections.Generic;
@@ -24,7 +23,7 @@ namespace SkillProfiWPF.ViewModels
         }
 
         private List<Blog> GetBlogsWithImage() => 
-            Task.Run(async () => await _spClient.Blogs.GetListAsync()).Result.LoadImage(_spClient);
+            Task.Run(async () => await _spClient.Blogs.GetListAsync()).Result;
 
         #region Commands
 
@@ -37,7 +36,7 @@ namespace SkillProfiWPF.ViewModels
 
             Title = "Title";
             Description = "Description";
-            PictureBytePresentation = Array.Empty<byte>();
+            PictureName = null;
         }
 
 
@@ -66,7 +65,7 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanSave(object p)
         {
 
-            if (PictureBytePresentation == Array.Empty<byte>() || PictureBytePresentation == null || Title == string.Empty || Description == string.Empty)
+            if (!File.Exists(PictureName) || Title == string.Empty || Description == string.Empty)
             {
                 return false;
             }
@@ -76,16 +75,17 @@ namespace SkillProfiWPF.ViewModels
 
         protected override void OnSave(object p)
         {
-            if (IsAddObject)
+			FileStream fstream = File.OpenRead(PictureName);
+
+			if (IsAddObject)
             {
                 Blog newBlog = new()
                 {
                     Title = Title,
                     PictureName = "SomePictureName",
                     Description = Description,
-                    PictureBytePresentation = PictureBytePresentation,
                 };
-                _spClient.Blogs.Add(newBlog, AccessToken);
+                _spClient.Blogs.Add(newBlog, fstream, AccessToken);
                 Blogs = new(GetBlogsWithImage());
 
             }
@@ -93,9 +93,8 @@ namespace SkillProfiWPF.ViewModels
             {
                 SelectedBlog.Title = Title;
                 SelectedBlog.Description = Description;
-                SelectedBlog.PictureBytePresentation = PictureBytePresentation;
 
-                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), SelectedBlog, AccessToken);
+                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), SelectedBlog, fstream, AccessToken);
                 Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
@@ -114,7 +113,7 @@ namespace SkillProfiWPF.ViewModels
             openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
-                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
+                PictureName = openFileDialog.FileName;
 
         }
 
@@ -137,16 +136,15 @@ namespace SkillProfiWPF.ViewModels
 
         }
 
+		private string _pictureName = "";
+		public string PictureName
+		{
+			get => _pictureName;
+			set => Set(ref _pictureName, value);
 
-        private byte[]? _pictureBytePresentation;
-        public byte[]? PictureBytePresentation
-        {
-            get => _pictureBytePresentation;
-            set => Set(ref _pictureBytePresentation, value);
+		}
 
-        }
-
-        private Guid _lastSelectedBlogId;
+		private Guid _lastSelectedBlogId;
 
 
         private Blog? _selectedBlog;
@@ -160,8 +158,8 @@ namespace SkillProfiWPF.ViewModels
                 {
                     Title = value.Title;
                     Description = value.Description;
-                    PictureBytePresentation = value.PictureBytePresentation;
                     _lastSelectedBlogId = value.Id;
+                    PictureName = value.PictureName;
                     IsObjectSelect = true;
                 }
                 else IsObjectSelect = false;

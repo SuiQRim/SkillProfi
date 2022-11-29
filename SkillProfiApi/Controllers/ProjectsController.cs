@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Hosting;
 using SkillProfi;
 using SkillProfiApi.Data;
 
@@ -55,21 +48,21 @@ namespace SkillProfiApi.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutProject(Guid id, Project project)
+        public async Task<IActionResult> PutProject(Guid id, [FromBody] ObjectWithImage<Project> project)
         {
-            if (id != project.Id)
+            if (id != project.Object.Id)
             {
                 return BadRequest();
             }
 
-            _context.Entry(project).State = EntityState.Modified;
-            await PictureDirectory.SavePictureAsync(project);
+            _context.Entry(project.Object).State = EntityState.Modified;
+			await PictureDirectory.SavePictureAsync(project);
 
-            try
+			try
             {
                 await _context.SaveChangesAsync();
 
-            }
+			}
             catch (DbUpdateConcurrencyException)
             {
                 if (!ProjectExists(id))
@@ -87,18 +80,18 @@ namespace SkillProfiApi.Controllers
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Project>> PostProject(Project project)
+        public async Task<ActionResult<Project>> PostProject(ObjectWithImage<Project> project)
         {
             if (_context.Projects == null)
             {
                 return Problem("Entity set 'SkillProfiDbContext.Projects'  is null.");
             }
-            _context.Projects.Add(project);
-            await project.SavePictureAsync();
+            _context.Projects.Add(project.Object);
+            await PictureDirectory.SavePictureAsync(project);
             await _context.SaveChangesAsync();
 
 
-            return CreatedAtAction("GetProject", new { id = project.Id }, project);
+            return CreatedAtAction("GetProject", new { id = project.Object.Id }, project.Object);
         }
 
         [HttpDelete("{id}")]

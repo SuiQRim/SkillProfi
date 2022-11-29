@@ -1,7 +1,4 @@
 ﻿using SkillProfi;
-using System.Drawing;
-using System.IO;
-using System.Xml.Linq;
 
 namespace SkillProfiApi.Data
 {
@@ -17,28 +14,30 @@ namespace SkillProfiApi.Data
 			return await File.ReadAllBytesAsync(path);
 		}
 
-		private static void SetOriginalName(this IPicture picture) 
+		private static string SetOriginalName(this IPicture pic) 
 		{
-			picture.PictureName = Guid.NewGuid().ToString();
+			pic.PictureName = Guid.NewGuid().ToString();
 
-			if (File.Exists(Path.Combine(REPOSITORY, picture.PictureName)))
+			if (File.Exists(Path.Combine(REPOSITORY, pic.PictureName)))
 			{
-				picture.SetOriginalName();
-			}	
+				pic.SetOriginalName();
+			}
+			return pic.PictureName;
 		}
 
-		public static async Task SavePictureAsync(this IPicture picture)
+		public static async Task SavePictureAsync<T>(this ObjectWithImage<T> objImg)
+			where T : IPicture
 		{
-			if (picture.PictureBytePresentation == null)
+			if (objImg == null && objImg?.Picture == null)
 			{
-				throw new ArgumentNullException(nameof(picture.PictureBytePresentation), "Byte presentation of picture is null");
+				throw new ArgumentNullException(nameof(objImg), "Byte presentation of picture is null");
 			}
 
-			picture.SetOriginalName();
+			objImg.Object.SetOriginalName();
 
-			string path = Path.Combine(REPOSITORY, picture.PictureName);
+			string path = Path.Combine(REPOSITORY, objImg.Object.PictureName);
 
-			await File.WriteAllBytesAsync(path, picture.PictureBytePresentation);
+			await File.WriteAllBytesAsync(path, objImg.Picture);
 		}
 
 		public static void RemovePicture(this IPicture picture)

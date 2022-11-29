@@ -8,8 +8,6 @@ using System.Windows.Forms;
 using System.Windows.Input;
 using SkillProfi;
 using SkillProfiRequestsToAPI;
-using SkillProfiRequestsToAPI.Contacts;
-using SkillProfiWPF.Extensions;
 using SkillProfiWPF.ViewModels.Prefab;
 
 namespace SkillProfiWPF.ViewModels
@@ -25,7 +23,7 @@ namespace SkillProfiWPF.ViewModels
         }
 
         private List<SocialNetwork> GetProjectsWithImage() =>
-            Task.Run(async () => await _spClient.SocialNetworks.GetListAsync()).Result.LoadImage(_spClient);
+            Task.Run(async () => await _spClient.SocialNetworks.GetListAsync()).Result;
 
         protected override bool CanAdd(object p) => base.CanAdd(p);
         protected override void OnAdd(object p)
@@ -33,7 +31,7 @@ namespace SkillProfiWPF.ViewModels
             base.OnAdd(p);
 
             Link = "Link";
-            PictureBytePresentation = Array.Empty<byte>();
+            PictureName = null;
         }
 
 
@@ -42,8 +40,9 @@ namespace SkillProfiWPF.ViewModels
         {
             _spClient.SocialNetworks.DeleteById(SelectedSocialNetwork!.Id.ToString(), AccessToken);
             SocialNetworks = new(GetProjectsWithImage());
+            SelectedSocialNetwork = null;
             IsObjectSelect = false;
-
+             
         }
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
@@ -61,7 +60,7 @@ namespace SkillProfiWPF.ViewModels
 
         protected override bool CanSave(object p)
         {
-            if (PictureBytePresentation == Array.Empty<byte>() || PictureBytePresentation == null || Link == string.Empty)
+            if (!File.Exists(PictureName) || Link == string.Empty)
             {
                 return false;
             }
@@ -70,24 +69,24 @@ namespace SkillProfiWPF.ViewModels
 
         protected override void OnSave(object p)
         {
-            if (IsAddObject)
+			FileStream fstream = File.OpenRead(PictureName);
+
+			if (IsAddObject)
             {
                 SocialNetwork newSocialNetwork = new()
                 {
                     Link = Link,
                     PictureName = "SomePictureName",
-                    PictureBytePresentation = PictureBytePresentation,
                 };
-                _spClient.SocialNetworks.Add(newSocialNetwork, AccessToken);
+                _spClient.SocialNetworks.Add(newSocialNetwork, fstream, AccessToken);
                 SocialNetworks = new(GetProjectsWithImage());
 
             }
             else
             {
                 SelectedSocialNetwork.Link = Link;
-                SelectedSocialNetwork.PictureBytePresentation = PictureBytePresentation;
 
-                _spClient.SocialNetworks.Edit(SelectedSocialNetwork.Id.ToString(), SelectedSocialNetwork, AccessToken);
+                _spClient.SocialNetworks.Edit(SelectedSocialNetwork.Id.ToString(), SelectedSocialNetwork, fstream, AccessToken);
                 SocialNetworks = new(GetProjectsWithImage());
                 SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }
@@ -103,7 +102,7 @@ namespace SkillProfiWPF.ViewModels
             openFileDialog.Filter = "Image Files (*.png, *.jpg)|*.png;*.jpg";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
-                PictureBytePresentation = File.ReadAllBytes(openFileDialog.FileName);
+                PictureName = openFileDialog.FileName;
 
         }
 
@@ -115,15 +114,15 @@ namespace SkillProfiWPF.ViewModels
 
         }
 
+		private string _pictureName = "";
+		public string PictureName
+		{
+			get => _pictureName;
+			set => Set(ref _pictureName, value);
 
-        private byte[]? _pictureBytePresentation;
-        public byte[]? PictureBytePresentation
-        {
-            get => _pictureBytePresentation;
-            set => Set(ref _pictureBytePresentation, value);
-        }
+		}
 
-        private Guid _lastSelectedSocialNetworkId;
+		private Guid _lastSelectedSocialNetworkId;
 
         private ObservableCollection<SocialNetwork> _socialNetworks;
         public ObservableCollection<SocialNetwork> SocialNetworks
@@ -141,9 +140,9 @@ namespace SkillProfiWPF.ViewModels
                 if (value != null)
                 {
                     Link = value.Link;
-                    PictureBytePresentation = value.PictureBytePresentation;
                     IsObjectSelect = true;
                     _lastSelectedSocialNetworkId = value.Id;
+                    PictureName = value.PictureName;
                 }
                 else IsObjectSelect = false;
 
