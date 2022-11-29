@@ -22,33 +22,16 @@ namespace SkillProfiRequestsToAPI.Projects
 
         public string Add(Project project, Stream stream, string accessToken)
         {
-			using (stream)
-			{
-				byte[] buffer = new byte[stream.Length];
-				stream.Read(buffer, 0, buffer.Length);
-				var obj = new ObjectWithImage<Project>()
-				{
-					Object = project,
-					Picture = buffer
-				};
-				return Request.Add(obj, Url, accessToken);
-			}
+			var obj = BuildObjectWithImage(project, stream);
+			return Request.Add(obj, Url, accessToken);
+			
 		}
             
 
         public async Task<string> AddAsync(Project project, Stream stream, string accessToken)
         {
-			using (stream)
-			{
-				byte[] buffer = new byte[stream.Length];
-				await stream.ReadAsync(buffer, 0, buffer.Length);
-				var obj = new ObjectWithImage<Project>()
-				{
-					Object = project,
-					Picture = buffer
-				};
-				return await Request.AddAsync(obj, Url, accessToken);
-			}
+			var obj = BuildObjectWithImage(project, stream);
+			return await Request.AddAsync(obj, Url, accessToken);
 		}
            
 
@@ -56,34 +39,16 @@ namespace SkillProfiRequestsToAPI.Projects
 
         public string Edit(string id, Project project, Stream stream, string accessToken)
         {
-			using (stream)
-			{
-				byte[] buffer = new byte[stream.Length];
-				stream.Read(buffer, 0, buffer.Length);
-				var obj = new ObjectWithImage<Project>()
-				{
-					Object = project,
-					Picture = buffer
-				};
-				return Request.Edit(obj, Url, id, accessToken);
-			}
+			var obj = BuildObjectWithImage(project, stream);
+			return Request.Edit(obj, Url, id, accessToken);
 		}
              
         
 
         public async Task<string> EditAsync(string id, Project project, Stream stream, string accessToken)
         {
-			using (stream)
-			{
-				byte[] buffer = new byte[stream.Length];
-				await stream.ReadAsync(buffer, 0, buffer.Length);
-				var obj = new ObjectWithImage<Project>()
-				{
-					Object = project,
-					Picture = buffer
-				};
-				return await Request.EditAsync(obj, Url, id, accessToken);
-			}
+			var obj = BuildObjectWithImage(project, stream);
+			return await Request.EditAsync(obj, Url, id, accessToken);
 		}
 
 

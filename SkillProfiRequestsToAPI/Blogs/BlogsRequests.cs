@@ -20,71 +20,29 @@ namespace SkillProfiRequestsToAPI.Blogs
 
         public string Add(Blog blog, Stream stream, string accessToken)
         {
-            using (stream)
-            {
-                byte [] buffer = new byte[stream.Length];
-                stream.Read(buffer, 0, buffer.Length);
-
-                var obj = new ObjectWithImage<Blog> 
-                {
-                    Object = blog,
-                    Picture = buffer
-                };
-
-                return Request.Add(obj, Url, accessToken);
-            }
-
+			var obj = BuildObjectWithImage(blog, stream);
+			return Request.Add(obj, Url, accessToken);
         }
 
         public async Task<string> AddAsync(Blog blog, Stream stream, string accessToken)
         {
-            using (stream)
-            {
-                byte[] buffer = new byte[stream.Length];
-                await stream.ReadAsync(buffer, 0, buffer.Length);
-                var obj = new ObjectWithImage<Blog>
-				{
-                    Object = blog,
-                    Picture = buffer
-                };
-
-                return await Request.AddAsync(obj, Url, accessToken);
-            }
+			var obj = BuildObjectWithImage(blog, stream);
+			return await Request.AddAsync(obj, Url, accessToken);
         }
 
 
 
         public string Edit(string id, Blog blog, Stream stream, string accessToken)
 		{
-            using (stream)
-            {
-                byte[] buffer = new byte[stream.Length];
-                stream.Read(buffer, 0, buffer.Length);
-                var obj = new ObjectWithImage<Blog>
-                {
-                    Object = blog,
-                    Picture = buffer
-                };
-
-                return Request.Edit(obj, Url, id, accessToken);
-            }
+			var obj = BuildObjectWithImage(blog, stream);
+            return Request.Edit(obj, Url, id, accessToken);
         }
            
 
         public async Task<string> EditAsync(string id, Blog blog, Stream stream, string accessToken)
         {
-            using (stream)
-            {
-                byte[] buffer = new byte[stream.Length];
-                await stream.ReadAsync(buffer, 0, buffer.Length);
-                var obj = new ObjectWithImage<Blog>
-				{
-                    Object = blog,
-                    Picture = buffer
-                };
-
-                return await Request.EditAsync(obj, Url, id, accessToken);
-            }
+			var obj = BuildObjectWithImage(blog, stream);
+			return await Request.EditAsync(obj, Url, id, accessToken);
         }
 
 

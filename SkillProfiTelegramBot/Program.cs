@@ -15,7 +15,7 @@ namespace SkillProfiTelegramBot
 
         private static readonly List<ClientState> _clientStates = new();
 
-        static ITelegramBotClient bot = new TelegramBotClient("5886273004:AAFZ4LFlfQMdiL9kcN7L0CKIw_kUBnkardU");
+        static ITelegramBotClient bot = new TelegramBotClient("token");
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {

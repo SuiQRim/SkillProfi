@@ -1,4 +1,7 @@
-﻿namespace SkillProfiRequestsToAPI
+﻿using SkillProfi;
+using System.IO;
+
+namespace SkillProfiRequestsToAPI
 {
     public class RequestController
     {
@@ -12,6 +15,21 @@
         private readonly string _originalUrl;
 
         private readonly Func<string> GetBaseUrl;
+
+        protected static ObjectWithImage<T> BuildObjectWithImage<T>(T targetObject, Stream imageStream)
+        {
+			using (imageStream)
+            {
+				byte[] buffer = new byte[imageStream.Length];
+				imageStream.Read(buffer, 0, buffer.Length);
+				var obj = new ObjectWithImage<T>()
+				{
+					Object = targetObject,
+					Picture = buffer
+				};
+                return obj;
+			}
+		}
 
     }
 }
