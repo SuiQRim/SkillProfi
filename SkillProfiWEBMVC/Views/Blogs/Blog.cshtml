@@ -1,4 +1,4 @@
-﻿@model Blog
+﻿@model GeneralModel<Blog>
 
 @{
     ViewData["Title"] = "Blogs";
@@ -6,16 +6,16 @@
 
 <div id="blog" style="min-height: 520px;">
 
-    <div id="@Model.Id">
+    <div id="@Model.Object.Id">
 
-        <div class="title">@Model.Title</div>
+        <div class="title">@Model.Object.Title</div>
 
         <div>
             <div class="image-block-content">
-                <img src='@(ImagesRequests.GetURL(Model.PictureName))' onerror="this.src='/Assets/ImageError.png'">
+                <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
             </div>
             <div class="description">
-                <a>@Model.Description</a>
+                <a>@Model.Object.Description</a>
             </div>
         </div>
     </div>

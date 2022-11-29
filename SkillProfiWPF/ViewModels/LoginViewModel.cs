@@ -1,5 +1,5 @@
 ﻿using SkillProfi;
-using SkillProfiRequestsToAPI.Accounts;
+using SkillProfiRequestsToAPI;
 using SkillProfiWPF.ViewModels.Prefab;
 using System.Windows;
 using System.Windows.Input;
@@ -8,6 +8,8 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class LoginViewModel : ViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public LoginViewModel()
         {
             JoinWithLogin = new LamdaCommand(OnJoinWithLogin, CanAnyWay);
@@ -64,7 +66,7 @@ namespace SkillProfiWPF.ViewModels
                     return;
                 }
 
-                AuthParams = AccountsRequests.Login(new Account() { Name= Name, Password= Password });
+                AuthParams = _spClient.Accounts.Login(new Account() { Name = Name, Password = Password });
 
                 if (!AuthParams.IsLogin)
                 {

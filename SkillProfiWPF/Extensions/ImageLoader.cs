@@ -1,17 +1,14 @@
 ﻿using SkillProfi;
-using SkillProfiRequestsToAPI.Images;
+using SkillProfiRequestsToAPI;
 using System.Collections.Generic;
 
 namespace SkillProfiWPF.Extensions
 {
     internal static class ImageExtensions
     {
-        public static List<T> LoadImage<T>(this List<T> pic) where T : IPicture
+        public static List<T> LoadImage<T>(this List<T> pic, SkillProfiWebClient wc) where T : IPicture
         {
-            foreach (var p in pic)
-            {
-                p.PictureBytePresentation = ImagesRequests.GetImage(p.PictureName.ToString());
-            }
+            pic.ForEach(p => p.PictureBytePresentation = wc.Pictures.GetImage(p.PictureName));
             return pic;
         }
     }

@@ -4,14 +4,17 @@ using SkillProfiRequestsToAPI.Contacts;
 using SkillProfiWPF.ViewModels.Prefab;
 using System.Windows.Input;
 using System.Windows;
+using SkillProfiRequestsToAPI;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class MainContactsViewModel : EditorViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public MainContactsViewModel()
         {
-            Contacts = ContactsRequests.GetContacts();
+            Contacts = _spClient.Contacts.Get();
             CopyLink = new LamdaCommand(OnCopyLink, CanCopyLink);
         }
 
@@ -35,7 +38,7 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnReturn(object p)
         {
             base.OnReturn(p);
-            Contacts = ContactsRequests.GetContacts();
+            Contacts = _spClient.Contacts.Get();
         }
 
         protected override bool CanSave(object p)
@@ -49,8 +52,8 @@ namespace SkillProfiWPF.ViewModels
         }
         protected override void OnSave(object p)
         {
-            ContactsRequests.EditContacts(Contacts, AccessToken);
-            Contacts = ContactsRequests.GetContacts();
+            _spClient.Contacts.Edit(Contacts, AccessToken);
+            Contacts = _spClient.Contacts.Get();
         }
 
 

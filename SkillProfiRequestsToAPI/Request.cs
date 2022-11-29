@@ -1,18 +1,12 @@
 ﻿using Newtonsoft.Json;
-using SkillProfi;
-using System;
-using System.Collections.Generic;
-using System.Dynamic;
-using System.Linq;
 using System.Net;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace SkillProfiRequestsToAPI
 {
     public static class Request
     {
-        public static T Get<T>(string url, string accessToken = null) 
+        public static T Get<T>(string url, string accessToken = null)
         {
             var request = WebRequest.Create(url);
 
@@ -25,7 +19,7 @@ namespace SkillProfiRequestsToAPI
             using var webStream = webResponse.GetResponseStream();
 
             using var reader = new StreamReader(webStream);
-            
+
             string json = reader.ReadToEnd();
 
             T obj = JsonConvert.DeserializeObject<T>(json);
@@ -46,7 +40,7 @@ namespace SkillProfiRequestsToAPI
             return obg;
         }
 
-        public static string Add<T>(T obj, string url, string? accessToken = null) 
+        public static string Add<T>(T obj, string url, string? accessToken = null)
         {
             var request = WebRequest.Create(url);
             request.Method = WebRequestMethods.Http.Post;
@@ -91,7 +85,7 @@ namespace SkillProfiRequestsToAPI
 
         public static string Edit<T>(T obg, string url, string? id = null, string? accessToken = null)
         {
-            string uri = id == null ? url : $"{url}/{id}";
+            string uri = (id == null ? url : $"{url}/{id}");
 
             var request = WebRequest.Create(uri);
             request.Method = WebRequestMethods.Http.Put;
@@ -120,7 +114,7 @@ namespace SkillProfiRequestsToAPI
 
         public async static Task<string> EditAsync<T>(T obj, string url, string? id = null, string? accessToken = null)
         {
-            string uri = id == null ? url : $"{url}/{id}";
+            string uri = (id == null ? url : $"{url}/{id}");
 
             var json = JsonConvert.SerializeObject(obj);
             var data = new StringContent(json, Encoding.UTF8, "application/json");
@@ -137,7 +131,7 @@ namespace SkillProfiRequestsToAPI
         }
 
 
-        public static string Delete(string id, string url, string? accessToken = null) 
+        public static string Delete(string id, string url, string? accessToken = null)
         {
             var uri = $"{url}/{id}";
 

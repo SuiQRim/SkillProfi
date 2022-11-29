@@ -1,31 +1,19 @@
-﻿using Newtonsoft.Json;
-using SkillProfi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace SkillProfiRequestsToAPI.Contacts
+﻿namespace SkillProfiRequestsToAPI.Contacts
 {
-    public static class ContactsRequests
+    public class ContactsRequests : RequestController
     {
-        private const string _mainUrl = "https://localhost:7120/api/Contacts";
+        public ContactsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Contacts") {}
 
-        public static SkillProfi.Contacts GetContacts() => 
-            Request.Get<SkillProfi.Contacts>("https://localhost:7120/api/Contacts");
+        public SkillProfi.Contacts Get() => 
+            Request.Get<SkillProfi.Contacts>(Url);
         
 
-        public static string EditContacts(SkillProfi.Contacts contact, string accessToken) =>
-            Request.Edit(contact, _mainUrl, accessToken : accessToken);
+        public string Edit(SkillProfi.Contacts contact, string accessToken) =>
+            Request.Edit(contact, Url, accessToken : accessToken);
 
 
-        public static async Task<string> EditContactsAsync(SkillProfi.Contacts contact, string accessToken) => 
-            await Request.EditAsync(contact, _mainUrl, accessToken: accessToken);
-
-
-        
+        public async Task<string> EditAsync(SkillProfi.Contacts contact, string accessToken) => 
+            await Request.EditAsync(contact, Url, accessToken: accessToken);
 
     }
 }

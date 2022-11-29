@@ -1,28 +1,21 @@
-﻿using System;
-using System.Threading;
-using System.Threading.Tasks;
-using Telegram.Bot;
+﻿using Telegram.Bot;
 using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using SkillProfi;
-using SkillProfiRequestsToAPI.Projects;
-using SkillProfiTelegramBot;
 using Telegram.Bot.Types.InputFiles;
-using SkillProfiRequestsToAPI.Images;
 using System.Net;
-using SkillProfiRequestsToAPI.Blogs;
-using SkillProfiRequestsToAPI.Services;
-using SkillProfiRequestsToAPI.Contacts;
-using SkillProfiRequestsToAPI.Consultations;
+using SkillProfiRequestsToAPI;
 
-namespace TelegramBotExperiments
+namespace SkillProfiTelegramBot
 {
 
     class Program
     {
-        private readonly static List<ClientState> _clientStates = new();
+        private static readonly SkillProfiWebClient _spWebClient = new (AppState.ReadServerUrl);
 
-        static ITelegramBotClient bot = new TelegramBotClient("5886273004:AAEn3t4X5jNlm8ztLN70D1JbDd0iRWwXECQ");
+        private static readonly List<ClientState> _clientStates = new();
+
+        static ITelegramBotClient bot = new TelegramBotClient("5886273004:AAFZ4LFlfQMdiL9kcN7L0CKIw_kUBnkardU");
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {
@@ -61,7 +54,7 @@ namespace TelegramBotExperiments
                             switch (message.Text.ToLower())
                             {
                                 case "да":
-                                    await ConsultationsRequests.AddConsultationAsync(cs.Consultation);
+                                    await _spWebClient.Consultations.AddAsync(cs.Consultation);
                                     await botClient.SendTextMessageAsync(message.Chat, "Заявка отправлена");
                                     _clientStates.Remove(cs);
                                     break;
@@ -100,14 +93,14 @@ namespace TelegramBotExperiments
 
                         case "/projects":
 
-                            List<Project> proj = (await ProjectsRequests.GetProjectsAsync()).LoadImage();
+                            List<Project> proj = (await _spWebClient.Projects.GetListAsync());
                             foreach (var p in proj)
                                 await SendImage(botClient, message.Chat, p, p.Title + $"\n\n{p.Description}");
                             break;
 
 
                         case "/blogs":
-                            List<Blog> blogs = (await BlogsRequests.GetBlogsAsync()).LoadImage();
+                            List<Blog> blogs = (await _spWebClient.Blogs.GetListAsync());
                             foreach (var p in blogs)
                                 await SendImage(botClient, message.Chat, p, p.Title + $"\n\n{p.Description}");
                             break;
@@ -115,7 +108,7 @@ namespace TelegramBotExperiments
 
                         case "/services":
 
-                            List<Service> services = await ServicesRequests.GetServicesAsync();
+                            List<Service> services = await _spWebClient.Services.GetListAsync();
                             foreach (var s in services)
                                 await botClient.SendTextMessageAsync(message.Chat, s.Title + $"\n\n{s.Description}");
                             break;
@@ -123,7 +116,7 @@ namespace TelegramBotExperiments
 
                         case "/contacts":
 
-                            Contacts contacts = ContactsRequests.GetContacts();
+                            Contacts contacts = _spWebClient.Contacts.Get();
                             string socialNetworsText = "Мы в социальных сетях:\n\n";
 
                             foreach (var sn in contacts.SocialNetworks)
@@ -155,7 +148,7 @@ namespace TelegramBotExperiments
             try
             {
                 using var httpClient = new HttpClient();
-                using var stream = await httpClient.GetStreamAsync(ImagesRequests.GetURL(item.PictureName));
+                using var stream = await httpClient.GetStreamAsync(_spWebClient.Pictures.GetURL(item.PictureName));
                 InputOnlineFile iof = new(stream);
                 await botClient.SendPhotoAsync(chatId, iof, caption);
 

@@ -1,4 +1,4 @@
-﻿@model Contacts
+﻿@model ContactsModel
 
 @{
     ViewData["Title"] = "Contacts";
@@ -18,8 +18,8 @@
         @{
         foreach (var sn in Model.SocialNetworks)
         {
-            <a href="@sn.Link">
-                <img src='@(ImagesRequests.GetURL(sn.PictureName))' onerror="this.src='/Assets/ImageError.png'">
+            <a href="@sn.Object.Link">
+                <img src='@(sn.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
             </a>
         }
         }

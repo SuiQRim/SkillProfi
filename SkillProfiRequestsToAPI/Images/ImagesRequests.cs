@@ -1,19 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Net;
 
 namespace SkillProfiRequestsToAPI.Images
 {
-	public static class ImagesRequests
+	public class PicturesRequests : RequestController
 	{
-		private const string _mainUrl = "https://localhost:7120/api/Picture";
+        public PicturesRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Picture") {}
 
-		public static string GetURL(string Id) => _mainUrl + $"?id={Id}";
+        public string GetURL(string Id) => Url + $"?id={Id}";
 
-		public static byte[]? GetImage(string Id)
+		public byte[]? GetImage(string Id)
 		{
             HttpWebRequest lxRequest = (HttpWebRequest)WebRequest.Create(GetURL(Id));
             byte[]? lnByte;

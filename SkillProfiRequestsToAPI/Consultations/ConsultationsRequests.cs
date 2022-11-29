@@ -1,51 +1,48 @@
-﻿using System.Net;
-using System.Text;
-using SkillProfi;
-using Newtonsoft.Json;
+﻿using SkillProfi;
 
 namespace SkillProfiRequestsToAPI.Consultations
 {
-    public static class ConsultationsRequests
+    public class ConsultationsRequests : RequestController
     {
-        private const string _mainUrl = "https://localhost:7120/api/Consultations";
+        public ConsultationsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Consultations"){}
 
-        public static List<Consultation> GetConsultations(string successToken) =>
-            Request.Get<List<Consultation>>(_mainUrl, successToken);
+        public List<Consultation> GetList(string successToken) =>
+            Request.Get<List<Consultation>>(Url, successToken);
 
-        public static async Task<List<Consultation>> GetConsultationsAsync(string successToken) => 
-            await Request.GetAsync<List<Consultation>>(_mainUrl, successToken);
-
-
-
-        public static Consultation GetConsultation(string id, string accessToken) => 
-            Request.Get<Consultation>($"{_mainUrl}/{id}", accessToken);
-
-        public static async Task<Consultation> GetConsultationAsync(string id, string accessToken) =>
-            await Request.GetAsync<Consultation>($"{_mainUrl}/{id}", accessToken);
+        public async Task<List<Consultation>> GetListAsync(string successToken) => 
+            await Request.GetAsync<List<Consultation>>(Url, successToken);
 
 
 
-        public static string AddConsultation(Consultation Consultation) => 
-            Request.Add(Consultation, _mainUrl);
+        public Consultation GetById(string id, string accessToken) => 
+            Request.Get<Consultation>($"{Url}/{id}", accessToken);
 
-        public static async Task<string> AddConsultationAsync(Consultation Consultation) => 
-            await Request.AddAsync(Consultation, _mainUrl);
-
-
-
-        public static string EditConsultation(string id, Consultation Consultation, string accessToken) 
-            => Request.Edit(Consultation,_mainUrl, id, accessToken);
-
-        public static async Task<string> EditConsultationAsync(string id, Consultation Consultation, string accessToken) 
-            => await Request.EditAsync(Consultation,_mainUrl, id, accessToken);
+        public async Task<Consultation> GetByIdAsync(string id, string accessToken) =>
+            await Request.GetAsync<Consultation>($"{Url}/{id}", accessToken);
 
 
 
-        public static string DeleteConsultation(string id, string accessToken) => 
-            Request.Delete(id, _mainUrl, accessToken);
+        public string Add(Consultation Consultation) => 
+            Request.Add(Consultation, Url);
 
-        public static async Task<string> DeleteConsultationAsync(string id, string accessToken) => 
-            await Request.DeleteAsync(id, _mainUrl, accessToken);
+        public async Task<string> AddAsync(Consultation Consultation) => 
+            await Request.AddAsync(Consultation, Url);
+
+
+
+        public string Edit(string id, Consultation Consultation, string accessToken) =>
+            Request.Edit(Consultation,Url, id, accessToken);
+
+        public async Task<string> EditAsync(string id, Consultation Consultation, string accessToken) =>
+            await Request.EditAsync(Consultation,Url, id, accessToken);
+
+
+
+        public string DeleteById(string id, string accessToken) => 
+            Request.Delete(id, Url, accessToken);
+
+        public async Task<string> DeleteByIdAsync(string id, string accessToken) => 
+            await Request.DeleteAsync(id, Url, accessToken);
 
     }
 }

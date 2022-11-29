@@ -1,4 +1,4 @@
-﻿using SkillProfiWPF.Extensions;
+﻿using SkillProfiWPF.Models;
 using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;

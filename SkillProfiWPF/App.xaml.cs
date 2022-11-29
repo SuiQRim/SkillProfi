@@ -1,5 +1,5 @@
 ﻿using SkillProfi;
-using SkillProfiWPF.Extensions;
+using SkillProfiWPF.Models;
 using SkillProfiWPF.ViewModels;
 using SkillProfiWPF.Views;
 using System.Diagnostics;

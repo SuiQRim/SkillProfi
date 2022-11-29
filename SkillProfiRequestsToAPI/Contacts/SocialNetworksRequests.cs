@@ -1,46 +1,38 @@
-﻿using Newtonsoft.Json;
-using SkillProfi;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
+﻿using SkillProfi;
 
 namespace SkillProfiRequestsToAPI.Contacts
 {
-    public static class SocialNetworksRequests
+    public class SocialNetworksRequests : RequestController
     {
+        public SocialNetworksRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Contacts/SocialNetworks") { }
 
-        private const string _mainUrl = "https://localhost:7120/api/Contacts/SocialNetworks";
+        public List<SocialNetwork> GetList() =>
+            Request.Get<List<SocialNetwork>>(Url);
 
-        public static List<SocialNetwork> GetSocialNetworks() => 
-            Request.Get<List<SocialNetwork>>(_mainUrl);
-
-        public static async Task<List<SocialNetwork>> GetSocialNetworksAsync() => 
-            await Request.GetAsync<List<SocialNetwork>>(_mainUrl);
-
-
-
-        public static string AddSocialNetwork(SocialNetwork SocialNetwork, string accessToken) => 
-            Request.Add(SocialNetwork, _mainUrl, accessToken);
-
-        public static async Task<string> AddSocialNetworkAsync(SocialNetwork SocialNetwork, string accessToken) =>
-            await Request.AddAsync(SocialNetwork, _mainUrl, accessToken);
+        public async Task<List<SocialNetwork>> GetListAsync() =>
+            await Request.GetAsync<List<SocialNetwork>>(Url);
 
 
 
-        public static string EditSocialNetwork(string id, SocialNetwork SocialNetwork, string accessToken) => 
-            Request.Edit(SocialNetwork, _mainUrl, id, accessToken);
+        public string Add(SocialNetwork SocialNetwork, string accessToken) =>
+            Request.Add(SocialNetwork, Url, accessToken);
 
-        public static async Task<string> EditSocialNetworkAsync(string id, SocialNetwork SocialNetwork, string accessToken) => 
-            await Request.EditAsync(SocialNetwork, _mainUrl, id, accessToken);
+        public async Task<string> AddAsync(SocialNetwork SocialNetwork, string accessToken) =>
+            await Request.AddAsync(SocialNetwork, Url, accessToken);
 
 
-        public static string DeleteSocialNetwork(string id, string accessToken) => 
-            Request.Delete(id, _mainUrl, accessToken);
 
-        public static async Task<string> DeleteSocialNetworkAsync(string id, string accessToken) => 
-            await Request.DeleteAsync(id, _mainUrl, accessToken);
+        public string Edit(string id, SocialNetwork SocialNetwork, string accessToken) =>
+            Request.Edit(SocialNetwork, Url, id, accessToken);
+
+        public async Task<string> EditAsync(string id, SocialNetwork SocialNetwork, string accessToken) =>
+            await Request.EditAsync(SocialNetwork, Url, id, accessToken);
+
+
+        public string DeleteById(string id, string accessToken) =>
+            Request.Delete(id, Url, accessToken);
+
+        public async Task<string> DeleteByIdAsync(string id, string accessToken) =>
+            await Request.DeleteAsync(id, Url, accessToken);
     }
 }

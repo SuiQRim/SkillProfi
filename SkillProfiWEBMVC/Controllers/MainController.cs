@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SkillProfiRequestsToAPI.Consultations;
+using SkillProfiRequestsToAPI;
+using SkillProfiWPF;
 
 namespace SkillProfiWEBMVC.Controllers
 {
     public class MainController : Controller
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public IActionResult Main()
         {
             return View();
@@ -13,7 +16,7 @@ namespace SkillProfiWEBMVC.Controllers
         [HttpPost]
         public async Task<RedirectResult> AddConsultationAsync(string email, string name, string description) {
 
-            await ConsultationsRequests.AddConsultationAsync(new() {EMail = email, Name = name, Description = description});
+            await _spClient.Consultations.AddAsync(new() {EMail = email, Name = name, Description = description});
             return RedirectPermanent("~/");
         }
     }

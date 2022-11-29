@@ -5,13 +5,15 @@ using System.Linq;
 using SkillProfi;
 using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfiRequestsToAPI.Consultations;
 using SkillProfiWPF.Extensions;
+using SkillProfiRequestsToAPI;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class ConsultationsViewModel : ViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public ConsultationsViewModel()
         {
             SetDateDiapasone =  new LamdaCommand(OnSetDateDiapasone, CanAnyWay);
@@ -30,7 +32,7 @@ namespace SkillProfiWPF.ViewModels
         public void UpdateConsultations()
         {
             Consultations = new 
-                (ConsultationsRequests.GetConsultations(AccessToken) ?? new());
+                (_spClient.Consultations.GetList(AccessToken) ?? new());
 
             FilteredConsultations = new 
                 (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
@@ -55,7 +57,7 @@ namespace SkillProfiWPF.ViewModels
         private void OnSaveConsultationStatus(object p)
         {
             IsOpenEditStatusMenuElement = false;
-            ConsultationsRequests.EditConsultation(SelectedConsultation.Id.ToString(), SelectedConsultation, AccessToken);
+            _spClient.Consultations.Edit(SelectedConsultation.Id.ToString(), SelectedConsultation, AccessToken);
             UpdateConsultations();
 
         }

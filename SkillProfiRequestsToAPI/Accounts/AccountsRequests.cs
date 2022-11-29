@@ -1,22 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Text;
-using System.Threading.Tasks;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
+﻿using Newtonsoft.Json.Linq;
 using SkillProfi;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SkillProfiRequestsToAPI.Accounts
 {
-    public static class AccountsRequests
+    public class AccountsRequests : RequestController
     {
-        private const string _mainUrl = "https://localhost:7120/api/Auth";
-        public static AuthParameters? Login(Account account)
+        public AccountsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Auth") { }
+
+        public AuthParameters? Login(Account account)
         {
-            string data = Request.Add(account, _mainUrl);
+            string data = Request.Add(account, Url);
             JObject jsonResponce = JObject.Parse(data);
 
             int statusCode = jsonResponce.Value<int>("statusCode");

@@ -1,5 +1,5 @@
 ﻿using SkillProfi;
-using SkillProfiRequestsToAPI.Blogs;
+using SkillProfiRequestsToAPI;
 using SkillProfiWPF.Extensions;
 using SkillProfiWPF.ViewModels.Prefab;
 using System;
@@ -15,14 +15,16 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class BlogsViewModel : EditorViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public BlogsViewModel()
         {
             Blogs = new(GetBlogsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
 
-        private static List<Blog> GetBlogsWithImage() => 
-            Task.Run(async () => await BlogsRequests.GetBlogsAsync()).Result.LoadImage();
+        private List<Blog> GetBlogsWithImage() => 
+            Task.Run(async () => await _spClient.Blogs.GetListAsync()).Result.LoadImage(_spClient);
 
         #region Commands
 
@@ -42,7 +44,7 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            BlogsRequests.DeleteBlog(SelectedBlog!.Id.ToString(), AccessToken);
+            _spClient.Blogs.DeleteById(SelectedBlog!.Id.ToString(), AccessToken);
             Blogs = new(GetBlogsWithImage());
             IsObjectSelect = false;
 
@@ -83,7 +85,7 @@ namespace SkillProfiWPF.ViewModels
                     Description = Description,
                     PictureBytePresentation = PictureBytePresentation,
                 };
-                BlogsRequests.AddBlog(newBlog);
+                _spClient.Blogs.Add(newBlog, AccessToken);
                 Blogs = new(GetBlogsWithImage());
 
             }
@@ -93,7 +95,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedBlog.Description = Description;
                 SelectedBlog.PictureBytePresentation = PictureBytePresentation;
 
-                BlogsRequests.EditBlog(SelectedBlog.Id.ToString(), SelectedBlog, AccessToken);
+                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), SelectedBlog, AccessToken);
                 Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }

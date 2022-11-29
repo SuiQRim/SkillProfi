@@ -1,51 +1,50 @@
-﻿using Newtonsoft.Json;
-using SkillProfi;
-using System.Net;
-using System.Text;
+﻿using SkillProfi;
 
 namespace SkillProfiRequestsToAPI.Services
 {
-    public class ServicesRequests
+    public class ServicesRequests : RequestController
     {
-        private const string _mainUrl = "https://localhost:7120/api/Services";
+        public ServicesRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Services")
+        {
+        }
 
-        public static List<Service> GetServices() => 
-            Request.Get<List<Service>>(_mainUrl);
+        public List<Service> GetList() =>
+            Request.Get<List<Service>>(Url);
 
-        public static async Task<List<Service>> GetServicesAsync() => 
-            await Request.GetAsync<List<Service>>(_mainUrl);
-
-
-
-        public static Service GetService(string id) =>
-            Request.Get<Service>($"{_mainUrl}/{id}");
-        
-        public static async Task<Service> GetServiceAsync(string id) => 
-            await Request.GetAsync<Service>($"{_mainUrl}/{id}");
+        public async Task<List<Service>> GetListAsync() =>
+            await Request.GetAsync<List<Service>>(Url);
 
 
 
-        public static string AddService(Service Service, string accessToken) => 
-            Request.Add(Service, _mainUrl, accessToken); 
+        public Service GetById(string id) =>
+            Request.Get<Service>($"{Url}/{id}");
 
-        public static async Task<string> AddServiceAsync(Service Service, string accessToken) => 
-            await Request.AddAsync(Service, _mainUrl, accessToken);
-        
+        public async Task<Service> GetByIdAsync(string id) =>
+            await Request.GetAsync<Service>($"{Url}/{id}");
 
 
-        public static string EditService(string id, Service Service, string accessToken) =>
-            Request.Edit(Service, _mainUrl, id, accessToken);
 
-        public static async Task<string> EditServiceAsync(string id, Service Service, string accessToken) => 
-            await Request.EditAsync(Service, _mainUrl, id, accessToken);
+        public string Add(Service Service, string accessToken) =>
+            Request.Add(Service, Url, accessToken);
 
-       
+        public async Task<string> AddAsync(Service Service, string accessToken) =>
+            await Request.AddAsync(Service, Url, accessToken);
 
-        public static string DeleteService(string id, string accessToken) => 
-            Request.Delete(id, _mainUrl, accessToken);
-        
-        public static async Task<string> DeleteServiceAsync(string id, string accessToken) => 
-            await Request.DeleteAsync(id, _mainUrl, accessToken);
+
+
+        public string Edit(string id, Service Service, string accessToken) =>
+            Request.Edit(Service, Url, id, accessToken);
+
+        public async Task<string> EditAsync(string id, Service Service, string accessToken) =>
+            await Request.EditAsync(Service, Url, id, accessToken);
+
+
+
+        public string DeleteById(string id, string accessToken) =>
+            Request.Delete(id, Url, accessToken);
+
+        public async Task<string> DeleteByIdAsync(string id, string accessToken) =>
+            await Request.DeleteAsync(id, Url, accessToken);
 
     }
 }

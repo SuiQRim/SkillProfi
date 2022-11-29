@@ -1,4 +1,5 @@
 ﻿using SkillProfi;
+using SkillProfiRequestsToAPI;
 using SkillProfiRequestsToAPI.Services;
 using System;
 using System.Collections.ObjectModel;
@@ -8,9 +9,11 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class ServicesViewModel : EditorViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public ServicesViewModel()
         {
-            Services = new (ServicesRequests.GetServices());
+            Services = new (_spClient.Services.GetList());
         }
 
         protected override bool CanAdd(object p) => true;
@@ -29,8 +32,8 @@ namespace SkillProfiWPF.ViewModels
         }
         protected override void OnDelete(object p)
         {
-            ServicesRequests.DeleteService(SelectedService!.Id.ToString(), AccessToken);
-            Services = new(ServicesRequests.GetServices());
+            _spClient.Services.DeleteById(SelectedService!.Id.ToString(), AccessToken);
+            Services = new(_spClient.Services.GetList());
             IsObjectSelect = false;
         }
 
@@ -42,7 +45,7 @@ namespace SkillProfiWPF.ViewModels
 
             if (!IsAddObject)
             {
-                Services = new(ServicesRequests.GetServices());
+                Services = new(_spClient.Services.GetList());
                 SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
             }
         }
@@ -67,8 +70,8 @@ namespace SkillProfiWPF.ViewModels
                     Title = Title,
                     Description = Description,
                 };
-                ServicesRequests.AddService(newProject, AccessToken);
-                Services = new(ServicesRequests.GetServices());
+                _spClient.Services.Add(newProject, AccessToken);
+                Services = new(_spClient.Services.GetList());
 
             }
             else
@@ -76,8 +79,8 @@ namespace SkillProfiWPF.ViewModels
                 SelectedService.Title = Title;
                 SelectedService.Description = Description;
 
-                ServicesRequests.EditService(SelectedService.Id.ToString(), SelectedService, AccessToken);
-                Services = new(ServicesRequests.GetServices());
+                _spClient.Services.Edit(SelectedService.Id.ToString(), SelectedService, AccessToken);
+                Services = new(_spClient.Services.GetList());
                 SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
             }
 

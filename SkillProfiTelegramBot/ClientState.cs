@@ -1,8 +1,7 @@
 ﻿using SkillProfi;
-using SkillProfiTelegramBot;
 using Telegram.Bot.Types;
 
-namespace TelegramBotExperiments
+namespace SkillProfiTelegramBot
 {
     internal class ClientState
     {

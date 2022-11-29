@@ -5,24 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfi;
-using SkillProfiRequestsToAPI.Projects;
 using System.Windows.Input;
 using System.IO;
 using System.Windows.Forms;
 using SkillProfiWPF.Extensions;
+using SkillProfiRequestsToAPI;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class ProjectsViewModel : EditorViewModel
     {
+        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+
         public ProjectsViewModel()
         {
             Projects = new (GetProjectsWithImage());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
 
-        private static List<Project> GetProjectsWithImage() => 
-            Task.Run(async () => await ProjectsRequests.GetProjectsAsync()).Result.LoadImage();
+        private List<Project> GetProjectsWithImage() => 
+            Task.Run(async () => await _spClient.Projects.GetListAsync()).Result.LoadImage(_spClient);
       
         
         #region Commands
@@ -42,7 +44,7 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            ProjectsRequests.DeleteProject(SelectedProject!.Id.ToString(), AccessToken);
+            _spClient.Projects.DeleteById(SelectedProject!.Id.ToString(), AccessToken);
             Projects = new(GetProjectsWithImage());
             IsObjectSelect = false;
 
@@ -81,7 +83,7 @@ namespace SkillProfiWPF.ViewModels
                     Description = Description,
                     PictureBytePresentation = PictureBytePresentation,
                 };
-                ProjectsRequests.AddProject(newProject, AccessToken);
+                _spClient.Projects.Add(newProject, AccessToken);
                 Projects = new(GetProjectsWithImage());
 
             }
@@ -91,7 +93,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedProject.Description = Description;
                 SelectedProject.PictureBytePresentation = PictureBytePresentation;
 
-                ProjectsRequests.EditProject(SelectedProject.Id.ToString(), SelectedProject, AccessToken);
+                _spClient.Projects.Edit(SelectedProject.Id.ToString(), SelectedProject, AccessToken);
                 Projects = new(GetProjectsWithImage());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
