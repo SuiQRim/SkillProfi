@@ -46,6 +46,7 @@
 
                 <Button 
                     Style="{DynamicResource DefaultButton}"
+                    Command="{Binding OpenFaceUC}"
                     Content="Главная"/>
 
 

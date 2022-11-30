@@ -54,8 +54,9 @@ namespace SkillProfiApi.Controllers
 
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
-            await ContactsFile.EditSocialNetwork(id, socialNetwork);
 			await PictureDirectory.SavePictureAsync(socialNetwork);
+            await ContactsFile.EditSocialNetwork(id, socialNetwork);
+
 
 			return Ok();
         }

@@ -6,9 +6,12 @@ namespace SkillProfiApi.Data
 	{
 		private const string REPOSITORY = "Pictures";
 
+		private static string PathToPicture(string pictureName) =>
+			Path.Combine(REPOSITORY, pictureName);
+
 		public static async Task<byte[]?> GetPictureAsync(Guid guid)
 		{
-			string path = Path.Combine(REPOSITORY, guid.ToString());
+			string path = PathToPicture(guid.ToString());
 			if (!File.Exists(path)) return null;
 
 			return await File.ReadAllBytesAsync(path);
@@ -18,7 +21,7 @@ namespace SkillProfiApi.Data
 		{
 			pic.PictureName = Guid.NewGuid().ToString();
 
-			if (File.Exists(Path.Combine(REPOSITORY, pic.PictureName)))
+			if (File.Exists(PathToPicture(pic.PictureName)))
 			{
 				pic.SetOriginalName();
 			}
@@ -35,23 +38,17 @@ namespace SkillProfiApi.Data
 
 			objImg.Object.SetOriginalName();
 
-			string path = Path.Combine(REPOSITORY, objImg.Object.PictureName);
+			string path = PathToPicture(objImg.Object.PictureName);
 
 			await File.WriteAllBytesAsync(path, objImg.Picture);
 		}
 
 		public static void RemovePicture(this IPicture picture)
 		{
-            string path = Path.Combine(REPOSITORY, picture.PictureName);
-			File.Delete(path);
+            string path = PathToPicture(picture.PictureName);
+
+			if (File.Exists(path))
+				File.Delete(path);
         }
-
-		public static void Configurate() 
-		{
-			if (Directory.Exists("Pictures")) return;
-
-			Directory.CreateDirectory(REPOSITORY);
-		}
-
 	}
 }

@@ -4,7 +4,8 @@ using Microsoft.IdentityModel.Tokens;
 using SkillProfiApi;
 using SkillProfiApi.Data;var builder = WebApplication.CreateBuilder(args);
 
-PictureDirectory.Configurate();
+FileStorage.CreateAllComponents();
+
 builder.WebHost.ConfigureKestrel(serverOptions =>
 {
     serverOptions.Limits.MaxRequestBodySize = int.MaxValue;

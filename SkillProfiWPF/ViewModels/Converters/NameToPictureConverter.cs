@@ -16,7 +16,7 @@ namespace SkillProfiWPF.ViewModels.Converters
 
 			if (File.Exists(name))
 			{
-				return name;
+				return File.ReadAllBytes(name);
 			}
 
 			byte [] puctire = _spClient.Pictures.GetPicture(name);

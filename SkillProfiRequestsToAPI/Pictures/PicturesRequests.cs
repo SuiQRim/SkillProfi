@@ -1,6 +1,6 @@
 ﻿using System.Net;
 
-namespace SkillProfiRequestsToAPI.Images
+namespace SkillProfiRequestsToAPI.Pictures
 {
 	public class PicturesRequests : RequestController
 	{

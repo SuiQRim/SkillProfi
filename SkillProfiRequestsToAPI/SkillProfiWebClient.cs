@@ -2,9 +2,10 @@
 using SkillProfiRequestsToAPI.Blogs;
 using SkillProfiRequestsToAPI.Consultations;
 using SkillProfiRequestsToAPI.Contacts;
-using SkillProfiRequestsToAPI.Images;
+using SkillProfiRequestsToAPI.Pictures;
 using SkillProfiRequestsToAPI.Projects;
 using SkillProfiRequestsToAPI.Services;
+using SkillProfiRequestsToAPI.VisualComponents;
 
 namespace SkillProfiRequestsToAPI
 {
@@ -21,6 +22,7 @@ namespace SkillProfiRequestsToAPI
             Pictures = new(GetBaseUrl);
             Projects = new(GetBaseUrl);
             Services = new(GetBaseUrl);
+            Face = new(GetBaseUrl);
         }
 
         public string BaseURL { get; set; }
@@ -42,6 +44,8 @@ namespace SkillProfiRequestsToAPI
         public readonly ProjectsRequests Projects;
 
         public readonly ServicesRequests Services;
+
+        public readonly FaceRequests Face;
 
     }
 }

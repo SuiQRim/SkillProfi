@@ -4,7 +4,7 @@ using SkillProfiRequestsToAPI;
 using SkillProfiWPF;
 using SkillProfiWEBMVC.Models;
 using System.Transactions;
-using SkillProfiRequestsToAPI.Images;
+using SkillProfiRequestsToAPI.Pictures;
 using System.Reflection;
 
 namespace SkillProfiWEBMVC.Controllers
