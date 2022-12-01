@@ -10,7 +10,7 @@ namespace SkillProfiWPF.ViewModels
 {
 	internal class FaceViewModel : EditorViewModel
 	{
-		private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+		private readonly SkillProfiWebClient _spClient = new();
 
 		public string BackGroundImage { get; } = @"Assets\Studying.jpg";
 

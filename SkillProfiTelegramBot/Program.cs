@@ -11,11 +11,11 @@ namespace SkillProfiTelegramBot
 
     class Program
     {
-        private static readonly SkillProfiWebClient _spWebClient = new (AppState.ReadServerUrl);
+        private static readonly SkillProfiWebClient _spWebClient = new ();
 
         private static readonly List<ClientState> _clientStates = new();
 
-        static ITelegramBotClient bot = new TelegramBotClient("5886273004:AAENr5T41qP6jxFQukjazBbFveAbhID9xLo");
+        private static readonly ITelegramBotClient bot = new TelegramBotClient("token");
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {

@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkillProfi;
 using SkillProfiRequestsToAPI;
-using SkillProfiWPF;
 using SkillProfiWEBMVC.Models;
 using System.Transactions;
 using SkillProfiRequestsToAPI.Pictures;
@@ -11,7 +10,7 @@ namespace SkillProfiWEBMVC.Controllers
 {
     public class BlogsController : Controller
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public async Task<IActionResult> BlogsAsync()
         {

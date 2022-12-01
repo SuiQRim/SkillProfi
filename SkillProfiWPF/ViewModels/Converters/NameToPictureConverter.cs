@@ -10,7 +10,7 @@ namespace SkillProfiWPF.ViewModels.Converters
 	{
 		public object Convert(object item, Type targetType, object parameter, System.Globalization.CultureInfo culture)
 		{
-			SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+			SkillProfiWebClient _spClient = new();
 
 			var name = (string)item;
 

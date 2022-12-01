@@ -11,8 +11,8 @@ using SkillProfiRequestsToAPI;
 namespace SkillProfiWPF.ViewModels
 {
     internal class ConsultationsViewModel : ViewModel
-    {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+    {   
+        private readonly SkillProfiWebClient _spClient = new();
 
         public ConsultationsViewModel()
         {

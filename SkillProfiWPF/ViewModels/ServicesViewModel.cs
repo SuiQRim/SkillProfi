@@ -9,7 +9,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class ServicesViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public ServicesViewModel()
         {

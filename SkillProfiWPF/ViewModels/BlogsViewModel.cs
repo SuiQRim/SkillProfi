@@ -14,7 +14,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class BlogsViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public BlogsViewModel()
         {

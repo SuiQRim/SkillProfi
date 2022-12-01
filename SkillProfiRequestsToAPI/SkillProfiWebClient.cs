@@ -1,4 +1,5 @@
-﻿using SkillProfiRequestsToAPI.Accounts;
+﻿using Newtonsoft.Json.Linq;
+using SkillProfiRequestsToAPI.Accounts;
 using SkillProfiRequestsToAPI.Blogs;
 using SkillProfiRequestsToAPI.Consultations;
 using SkillProfiRequestsToAPI.Contacts;
@@ -11,25 +12,48 @@ namespace SkillProfiRequestsToAPI
 {
     public class SkillProfiWebClient
     {
-        public SkillProfiWebClient(string baseUrl) 
-        {
-            BaseURL = baseUrl;
-            Accounts = new (GetBaseUrl);
-            Blogs = new(GetBaseUrl);
-            Contacts = new(GetBaseUrl);
-            Consultations = new(GetBaseUrl);
-            SocialNetworks = new(GetBaseUrl);
-            Pictures = new(GetBaseUrl);
-            Projects = new(GetBaseUrl);
-            Services = new(GetBaseUrl);
-            Face = new(GetBaseUrl);
-        }
+		private const string SETTINGS_FILE_NAME = "appsettings.json";
 
-        public string BaseURL { get; set; }
+		private const string DOMAIN_FIELD = "serverUrl";
+
+		public SkillProfiWebClient()
+        {
+			BaseURL = ReadServerUrl;
+			Accounts = new(GetBaseUrl);
+			Blogs = new(GetBaseUrl);
+			Contacts = new(GetBaseUrl);
+			Consultations = new(GetBaseUrl);
+			SocialNetworks = new(GetBaseUrl);
+			Pictures = new(GetBaseUrl);
+			Projects = new(GetBaseUrl);
+			Services = new(GetBaseUrl);
+			Face = new(GetBaseUrl);
+		}
+
+
+		public string BaseURL { get; set; }
         private string GetBaseUrl() => BaseURL;
 
+		private static string ReadServerUrl
+		{
+			get
+			{
+				if (!File.Exists("appsettings.json"))
+				{
+					throw new FileNotFoundException($"Для работы клиента должен быть файл {SETTINGS_FILE_NAME}, с параметром '{DOMAIN_FIELD}'");
+				}
+				string text = File.ReadAllText(SETTINGS_FILE_NAME);
 
-        public readonly AccountsRequests Accounts;
+				JObject configJs = JObject.Parse(text);
+
+				string serverUrl = configJs[DOMAIN_FIELD].Value<string>() ?? throw new Exception("Не получилось прочитать Url сервера");
+
+				return serverUrl;
+			}
+		}
+
+
+		public readonly AccountsRequests Accounts;
 
         public readonly BlogsRequests Blogs;
 

@@ -14,7 +14,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class SocialNetworksViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public SocialNetworksViewModel()
         {

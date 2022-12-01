@@ -8,7 +8,7 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class LoginViewModel : ViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public LoginViewModel()
         {

@@ -2,13 +2,12 @@
 using SkillProfi;
 using SkillProfiRequestsToAPI;
 using SkillProfiWEBMVC.Models;
-using SkillProfiWPF;
 
 namespace SkillProfiWEBMVC.Controllers
 {
     public class ProjectsController : Controller
     {
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public async Task<IActionResult> ProjectsAsync()
         {

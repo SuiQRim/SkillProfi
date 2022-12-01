@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkillProfiRequestsToAPI;
 using SkillProfiRequestsToAPI.Services;
-using SkillProfiWPF;
 
 namespace SkillProfiWEBMVC.Controllers
 {
 	public class ServicesController : Controller
 	{
-        private readonly SkillProfiWebClient _spClient = new(AppState.ReadServerUrl);
+        private readonly SkillProfiWebClient _spClient = new();
 
         public async Task<IActionResult> Services()
 		{
