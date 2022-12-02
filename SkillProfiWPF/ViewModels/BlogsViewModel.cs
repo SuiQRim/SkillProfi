@@ -46,8 +46,8 @@ namespace SkillProfiWPF.ViewModels
             _spClient.Blogs.DeleteById(SelectedBlog!.Id.ToString(), AccessToken);
             Blogs = new(GetBlogsWithImage());
             IsObjectSelect = false;
-
-        }
+			_lastSelectedBlogId = Guid.Empty;
+		}
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
         protected override void OnReturn(object p)

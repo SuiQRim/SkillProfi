@@ -47,8 +47,8 @@ namespace SkillProfiWPF.ViewModels
             _spClient.Projects.DeleteById(SelectedProject!.Id.ToString(), AccessToken);
             Projects = new(GetProjectsWithImage());
             IsObjectSelect = false;
-
-        }
+            _lastSelectedProjectId = Guid.Empty;
+		}
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
         protected override void OnReturn(object p)

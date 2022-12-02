@@ -42,8 +42,9 @@ namespace SkillProfiWPF.ViewModels
             SocialNetworks = new(GetProjectsWithImage());
             SelectedSocialNetwork = null;
             IsObjectSelect = false;
-             
-        }
+            _lastSelectedSocialNetworkId = Guid.Empty;
+
+		}
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
         protected override void OnReturn(object p)

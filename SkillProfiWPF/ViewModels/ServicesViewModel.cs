@@ -35,7 +35,8 @@ namespace SkillProfiWPF.ViewModels
             _spClient.Services.DeleteById(SelectedService!.Id.ToString(), AccessToken);
             Services = new(_spClient.Services.GetList());
             IsObjectSelect = false;
-        }
+			_lastSelectedProjectId = Guid.Empty;
+		}
 
 
         protected override bool CanReturn(object p) => base.CanReturn(p);
