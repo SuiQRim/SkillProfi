@@ -10,314 +10,320 @@
              mc:Ignorable="d" 
              FontFamily="arial"
              d:DesignHeight="800" d:DesignWidth="1200">
+    <ScrollViewer>
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <StackPanel 
-            Margin="0 10"
-            Grid.Row="0"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <StackPanel 
+                Margin="0 10"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
 
-            <TextBlock 
-                Padding="10"
-                FontSize="20px"
-                Foreground="Black"
-                TextAlignment="Center"
-                Text="Project Count">
-
-            </TextBlock>
-
-            <Border 
-                CornerRadius="8"
-                Background="#4299d9">
-
-                <TextBlock
-                    Padding="20 10"
+                <TextBlock 
+                    Padding="10"
                     FontSize="20px"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Text="{Binding Projects.Count}">
+                    Foreground="Black"
+                    TextAlignment="Center"
+                    Text="Project Count">
 
                 </TextBlock>
 
-            </Border>
+                <Border 
+                    CornerRadius="8"
+                    Background="#4299d9">
 
-        </StackPanel>
+                    <TextBlock
+                        Padding="20 10"
+                        FontSize="20px"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Text="{Binding Projects.Count}">
 
-        <ListBox 
-            Margin="10"
-            Grid.Row="1"
-            ScrollViewer.VerticalScrollBarVisibility="Disabled"
-            SelectedValue="{Binding SelectedProject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
-            ItemsSource="{Binding Projects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}">
-            
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
+                    </TextBlock>
 
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border>
-                        
-                        <Grid
-                            Margin="20 10">
+                </Border>
 
-                            <WrapPanel 
-                                Name ="container"
-                                Height="180"
-                                Width="320">
+            </StackPanel>
 
-                                <Image
-                                    d:Source="../Assets/ImageError.png"
-                                    HorizontalAlignment="Center" 
-                                    VerticalAlignment="Center"
-                                    Stretch="UniformToFill"
-                                    Source="{Binding PictureName, Converter={StaticResource NameToPictureConverter}}">
-                                </Image>
-                                
-                                
-                                <WrapPanel.OpacityMask>
-                                    <VisualBrush >
-                                        <VisualBrush.Visual>
-                                            <Border 
-                                                Height="{Binding ElementName=container, Path=ActualHeight}" 
-                                                Width="{Binding ElementName=container, Path=ActualWidth}"
-                                                Background="White" CornerRadius="8" />
-                                        </VisualBrush.Visual>
-                                    </VisualBrush>
-                                </WrapPanel.OpacityMask>
-                                
-                            </WrapPanel>
+            <ListBox 
+                VerticalContentAlignment="Top"
+                Margin="10"
+                Grid.Row="1"
+                ScrollViewer.VerticalScrollBarVisibility="Disabled"
+                SelectedValue="{Binding SelectedProject, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                ItemsSource="{Binding Projects, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=5}">
 
-                            <Border
-                                CornerRadius="0 0 8 8"
-                                Height="52"
-                                MaxWidth="320"
-                                VerticalAlignment="Bottom"
-                                Background="{DynamicResource MainColor}">
+                <ListBox.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel IsItemsHost="True" />
+                    </ItemsPanelTemplate>
+                </ListBox.ItemsPanel>
 
-                                <TextBlock 
-                                    VerticalAlignment="Center"
-                                    Foreground="White"
-                                    TextAlignment="Center"
-                                    TextWrapping="Wrap"
-                                    FontSize="18"
-                                    Text="{Binding Title, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
-                            </Border>
-                        </Grid>
-                        
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border>
 
-        <StackPanel
-            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
-            d:Visibility="Visible"
-            Orientation="Horizontal"
-            Margin="10"
-            Grid.Row="2">
+                            <StackPanel
+                                VerticalAlignment="Top"
+                                Margin="20 10">
 
-            <Button
-                HorizontalAlignment="Left"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Add}"
-                Content="➕"
-                Padding="10"/>
-                        
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Delete}"
-                Content="➖"
-                Padding="10"/>
-            
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-                HorizontalAlignment="Left"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Edit}"
-                Padding="10"/>
+                                <WrapPanel 
+                                    Name ="container"
+                                    Height="{DynamicResource BlockHeight}"
+                                    Width="{DynamicResource BlockWidth}">
 
-            <Button
-                Style="{StaticResource EditButton}"
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
-                VerticalAlignment="Bottom"
-                Content="✖"
-                Padding="10"
-                Command="{Binding Return}"/>
+                                    <Image
+                                        d:Source="../Assets/ImageError.png"
+                                        HorizontalAlignment="Center" 
+                                        VerticalAlignment="Center"
+                                        Stretch="UniformToFill"
+                                        Source="{Binding PictureName, Converter={StaticResource NameToPictureConverter}}">
+                                    </Image>
 
 
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
-                Style="{StaticResource AcceptButton}"
-                VerticalAlignment="Bottom"
-                Padding="10"
-                Command="{Binding Save}"/>
-            
+                                    <WrapPanel.OpacityMask>
+                                        <VisualBrush >
+                                            <VisualBrush.Visual>
+                                                <Border 
+                                                    Height="{DynamicResource BlockHeight}" 
+                                                    Width="{DynamicResource BlockWidth}"
+                                                    Background="White" CornerRadius="8" />
+                                            </VisualBrush.Visual>
+                                        </VisualBrush>
+                                    </WrapPanel.OpacityMask>
 
+                                </WrapPanel>
 
-        </StackPanel>
-        <StackPanel 
-            d:Visibility="Visible"
-            Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-            Grid.Row="3">
+                                <Border
+                                    Padding="5 10"
+                                    CornerRadius="0 0 8 8"
+                                    Margin="0 -52 0 0"
+                                    MinHeight="52"
+                                    MaxWidth="320"
+                                    VerticalAlignment="Bottom"
+                                    Background="{DynamicResource MainColor}">
 
-            <Grid
-                Margin="10">
+                                    <TextBlock 
+                                        VerticalAlignment="Center"
+                                        Foreground="White"
+                                        TextAlignment="Center"
+                                        TextWrapping="Wrap"
+                                        FontSize="18"
+                                        Text="{Binding Title, Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"/>
+                                </Border>
+                            </StackPanel>
 
-                <Grid
-                    HorizontalAlignment="Left">
-
-                    <TextBlock  
-                        Name="title"
-                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
-                        Background="{x:Null}"
-                        VerticalAlignment="Bottom"
-                        Margin="10 0"
-                        Padding="12"
-                        FontSize="32"
-                        d:Text="Title"
-                        Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBox  
-                        d:Visibility="Visible"
-                        Visibility="{Binding ElementName=title, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
-                        Background="{x:Null}"
-                        VerticalAlignment="Bottom"
-                        Margin="10 0"
-                        Padding="10"
-                        BorderThickness="2"
-                        FontSize="32"
-                        BorderBrush="{DynamicResource MainColor}"
-                        d:Text="Title"
-                        Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-
-                </Grid>
-
-                <StackPanel 
-                    HorizontalAlignment="Right"
-                    Orientation="Horizontal">
-                    
-                    <Button
-                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
-                        Style="{StaticResource EditButton}"
-                        Command="{Binding SelectImage}"
-                        VerticalAlignment="Bottom"
-                        Padding="10"/>
-                    
-                    <WrapPanel 
-                        Margin="10"
-                        Name ="containerMini"
-                        Height="90"
-                        Width="160">
-
-                        <Image
-                            HorizontalAlignment="Center" 
-                            VerticalAlignment="Center"
-                            Stretch="UniformToFill"
-                            Source="{Binding PictureName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NameToPictureConverter}}"/>
-
-
-                        <WrapPanel.OpacityMask>
-                            <VisualBrush >
-                                <VisualBrush.Visual>
-
-                                    <Border 
-                                        Height="{Binding ElementName=containerMini, Path=ActualHeight}" 
-                                        Width="{Binding ElementName=containerMini, Path=ActualWidth}"
-                                        Background="White" CornerRadius="8" />
-
-                                </VisualBrush.Visual>
-                            </VisualBrush>
-                        </WrapPanel.OpacityMask>
-
-                    </WrapPanel>
-
-
-                </StackPanel>
-            </Grid>
-
-            <Grid
-                Margin="10">
-                
-                <Separator 
-                    Background="{DynamicResource MainColor}">
-
-                    <Separator.RenderTransform>
-                        <ScaleTransform ScaleY="6"/>
-                    </Separator.RenderTransform>
-
-                </Separator>
-                
-            </Grid>
-
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <StackPanel
-                   Margin="10">
+                Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
+                d:Visibility="Visible"
+                Orientation="Horizontal"
+                Margin="10"
+                Grid.Row="2">
 
-                <StackPanel
-                    Orientation="Horizontal">
-                </StackPanel>
+                <Button
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Add}"
+                    Content="➕"
+                    Padding="10"/>
 
-                
-                <Grid
-                    
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Delete}"
+                    Content="➖"
+                    Padding="10"/>
 
-                    <TextBlock 
-                        Padding="12"
-                        Name="description"
-                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
-                        FontSize="20"
-                        TextWrapping="WrapWithOverflow"
-                        Margin="10"
-                        d:Text="Description"
-                        Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Edit}"
+                    Padding="10"/>
 
-                    <TextBox 
-                        Visibility="{Binding ElementName=description, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
-                        FontSize="20"
-                        TextWrapping="WrapWithOverflow"
-                        Margin="10"
-                        Padding="10"
-                        d:Text="Description"
-                        BorderThickness="2"
-                        Background="{x:Null}"
-                        BorderBrush="{DynamicResource MainColor}"
-                        Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
-                        AcceptsReturn="True">
+                <Button
+                    Style="{StaticResource EditButton}"
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
+                    VerticalAlignment="Bottom"
+                    Content="✖"
+                    Padding="10"
+                    Command="{Binding Return}"/>
 
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                </Grid>
+
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource AcceptButton}"
+                    VerticalAlignment="Bottom"
+                    Padding="10"
+                    Command="{Binding Save}"/>
+
 
 
             </StackPanel>
-        </StackPanel>
-        
-    </Grid>
+            <StackPanel 
+                d:Visibility="Visible"
+                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                Grid.Row="3">
+
+                <Grid
+                    Margin="10">
+
+                    <Grid
+                        HorizontalAlignment="Left">
+
+                        <TextBlock  
+                            Name="title"
+                            Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                            Background="{x:Null}"
+                            VerticalAlignment="Bottom"
+                            Margin="10 0"
+                            Padding="12"
+                            FontSize="32"
+                            d:Text="Title"
+                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBox  
+                            d:Visibility="Visible"
+                            Visibility="{Binding ElementName=title, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
+                            Background="{x:Null}"
+                            VerticalAlignment="Bottom"
+                            Margin="10 0"
+                            Padding="10"
+                            BorderThickness="2"
+                            FontSize="32"
+                            BorderBrush="{DynamicResource MainColor}"
+                            d:Text="Title"
+                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+
+                    </Grid>
+
+                    <StackPanel 
+                        HorizontalAlignment="Right"
+                        Orientation="Horizontal">
+
+                        <Button
+                            Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
+                            Style="{StaticResource EditButton}"
+                            Command="{Binding SelectImage}"
+                            VerticalAlignment="Bottom"
+                            Padding="10"/>
+
+                        <WrapPanel 
+                            Margin="10"
+                            Name ="containerMini"
+                            Height="90"
+                            Width="160">
+
+                            <Image
+                                HorizontalAlignment="Center" 
+                                VerticalAlignment="Center"
+                                Stretch="UniformToFill"
+                                Source="{Binding PictureName, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource NameToPictureConverter}}"/>
+
+
+                            <WrapPanel.OpacityMask>
+                                <VisualBrush >
+                                    <VisualBrush.Visual>
+
+                                        <Border 
+                                            Height="{Binding ElementName=containerMini, Path=ActualHeight}" 
+                                            Width="{Binding ElementName=containerMini, Path=ActualWidth}"
+                                            Background="White" CornerRadius="8" />
+
+                                    </VisualBrush.Visual>
+                                </VisualBrush>
+                            </WrapPanel.OpacityMask>
+
+                        </WrapPanel>
+
+
+                    </StackPanel>
+                </Grid>
+
+                <Grid
+                    Margin="10">
+
+                    <Separator 
+                        Background="{DynamicResource MainColor}">
+
+                        <Separator.RenderTransform>
+                            <ScaleTransform ScaleY="6"/>
+                        </Separator.RenderTransform>
+
+                    </Separator>
+
+                </Grid>
+
+
+                <StackPanel
+                       Margin="10">
+
+                    <StackPanel
+                        Orientation="Horizontal">
+                    </StackPanel>
+
+
+                    <Grid
+                    
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <TextBlock 
+                            Padding="12"
+                            Name="description"
+                            Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                            FontSize="20"
+                            TextWrapping="WrapWithOverflow"
+                            Margin="10"
+                            d:Text="Description"
+                            Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBox 
+                            Visibility="{Binding ElementName=description, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
+                            FontSize="20"
+                            TextWrapping="WrapWithOverflow"
+                            Margin="10"
+                            Padding="10"
+                            d:Text="Description"
+                            BorderThickness="2"
+                            Background="{x:Null}"
+                            BorderBrush="{DynamicResource MainColor}"
+                            Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"
+                            AcceptsReturn="True">
+
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                    </Grid>
+
+
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
 </UserControl>

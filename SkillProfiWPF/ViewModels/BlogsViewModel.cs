@@ -56,7 +56,11 @@ namespace SkillProfiWPF.ViewModels
             if (!IsAddObject)
             {
                 Blogs = new(GetBlogsWithImage());
-                SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
+                if (_lastSelectedBlogId != Guid.Empty)
+                {
+                    SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
+                }
+
             }
 
         }
@@ -64,18 +68,18 @@ namespace SkillProfiWPF.ViewModels
 
         protected override bool CanSave(object p)
         {
+			if (IsAddObject && File.Exists(PictureName) && Title != string.Empty && Description != string.Empty)
+				return true;
 
-            if (!File.Exists(PictureName) || Title == string.Empty || Description == string.Empty)
-            {
-                return false;
-            }
-            return true;
+			else if (!IsAddObject && Title != string.Empty && Description != string.Empty)
+				return true;
 
-        }
+			return false;
+		}
 
         protected override void OnSave(object p)
         {
-			FileStream fstream = File.OpenRead(PictureName);
+			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
 
 			if (IsAddObject)
             {

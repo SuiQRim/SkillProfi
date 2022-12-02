@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
 using SkillProfiApi.Data;
+using SkillProfiApi.Data.Picture;
 using SkillProfiApi.Models;
+using System.Reflection.Metadata;
 
 namespace SkillProfiApi.Controllers
 {
@@ -12,8 +14,15 @@ namespace SkillProfiApi.Controllers
     [ApiController]
     public class ContactsController : ControllerBase
     {
-        // GET: api/Contacts
-        [HttpGet]
+		private readonly ILogger<ProjectsController> _logger;
+
+        public ContactsController(ILogger<ProjectsController> logger)
+        {
+            _logger = logger;
+        }
+
+		// GET: api/Contacts
+		[HttpGet]
         public async Task<ActionResult<Contacts>> GetContacts()
         {
             Contacts? contacts = await ContactsFile.GetContactsAsync();
@@ -49,14 +58,18 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Contacts/SocialNetworks
         [HttpPut("SocialNetworks/{id}")]
         [Authorize]
-        public async Task<ActionResult> PutSocialNetworks(Guid id, ObjectWithImage<SocialNetwork> socialNetwork)
+        public async Task<ActionResult> PutSocialNetworks(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork)
         {
-
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
-			await PictureDirectory.SavePictureAsync(socialNetwork);
-            await ContactsFile.EditSocialNetwork(id, socialNetwork);
+			try { await PictureDirectory.SavePictureAsync(socialNetwork); }
+			catch (PictureNullException e)
+			{
+				_logger.LogWarning(exception: e, $"{nameof(socialNetwork)} saved without image");
+				return BadRequest(e.Message);
+			}
 
+			await ContactsFile.EditSocialNetwork(id, socialNetwork);
 
 			return Ok();
         }
@@ -69,15 +82,21 @@ namespace SkillProfiApi.Controllers
         {
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
-            await ContactsFile.DeleteSocialNetwork(id);
+            var socialNetwork = await ContactsFile.DeleteSocialNetworkAsync(id);
 
-            return Ok();
+			try { socialNetwork.RemovePicture(); }
+			catch (PictureNotFound e)
+			{
+				_logger.LogWarning(exception: e, "The image cannot be deleted because it's not found");
+			}
+
+			return Ok();
         }
          
         // POST: api/Contacts/SocialNetworks
         [HttpPost("SocialNetworks")]
         [Authorize]
-        public async Task<ActionResult> PostSocialNetworks(ObjectWithImage<SocialNetwork> socialNetwork)
+        public async Task<ActionResult> PostSocialNetworks(ObjectWithPicture<SocialNetwork> socialNetwork)
         {
             await ContactsFile.AddSocialNetwork(socialNetwork);
 

@@ -8,8 +8,8 @@
         d:DataContext="{d:DesignInstance Type=ViewModels:MainWindowVeiwModel}"
         mc:Ignorable="d"
         Title="SkillProfi"
-        MinHeight="600"
-        MinWidth="1000"
+        MinHeight="400"
+        MinWidth="800"
         Background="#ededed">
 
     

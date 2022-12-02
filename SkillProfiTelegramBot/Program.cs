@@ -5,6 +5,7 @@ using SkillProfi;
 using Telegram.Bot.Types.InputFiles;
 using System.Net;
 using SkillProfiRequestsToAPI;
+using Newtonsoft.Json.Linq;
 
 namespace SkillProfiTelegramBot
 {
@@ -15,7 +16,7 @@ namespace SkillProfiTelegramBot
 
         private static readonly List<ClientState> _clientStates = new();
 
-        private static readonly ITelegramBotClient bot = new TelegramBotClient("token");
+        private static readonly ITelegramBotClient bot = new TelegramBotClient(File.ReadToken());
 
         public static async Task HandleUpdateAsync(ITelegramBotClient botClient, Update update, CancellationToken cancellationToken)
         {

@@ -32,14 +32,14 @@ namespace SkillProfiRequestsToAPI.Blogs
 
 
 
-        public string Edit(string id, Blog blog, Stream stream, string accessToken)
+        public string Edit(string id, Blog blog, Stream? stream, string accessToken)
 		{
 			var obj = BuildObjectWithImage(blog, stream);
             return Request.Edit(obj, Url, id, accessToken);
         }
            
 
-        public async Task<string> EditAsync(string id, Blog blog, Stream stream, string accessToken)
+        public async Task<string> EditAsync(string id, Blog blog, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(blog, stream);
 			return await Request.EditAsync(obj, Url, id, accessToken);

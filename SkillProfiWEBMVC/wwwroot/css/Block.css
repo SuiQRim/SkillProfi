@@ -1,13 +1,14 @@
 .block {
+    vertical-align: top;
     display: inline-block;
     margin: 20px;
     position: relative;
+    width: 320px;
 }
 
 .block-image {
-    position: relative;
     height: 180px;
-    width: 320px;
+    position: relative;
 }
 
 .block-image img {
@@ -35,6 +36,7 @@
 }
 
 .block-title-in p {
+    width: 280px;
     font-size: 18px;
     color: white;
     margin: 0;
@@ -42,15 +44,22 @@
     top: 50%;
     left: 50%;
     margin-right: -50%;
-    transform: translate(-50%, -50%)
+    transform: translate(-50%, -50%);
+    color: black;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .block-title-under {
+    text-align: center;
     position: relative;
+    overflow-x: hidden;
+    white-space: normal;
     font-size: 18px;
     margin: 10px 0px;
-    padding: 10px;
 }
+
 
 .block .created {
     position: relative;

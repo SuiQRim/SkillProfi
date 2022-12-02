@@ -37,6 +37,7 @@ namespace SkillProfiWPF.ViewModels
 
             Title = "Title";
             Description = "Description";
+            PictureName = null;
         }
 
 
@@ -56,24 +57,29 @@ namespace SkillProfiWPF.ViewModels
             if (!IsAddObject)
             {
                 Projects = new(GetProjectsWithImage());
-                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+                if (_lastSelectedProjectId != Guid.Empty)
+                {
+                    SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
+                }
+
             }
 
         }
-
 
         protected override bool CanSave(object p)
         {
-            if (!File.Exists(PictureName) || Title == string.Empty || Description == string.Empty)
-            {
-                return false;
-            }
-            return true;
+            if (IsAddObject && File.Exists(PictureName) && Title != string.Empty && Description != string.Empty)
+                return true;
+            
+            else if (!IsAddObject && Title != string.Empty && Description != string.Empty)
+                return true;
+            
+            return false;
         }
 
         protected override void OnSave(object p)
-        {
-			FileStream fstream = File.OpenRead(PictureName);
+		{
+			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
 
 			if (IsAddObject)
             {
@@ -92,6 +98,7 @@ namespace SkillProfiWPF.ViewModels
             {
                 SelectedProject.Title = Title;
                 SelectedProject.Description = Description;
+                
 				_spClient.Projects.Edit(SelectedProject.Id.ToString(), SelectedProject, fstream, AccessToken);
                
                 Projects = new(GetProjectsWithImage());

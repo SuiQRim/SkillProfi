@@ -38,7 +38,7 @@ namespace SkillProfiRequestsToAPI
 		{
 			get
 			{
-				if (!File.Exists("appsettings.json"))
+				if (!File.Exists(SETTINGS_FILE_NAME))
 				{
 					throw new FileNotFoundException($"Для работы клиента должен быть файл {SETTINGS_FILE_NAME}, с параметром '{DOMAIN_FIELD}'");
 				}

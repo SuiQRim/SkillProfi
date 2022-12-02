@@ -1,6 +1,7 @@
 * {
     margin: 0;
     padding: 0;
+    font-family: Arial;
 }
 
 .title {
@@ -124,7 +125,7 @@ input[type=email] {
     margin: 40px;
     float: left;
     height: 180px;
-    width: 320;
+    width: 320px;
 }
 
 .image-block-content img {

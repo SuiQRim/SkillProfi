@@ -9,6 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="appsettings.json" />
     <None Remove="Views\Studying.jpg" />
   </ItemGroup>
 
@@ -23,9 +24,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="appsettings.json">
+    <Content Include="appsettings.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\ImageError.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

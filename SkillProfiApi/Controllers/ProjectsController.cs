@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
 using SkillProfiApi.Data;
+using SkillProfiApi.Data.Picture;
 
 namespace SkillProfiApi.Controllers
 {
@@ -12,9 +13,12 @@ namespace SkillProfiApi.Controllers
     {
         private readonly SkillProfiDbContext _context;
 
-        public ProjectsController(SkillProfiDbContext context)
+        private readonly ILogger<ProjectsController> _logger;
+
+        public ProjectsController(SkillProfiDbContext context, ILogger<ProjectsController> logger)
         {
             _context = context;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -37,7 +41,7 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
             Project? project = await _context.Projects.FindAsync(id);
-            ;
+            
             if (project == null)
             {
                 return NotFound();
@@ -48,7 +52,7 @@ namespace SkillProfiApi.Controllers
 
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutProject(Guid id, [FromBody] ObjectWithImage<Project> project)
+        public async Task<IActionResult> PutProject(Guid id, [FromBody] ObjectWithPicture<Project> project)
         {
             if (id != project.Object.Id)
             {
@@ -56,40 +60,45 @@ namespace SkillProfiApi.Controllers
             }
 
             _context.Entry(project.Object).State = EntityState.Modified;
-			await PictureDirectory.SavePictureAsync(project);
 
-			try
+            try { await PictureDirectory.SavePictureAsync(project); }
+            catch (PictureNullException e)
             {
-                await _context.SaveChangesAsync();
-
-			}
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!ProjectExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                _logger.LogWarning(exception: e, $"{nameof(project)} saved without image");
             }
+
+            try { await _context.SaveChangesAsync(); }
+            catch (DbUpdateConcurrencyException)
+            {                
+                if (!ProjectExists(id))
+                    return NotFound();
+
+                else
+                    throw;
+            }
+          
 
             return NoContent();
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Project>> PostProject(ObjectWithImage<Project> project)
+        public async Task<ActionResult<Project>> PostProject(ObjectWithPicture<Project> project)
         {
             if (_context.Projects == null)
             {
                 return Problem("Entity set 'SkillProfiDbContext.Projects'  is null.");
             }
             _context.Projects.Add(project.Object);
-            await PictureDirectory.SavePictureAsync(project);
-            await _context.SaveChangesAsync();
 
+			try { await PictureDirectory.SavePictureAsync(project); }
+			catch (PictureNullException e)
+			{
+				_logger.LogWarning(exception: e, $"{nameof(project)} saved without image");
+                return BadRequest(e.Message);
+			}
+
+			await _context.SaveChangesAsync(); 
 
             return CreatedAtAction("GetProject", new { id = project.Object.Id }, project.Object);
         }
@@ -109,8 +118,14 @@ namespace SkillProfiApi.Controllers
             }
 
             _context.Projects.Remove(project);
-            project.RemovePicture();
-            await _context.SaveChangesAsync();
+
+			try { project.RemovePicture(); }
+			catch (PictureNotFound e)
+			{
+				_logger.LogWarning(exception: e, "The image cannot be deleted because it's not found");
+			}
+
+			await _context.SaveChangesAsync();
 
             return NoContent();
         }

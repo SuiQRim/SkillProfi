@@ -115,6 +115,11 @@ namespace SkillProfiWPF.ViewModels
         public ICommand SetDateDiapasone { get; }
         private void OnSetDateDiapasone(object p)
         {
+            if (Convert.ToDouble(p) == -1)
+            {
+                FirstDate = new DateTime(2000,1,1);
+                return;
+            }
             LastDate = DateTime.Now;
             FirstDate = DateTime.Now.AddDays(-Convert.ToDouble(p));
         }

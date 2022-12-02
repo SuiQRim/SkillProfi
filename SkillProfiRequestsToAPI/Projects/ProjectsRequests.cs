@@ -35,9 +35,7 @@ namespace SkillProfiRequestsToAPI.Projects
 		}
            
 
-
-
-        public string Edit(string id, Project project, Stream stream, string accessToken)
+        public string Edit(string id, Project project, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(project, stream);
 			return Request.Edit(obj, Url, id, accessToken);
@@ -45,7 +43,7 @@ namespace SkillProfiRequestsToAPI.Projects
              
         
 
-        public async Task<string> EditAsync(string id, Project project, Stream stream, string accessToken)
+        public async Task<string> EditAsync(string id, Project project, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(project, stream);
 			return await Request.EditAsync(obj, Url, id, accessToken);

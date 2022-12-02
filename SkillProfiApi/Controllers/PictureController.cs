@@ -1,11 +1,9 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using SkillProfiApi.Data;
-using SkillProfiApi.Models;
+﻿using Microsoft.AspNetCore.Mvc;
+using SkillProfiApi.Data.Picture;
 
 namespace SkillProfiApi.Controllers
 {
-	[Route("api/[controller]")]
+    [Route("api/[controller]")]
 	[ApiController]
 	public class PictureController : ControllerBase
 	{

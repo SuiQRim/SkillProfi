@@ -9,225 +9,228 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
 
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        
-        <StackPanel 
-            Margin="0 10"
-            Grid.Row="0"
-            HorizontalAlignment="Left"
-            Orientation="Horizontal">
+    <ScrollViewer>
 
-            <TextBlock 
-                Padding="10"
-                FontSize="20px"
-                Foreground="Black"
-                TextAlignment="Center"
-                Text="Service Count">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-            </TextBlock>
+            <StackPanel 
+                Margin="0 10"
+                Grid.Row="0"
+                HorizontalAlignment="Left"
+                Orientation="Horizontal">
 
-            <Border 
-                CornerRadius="8"
-                Background="#4299d9">
-
-                <TextBlock
-                    Padding="20 10"
+                <TextBlock 
+                    Padding="10"
                     FontSize="20px"
-                    Foreground="White"
-                    VerticalAlignment="Center"
-                    HorizontalAlignment="Center"
-                    Text="{Binding Services.Count}">
+                    Foreground="Black"
+                    TextAlignment="Center"
+                    Text="Service Count">
 
                 </TextBlock>
 
-            </Border>
+                <Border 
+                    CornerRadius="8"
+                    Background="#4299d9">
 
-        </StackPanel>
+                    <TextBlock
+                        Padding="20 10"
+                        FontSize="20px"
+                        Foreground="White"
+                        VerticalAlignment="Center"
+                        HorizontalAlignment="Center"
+                        Text="{Binding Services.Count}">
 
-        <ListBox
-            Grid.Row="1"
-            HorizontalContentAlignment="Stretch"
-            ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-            Margin="10"
-            ItemsSource="{Binding Services, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=3}"
-            SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
-            <ListBox.ItemContainerStyle>
-                <Style TargetType="ListBoxItem">
-                    <Setter Property="Margin" Value="5"/>
-                    <Setter Property="Padding" Value="5"/>
-                </Style>
-            </ListBox.ItemContainerStyle>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Border
-                        Background="{DynamicResource MainColor}"
-                        CornerRadius="4"
-                        Padding="20 10">
+                    </TextBlock>
 
-                        <TextBlock
-                            HorizontalAlignment="Left"
-                            Foreground="White"
-                            Text="{Binding Title}"
-                            FontSize="22"/>
+                </Border>
 
-                    </Border>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+            </StackPanel>
 
-        <StackPanel
-            Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
-            d:Visibility="Visible"
-            Orientation="Horizontal"
-            Margin="10"
-            Grid.Row="2">
+            <ListBox
+                Grid.Row="1"
+                HorizontalContentAlignment="Stretch"
+                ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                Margin="10"
+                ItemsSource="{Binding Services, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" d:ItemsSource="{d:SampleData ItemCount=3}"
+                SelectedItem="{Binding SelectedService, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
+                <ListBox.ItemContainerStyle>
+                    <Style TargetType="ListBoxItem">
+                        <Setter Property="Margin" Value="5"/>
+                        <Setter Property="Padding" Value="5"/>
+                    </Style>
+                </ListBox.ItemContainerStyle>
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <Border
+                            Background="{DynamicResource MainColor}"
+                            CornerRadius="4"
+                            Padding="20 10">
 
-            <Button
-                HorizontalAlignment="Left"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Add}"
-                Content="➕"
-                Padding="10"/>
+                            <TextBlock
+                                HorizontalAlignment="Left"
+                                Foreground="White"
+                                Text="{Binding Title}"
+                                FontSize="22"/>
 
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Delete}"
-                Content="➖"
-                Padding="10"/>
-
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-                HorizontalAlignment="Left"
-                Style="{StaticResource EditButton}"
-                Command="{Binding Edit}"
-                Padding="10"/>
-
-            <Button
-                Style="{StaticResource EditButton}"
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
-                VerticalAlignment="Bottom"
-                Content="✖"
-                Padding="10"
-                Command="{Binding Return}"/>
-
-
-            <Button
-                d:Visibility="Visible"
-                Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
-                Style="{StaticResource AcceptButton}"
-                VerticalAlignment="Bottom"
-                Padding="10"
-                Command="{Binding Save}"/>
-
-
-
-        </StackPanel>
-        <StackPanel 
-            d:Visibility="Visible"
-            Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
-            Grid.Row="3">
-
-            <Grid
-
-                Margin="10 0">
-
-                <Grid>
-                    
-                    <Border
-                        Name="titleBorder"
-                        d:Visibility="Visible"
-                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
-                        Background="{DynamicResource MainColor}"
-                        CornerRadius="4"
-                        Margin="10"
-                        Padding="20 10">
-                        
-                        <TextBlock  
-                            Foreground="White"
-                            Margin="10 0"
-                            FontSize="32"
-                            d:Text="Title"
-                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
-                    </Border>
-                    
-                    <TextBox 
-                        Visibility="{Binding ElementName=titleBorder, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
-                        Background="{x:Null}"
-                        Margin="10 0"
-                        Padding="26 18"
-                        BorderThickness="2"
-                        FontSize="32"
-                        BorderBrush="{DynamicResource MainColor}"
-                        d:Text="Title"
-                        Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-
-                </Grid>
-            </Grid>
-
-            <Grid
-                Margin="10"/>
-
+                        </Border>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
             <StackPanel
-                   Margin="10">
+                Visibility="{Binding IsLogin, Converter={StaticResource BoolToVis}}"
+                d:Visibility="Visible"
+                Orientation="Horizontal"
+                Margin="10"
+                Grid.Row="2">
 
-                <StackPanel
-                    Orientation="Horizontal">
-                </StackPanel>
+                <Button
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Add}"
+                    Content="➕"
+                    Padding="10"/>
+
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Delete}"
+                    Content="➖"
+                    Padding="10"/>
+
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                    HorizontalAlignment="Left"
+                    Style="{StaticResource EditButton}"
+                    Command="{Binding Edit}"
+                    Padding="10"/>
+
+                <Button
+                    Style="{StaticResource EditButton}"
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
+                    VerticalAlignment="Bottom"
+                    Content="✖"
+                    Padding="10"
+                    Command="{Binding Return}"/>
 
 
-                <Grid
-                    
-                    ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                <Button
+                    d:Visibility="Visible"
+                    Visibility="{Binding IsObjectEdit, Converter={StaticResource BoolToVis}}"
+                    Style="{StaticResource AcceptButton}"
+                    VerticalAlignment="Bottom"
+                    Padding="10"
+                    Command="{Binding Save}"/>
 
-                    <TextBlock 
-                        Name="description"
-                        Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
-                        FontSize="20"
-                        TextWrapping="WrapWithOverflow"
-                        Margin="10"
-                        Padding="32 10"
-                        d:Text="Description"
-                        Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
-
-                    <TextBox 
-                        Visibility="{Binding ElementName=description, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
-                        FontSize="20"
-                        TextWrapping="WrapWithOverflow"
-                        Margin="10"
-                        Padding="28 8"
-                        d:Text="Description"
-                        BorderThickness="2"
-                        Background="{x:Null}"
-                        BorderBrush="{DynamicResource MainColor}"
-                        Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}">
-                        <TextBox.Resources>
-                            <Style TargetType="Border">
-                                <Setter Property="CornerRadius" Value="4"/>
-                            </Style>
-                        </TextBox.Resources>
-                    </TextBox>
-                </Grid>
 
 
             </StackPanel>
-        </StackPanel>
+            <StackPanel 
+                d:Visibility="Visible"
+                Visibility="{Binding IsObjectSelect, Converter={StaticResource BoolToVis}}"
+                Grid.Row="3">
 
-    </Grid>
+                <Grid
+
+                    Margin="10 0">
+
+                    <Grid>
+
+                        <Border
+                            Name="titleBorder"
+                            d:Visibility="Visible"
+                            Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                            Background="{DynamicResource MainColor}"
+                            CornerRadius="4"
+                            Margin="10"
+                            Padding="20 10">
+
+                            <TextBlock  
+                                Foreground="White"
+                                Margin="10 0"
+                                FontSize="32"
+                                d:Text="Title"
+                                Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Border>
+
+                        <TextBox 
+                            Visibility="{Binding ElementName=titleBorder, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
+                            Background="{x:Null}"
+                            Margin="10 0"
+                            Padding="26 18"
+                            BorderThickness="2"
+                            FontSize="32"
+                            BorderBrush="{DynamicResource MainColor}"
+                            d:Text="Title"
+                            Text="{Binding Title, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+
+                    </Grid>
+                </Grid>
+
+                <Grid
+                    Margin="10"/>
+
+
+                <StackPanel
+                       Margin="10">
+
+                    <StackPanel
+                        Orientation="Horizontal">
+                    </StackPanel>
+
+
+                    <Grid
+                    
+                        ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
+                        <TextBlock 
+                            Name="description"
+                            Visibility="{Binding IsObjectEdit, Converter={StaticResource BollToVisRevertCombineConverter}}"
+                            FontSize="20"
+                            TextWrapping="WrapWithOverflow"
+                            Margin="10"
+                            Padding="32 10"
+                            d:Text="Description"
+                            Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBox 
+                            Visibility="{Binding ElementName=description, Path=Visibility, Converter={StaticResource VisibilityReverter}}"
+                            FontSize="20"
+                            TextWrapping="WrapWithOverflow"
+                            Margin="10"
+                            Padding="28 8"
+                            d:Text="Description"
+                            BorderThickness="2"
+                            Background="{x:Null}"
+                            BorderBrush="{DynamicResource MainColor}"
+                            Text="{Binding Description, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Resources>
+                                <Style TargetType="Border">
+                                    <Setter Property="CornerRadius" Value="4"/>
+                                </Style>
+                            </TextBox.Resources>
+                        </TextBox>
+                    </Grid>
+
+
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </ScrollViewer>
 </UserControl>

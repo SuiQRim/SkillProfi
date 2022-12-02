@@ -30,14 +30,14 @@ namespace SkillProfiRequestsToAPI.Contacts
 
 
 
-        public string Edit(string id, SocialNetwork socialNetwork, Stream stream, string accessToken)
+        public string Edit(string id, SocialNetwork socialNetwork, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return Request.Edit(obj, Url, id, accessToken);
         }
 
 
-        public async Task<string> EditAsync(string id, SocialNetwork socialNetwork, Stream stream, string accessToken)
+        public async Task<string> EditAsync(string id, SocialNetwork socialNetwork, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return await Request.EditAsync(obj, Url, id, accessToken); 

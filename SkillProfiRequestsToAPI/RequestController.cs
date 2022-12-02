@@ -1,4 +1,5 @@
 ﻿using SkillProfi;
+using System;
 using System.IO;
 
 namespace SkillProfiRequestsToAPI
@@ -16,13 +17,19 @@ namespace SkillProfiRequestsToAPI
 
         private readonly Func<string> GetBaseUrl;
 
-        protected static ObjectWithImage<T> BuildObjectWithImage<T>(T targetObject, Stream imageStream)
+        protected static ObjectWithPicture<T> BuildObjectWithImage<T>(T targetObject, Stream? imageStream = null)
         {
+            if(imageStream == null)
+                return new ObjectWithPicture<T>()
+				{
+					Object = targetObject
+				};
+
 			using (imageStream)
             {
 				byte[] buffer = new byte[imageStream.Length];
 				imageStream.Read(buffer, 0, buffer.Length);
-				var obj = new ObjectWithImage<T>()
+				var obj = new ObjectWithPicture<T>()
 				{
 					Object = targetObject,
 					Picture = buffer

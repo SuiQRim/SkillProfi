@@ -53,23 +53,29 @@ namespace SkillProfiWPF.ViewModels
             if (!IsAddObject)
             {
                 SocialNetworks = new(GetProjectsWithImage());
-                SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
+                if (_lastSelectedSocialNetworkId != Guid.Empty)
+                {
+                    SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
+                }
+
             }
         }
 
 
         protected override bool CanSave(object p)
         {
-            if (!File.Exists(PictureName) || Link == string.Empty)
-            {
-                return false;
-            }
-            return true;
-        }
+			if (IsAddObject && File.Exists(PictureName) && Link != string.Empty )
+				return true;
+
+			else if (!IsAddObject && Link != string.Empty )
+				return true;
+
+			return false;
+		}
 
         protected override void OnSave(object p)
         {
-			FileStream fstream = File.OpenRead(PictureName);
+			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
 
 			if (IsAddObject)
             {

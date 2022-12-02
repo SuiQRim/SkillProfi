@@ -9,25 +9,25 @@
              mc:Ignorable="d" 
              d:DesignHeight="800" d:DesignWidth="1200">
 
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <ScrollViewer>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
 
-        <UserControl
-            Grid.Row="0"
-            Content="{Binding MainContactsDataUC}">
-        </UserControl>
-        
-        <UserControl
-            Grid.Row="1"
-            Content="{Binding SocialNetworksUC}">
-            
-        </UserControl>
-    </Grid>
+            <UserControl
+                Grid.Row="0"
+                Content="{Binding MainContactsDataUC}">
+            </UserControl>
+
+            <UserControl
+                Grid.Row="1"
+                Content="{Binding SocialNetworksUC}">
+            </UserControl>
+        </Grid>
+    </ScrollViewer>
 </UserControl>

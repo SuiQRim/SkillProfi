@@ -149,16 +149,16 @@
                 <WrapPanel 
                     Margin="10"
                     x:Name ="containerMini"
-                    Height="86"
-                    Width="86">
+                    Height="{DynamicResource SocNetworkMiniSize}"
+                    Width="{DynamicResource SocNetworkMiniSize}">
 
                     <WrapPanel.OpacityMask>
                         <VisualBrush >
                             <VisualBrush.Visual>
 
                                 <Border 
-                                    Height="{Binding ActualHeight, ElementName=containerMini}" 
-                                    Width="{Binding ActualWidth, ElementName=containerMini}"
+                                    Height="{DynamicResource SocNetworkMiniSize}" 
+                                    Width="{DynamicResource SocNetworkMiniSize}"
                                     Background="White" CornerRadius="8" />
 
                             </VisualBrush.Visual>

@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SkillProfi;
-using SkillProfiApi.Models;
+using SkillProfiApi.Data.Picture;
 
 namespace SkillProfiApi.Data
 {
@@ -49,7 +49,7 @@ namespace SkillProfiApi.Data
         }
 
 
-        public async static Task EditSocialNetwork(Guid id, ObjectWithImage<SocialNetwork> socialNetwork) 
+        public async static Task EditSocialNetwork(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork) 
         {
             Contacts contacts = await GetContactsAsync();
 
@@ -61,7 +61,7 @@ namespace SkillProfiApi.Data
             
         }
 
-        public async static Task AddSocialNetwork(ObjectWithImage<SocialNetwork> socialNetwork)
+        public async static Task AddSocialNetwork(ObjectWithPicture<SocialNetwork> socialNetwork)
         {
             Contacts contacts = await GetContactsAsync();
 
@@ -74,16 +74,16 @@ namespace SkillProfiApi.Data
 
         }
 
-        public async static Task DeleteSocialNetwork(Guid id)
+        public async static Task<SocialNetwork> DeleteSocialNetworkAsync(Guid id)
         {
             Contacts contacts = await GetContactsAsync();
 
             SocialNetwork socialNetwork = contacts.SocialNetworks.First(s => s.Id == id);
             contacts.SocialNetworks.Remove(socialNetwork);
-            socialNetwork.RemovePicture();
          
             contacts.Save();
 
+            return socialNetwork;
         }
 
         private static void Save(this Contacts contacts)

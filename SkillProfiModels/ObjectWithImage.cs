@@ -1,13 +1,13 @@
 ﻿namespace SkillProfi
 {
-	public class ObjectWithImage<T>
+	public class ObjectWithPicture<T>
 	{
-		public ObjectWithImage()
+		public ObjectWithPicture()
 		{
 
 		}
 		public T Object { get; set; }
 
-		public byte[] Picture { get; set; }
+		public byte[]? Picture { get; set; }
 	}
 }

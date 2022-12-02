@@ -4,11 +4,11 @@
     ViewData["Title"] = "Projects";
 }
 
-<div id="project" style="min-height: 520px;">
+<div id="project"">
 
     <div id="@Model.Object.Id">
 
-            <div class="title">
+        <div class="title">
 
             @Model.Object.Title
 
@@ -23,8 +23,9 @@
 
     </div>
 
+    <button class="button" style="float: right;" onclick="@("window.location.href='" + @Url.Action("Projects", "Projects") + "'");">
+	    Назад
+    </button>
+
 </div>
 
-<button class="button" style="float: right;" onclick="@("window.location.href='" + @Url.Action("Projects", "Projects") + "'");">
-    Назад
-</button>

@@ -7,14 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="DataFiles\**" />
-    <Compile Remove="Pictures\**" />
-    <Content Remove="DataFiles\**" />
-    <Content Remove="Pictures\**" />
-    <EmbeddedResource Remove="DataFiles\**" />
-    <EmbeddedResource Remove="Pictures\**" />
-    <None Remove="DataFiles\**" />
-    <None Remove="Pictures\**" />
+    <Content Remove="DataFiles\Contacts.json" />
+    <Content Remove="DataFiles\face.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="DataFiles\Contacts.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DataFiles\face.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
@@ -32,6 +35,24 @@
 
   <ItemGroup>
     <ProjectReference Include="..\SkillProfiModels\SkillProfi.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Pictures\0d01043b-d33b-4cbc-9099-df3485de8e81">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Pictures\42c6a28c-7fd5-4596-96a5-07cd145d4263">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Pictures\4b79de2e-91f2-48a8-a64c-a66ab0dc19fc">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Pictures\b50a2dcd-714f-4703-804c-bfe84c181223">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Pictures\capsule_616x353.jpg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

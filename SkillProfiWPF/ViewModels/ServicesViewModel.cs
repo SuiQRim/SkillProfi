@@ -16,7 +16,7 @@ namespace SkillProfiWPF.ViewModels
             Services = new (_spClient.Services.GetList());
         }
 
-        protected override bool CanAdd(object p) => true;
+        protected override bool CanAdd(object p) => !IsObjectEdit;
         protected override void OnAdd(object p)
         {
             base.OnAdd(p);
@@ -46,7 +46,11 @@ namespace SkillProfiWPF.ViewModels
             if (!IsAddObject)
             {
                 Services = new(_spClient.Services.GetList());
-                SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
+                if (_lastSelectedProjectId != Guid.Empty)
+                {
+                    SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
+                }
+             
             }
         }
 

@@ -3,29 +3,33 @@
 @{
     ViewData["Title"] = "Blogs";
 }
+<link rel="stylesheet" href="/css/BlockDesctiption.css" />
 
-<div id="blog" style="min-height: 520px;">
+<div id="blog">
 
     <div id="@Model.Object.Id">
 
         <div class="title">@Model.Object.Title</div>
 
-        <div>
-            <div class="image-block-content">
-                <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
+        <div class="block-description">
+            <div class="block-description-image-column">
+                <div class="block-image">
+                    <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
+                </div>
             </div>
-            <div class="description">
-                <a>@Model.Object.Description</a>
+            <div class="block-description-content-column">
+                @Model.Object.Description
             </div>
         </div>
     </div>
 
+    <button 
+        class="button" style="float: right;" 
+        onclick="@("window.location.href='" + @Url.Action("Blogs", "Blogs") + "'");">
+
+	    Назад
+
+    </button>
 </div>
 
-<button 
-    class="button" style="float: right;" 
-    onclick="@("window.location.href='" + @Url.Action("Blogs", "Blogs") + "'");">
 
-    Назад
-
-</button>
