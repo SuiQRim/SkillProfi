@@ -10,11 +10,12 @@
 
   <ItemGroup>
     <None Remove="appsettings.json" />
+    <None Remove="Assets\ImageError.png" />
+    <None Remove="Assets\Studying.jpg" />
     <None Remove="Views\Studying.jpg" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Xaml.Behaviors.Wpf" Version="1.1.39" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
@@ -30,12 +31,18 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="Assets\ImageError.png">
+    <EmbeddedResource Include="Assets\ImageError.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Update="Assets\Studying.jpg">
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\Studying.jpg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
     <None Update="Assets\Studying.svg">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

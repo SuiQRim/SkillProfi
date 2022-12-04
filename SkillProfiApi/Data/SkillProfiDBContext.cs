@@ -1,22 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkillProfi;
+using SkillProfiApi.Models;
 
 namespace SkillProfiApi.Data
 {
     public class SkillProfiDbContext : DbContext
     {
         public SkillProfiDbContext(DbContextOptions<SkillProfiDbContext> options)
-            : base(options) => Database.EnsureCreated();   // создаем базу данных при первом обращении
+            : base(options)
+        {
+            Database.EnsureCreated();   // создаем базу данных при первом обращении
+        }
 
         public DbSet<Consultation> Consultations { get; set; }
 
-        public DbSet<SkillProfi.Project> Projects { get; set; }
+        public DbSet<Project> Projects { get; set; }
 
         public DbSet<Blog> Blogs { get; set; }
 
         public DbSet<Service> Services { get; set; }
 
-        public DbSet<Account> Accounts { get; set; }
+        public DbSet<UserAccount> Accounts { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -62,9 +66,9 @@ namespace SkillProfiApi.Data
 
             });
 
-            modelBuilder.Entity<SkillProfi.Project>().HasData(new SkillProfi.Project[]
+            modelBuilder.Entity<Project>().HasData(new Project[]
             {
-                new SkillProfi.Project()
+                new Project()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Новый регламент болида F1",
@@ -72,7 +76,7 @@ namespace SkillProfiApi.Data
                     PictureName= "0d01043b-d33b-4cbc-9099-df3485de8e81",
                     Created = DateTime.Now
                 },
-                new SkillProfi.Project()
+                new Project()
                 {
                     Id = Guid.NewGuid(),
                     Title = "Owlboy - Игра, которая покорит милионы сердец",
@@ -120,12 +124,12 @@ namespace SkillProfiApi.Data
                 }
            });
 
-            modelBuilder.Entity<Account>().HasData(new Account[]
+            modelBuilder.Entity<UserAccount>().HasData(new UserAccount[]
             {
-                new Account()
+                new UserAccount()
                 {
                     Id = Guid.NewGuid(),
-                    Name = "admin",
+                    Login = "admin",
                     Password= "admin",
                 }
             });

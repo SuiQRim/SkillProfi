@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SkillProfi;
 using SkillProfiApi.Data;
 using SkillProfiApi.Data.Picture;
-using SkillProfiApi.Models;
-using System.Reflection.Metadata;
 
 namespace SkillProfiApi.Controllers
 {
@@ -46,7 +42,7 @@ namespace SkillProfiApi.Controllers
 
         // GET: api/Contacts/SocialNetworks
         [HttpGet("SocialNetworks")]
-        public async Task<ActionResult<List<SocialNetwork>>> GetSocialNetworks()
+        public async Task<ActionResult<IEnumerable<SocialNetwork>>> GetSocialNetworks()
         {
             Contacts? contacts = await ContactsFile.GetContactsAsync();
 
@@ -58,7 +54,7 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Contacts/SocialNetworks
         [HttpPut("SocialNetworks/{id}")]
         [Authorize]
-        public async Task<ActionResult> PutSocialNetworks(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork)
+        public async Task<IActionResult> PutSocialNetworks(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork)
         {
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
@@ -78,7 +74,7 @@ namespace SkillProfiApi.Controllers
         // DELETE: api/Contacts/SocialNetworks
         [HttpDelete("SocialNetworks/{id}")]
         [Authorize]
-        public async Task<ActionResult> DeleteSocialNetworks(Guid id)
+        public async Task<IActionResult> DeleteSocialNetworks(Guid id)
         {
             if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
 
@@ -96,7 +92,7 @@ namespace SkillProfiApi.Controllers
         // POST: api/Contacts/SocialNetworks
         [HttpPost("SocialNetworks")]
         [Authorize]
-        public async Task<ActionResult> PostSocialNetworks(ObjectWithPicture<SocialNetwork> socialNetwork)
+        public async Task<IActionResult> PostSocialNetworks(ObjectWithPicture<SocialNetwork> socialNetwork)
         {
             await ContactsFile.AddSocialNetwork(socialNetwork);
 

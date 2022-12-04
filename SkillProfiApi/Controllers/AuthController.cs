@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SkillProfi;
 using SkillProfiApi.Data;
 using SkillProfiApi.Models;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 
 namespace SkillProfiApi.Controllers
@@ -22,14 +20,16 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<bool>> GetConsultations(Account account)
+        public async Task<ActionResult<AuthParameters>> Login(Account account)
         {
-            Account? acc = await _context.Accounts.SingleOrDefaultAsync(a => a.Name == account.Name);
-            if (acc == null) return Ok(new RequestResponce(1, "Login or password is wrong"));
-            if (acc.Password != account.Password)
+            UserAccount? userAcc = new() {Login = account.Login, Password = account.Password };
+			userAcc = await _context.Accounts.SingleOrDefaultAsync(a => a.Login == userAcc.Login);
+
+            if (userAcc == null) return Ok(new RequestResponce(1, "Login or password is wrong"));
+            if (userAcc.Password != account.Password)
                 return Ok(new RequestResponce(1, "Login or password is wrong"));
 
-            var claims = new List<Claim> { new Claim(ClaimTypes.Name, account.Name) };
+            var claims = new List<Claim> { new Claim(ClaimTypes.Name, account.Login) };
 
             JwtSecurityToken jwt = new (
                 issuer: AuthOptions.ISSUER,
@@ -41,7 +41,7 @@ namespace SkillProfiApi.Controllers
             return Ok(new RequestResponce(0, "Login is access",
 
                 new AuthParameters { 
-                    Login = account.Name,
+                    Login = account.Login,
                     IsLogin = true,
                     AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt) 
                 }

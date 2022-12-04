@@ -66,7 +66,7 @@ namespace SkillProfiWPF.ViewModels
                     return;
                 }
 
-                AuthParams = _spClient.Accounts.Login(new Account() { Name = Name, Password = Password });
+                AuthParams = _spClient.Accounts.Login(new Account() { Login = Name, Password = Password });
 
                 if (!AuthParams.IsLogin)
                 {
