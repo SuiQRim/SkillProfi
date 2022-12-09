@@ -52,7 +52,10 @@ namespace SkillProfiWPF.ViewModels
         }
         protected override void OnSave(object p)
         {
-            _spClient.Contacts.Edit(Contacts, AccessToken);
+            var c = Contacts;
+            ContactsTransfer contTransfer = new (c.Adress, c.PhoneNumber, c.Email, c.LinkToMapContructor);
+
+            _spClient.Contacts.Edit(contTransfer, AccessToken);
             Contacts = _spClient.Contacts.Get();
         }
 

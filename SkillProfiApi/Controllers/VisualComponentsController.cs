@@ -25,7 +25,7 @@ namespace SkillProfiApi.Controllers
 		public IActionResult PutFace(Face face)
 		{
 			FaceFile.Save(face);
-			return Ok(face);
+			return NoContent();
 		}
 	}
 }

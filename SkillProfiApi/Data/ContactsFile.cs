@@ -43,14 +43,18 @@ namespace SkillProfiApi.Data
             return contacts.SocialNetworks.Exists(s => s.Id == id);
         }
 
-        public async static Task EditMainContacts(Contacts modifyContacts) 
+        public async static Task EditMainContacts(ContactsTransfer transfer) 
         {
             Contacts? contacts = await GetContactsAsync();
 
-            contacts.Adress = modifyContacts.Adress;
-            contacts.PhoneNumber = modifyContacts.PhoneNumber;
-            contacts.Email = modifyContacts.Email;
-            contacts.LinkToMapContructor = modifyContacts.LinkToMapContructor;
+            contacts = new()
+            {
+                Adress = transfer.Adress,
+                PhoneNumber = transfer.PhoneNumber,
+                Email = transfer.Email,
+                LinkToMapContructor = transfer.LinkToMapContructor,
+                SocialNetworks = contacts.SocialNetworks
+            };
 
             contacts.Save();
 

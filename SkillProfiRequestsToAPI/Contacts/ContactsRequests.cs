@@ -1,4 +1,6 @@
-﻿namespace SkillProfiRequestsToAPI.Contacts
+﻿using SkillProfi.Contacts;
+
+namespace SkillProfiRequestsToAPI.Contacts
 {
     public class ContactsRequests : RequestController
     {
@@ -8,11 +10,11 @@
             Request.Get<SkillProfi.Contacts.Contacts>(Url);
         
 
-        public string Edit(SkillProfi.Contacts.Contacts contact, string accessToken) =>
+        public string Edit(ContactsTransfer contact, string accessToken) =>
             Request.Edit(contact, Url, accessToken : accessToken);
 
 
-        public async Task<string> EditAsync(SkillProfi.Contacts.Contacts contact, string accessToken) => 
+        public async Task<string> EditAsync(ContactsTransfer contact, string accessToken) => 
             await Request.EditAsync(contact, Url, accessToken: accessToken);
 
     }

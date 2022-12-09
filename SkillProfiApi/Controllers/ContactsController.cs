@@ -26,19 +26,20 @@ namespace SkillProfiApi.Controllers
 
             if (contacts == null) return NotFound();
 
-            return contacts;
+            return Ok(contacts);
         }
 
         // PUT: api/Contacts
         [HttpPut]
         [Authorize]
-        public async Task<ActionResult<Contacts>> PutContacts(Contacts contacts)
+        public async Task<IActionResult> PutContacts(ContactsTransfer contacts)
         { 
-            if (contacts == null) return NotFound();
+            if (contacts == null) 
+                return NotFound();
 
             await ContactsFile.EditMainContacts(contacts);
 
-            return Ok(await ContactsFile.GetContactsAsync());
+            return NoContent();
         }
 
         // GET: api/Contacts/SocialNetworks
@@ -49,7 +50,7 @@ namespace SkillProfiApi.Controllers
 
             if (contacts == null || contacts.SocialNetworks == null) return NotFound();
 
-            return contacts.SocialNetworks;
+            return Ok(contacts.SocialNetworks);
         }
 
         // PUT: api/Contacts/SocialNetworks
