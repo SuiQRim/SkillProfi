@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Contacts;
 
 namespace SkillProfiRequestsToAPI.Contacts
 {
@@ -14,14 +14,14 @@ namespace SkillProfiRequestsToAPI.Contacts
 
 
 
-        public string Add(SocialNetwork socialNetwork, Stream stream, string accessToken)
+        public string Add(SocialNetworkTransfer socialNetwork, Stream stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return Request.Add(obj, Url, accessToken);
         }
 
 
-        public async Task<string> AddAsync(SocialNetwork socialNetwork, Stream stream, string accessToken)
+        public async Task<string> AddAsync(SocialNetworkTransfer socialNetwork, Stream stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return await Request.AddAsync(obj, Url, accessToken);
@@ -30,14 +30,14 @@ namespace SkillProfiRequestsToAPI.Contacts
 
 
 
-        public string Edit(string id, SocialNetwork socialNetwork, Stream? stream, string accessToken)
+        public string Edit(string id, SocialNetworkTransfer socialNetwork, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return Request.Edit(obj, Url, id, accessToken);
         }
 
 
-        public async Task<string> EditAsync(string id, SocialNetwork socialNetwork, Stream? stream, string accessToken)
+        public async Task<string> EditAsync(string id, SocialNetworkTransfer socialNetwork, Stream? stream, string accessToken)
         {
 			var obj = BuildObjectWithImage(socialNetwork, stream);
 			return await Request.EditAsync(obj, Url, id, accessToken); 

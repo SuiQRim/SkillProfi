@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Consult;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;

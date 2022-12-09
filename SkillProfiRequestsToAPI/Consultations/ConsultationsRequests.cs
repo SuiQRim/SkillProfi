@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Consult;
 
 namespace SkillProfiRequestsToAPI.Consultations
 {
@@ -22,10 +22,10 @@ namespace SkillProfiRequestsToAPI.Consultations
 
 
 
-        public string Add(Consultation Consultation) => 
+        public string Add(ConsultationTransfer Consultation) => 
             Request.Add(Consultation, Url);
 
-        public async Task<string> AddAsync(Consultation Consultation) => 
+        public async Task<string> AddAsync(ConsultationTransfer Consultation) => 
             await Request.AddAsync(Consultation, Url);
 
 

@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SkillProfi;
+using SkillProfi.Project;
 using SkillProfiRequestsToAPI;
 using SkillProfiWEBMVC.Models;
 

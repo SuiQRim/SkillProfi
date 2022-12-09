@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SkillProfi;
+using SkillProfi.Consult;
 using SkillProfiRequestsToAPI;
-using SkillProfiWEBMVC.Models;
 
 namespace SkillProfiWEBMVC.Controllers
 {
@@ -11,11 +10,11 @@ namespace SkillProfiWEBMVC.Controllers
 
 		public IActionResult Write()
 		{
-			return View(new Consult());
+			return View(new ConsultationTransfer());
 		}
 
 		[HttpPost]
-		public async Task<ActionResult> Write(Consult consult)
+		public async Task<ActionResult> Write(ConsultationTransfer consult)
 		{
 			if (ModelState.IsValid)
 			{ //checking model state

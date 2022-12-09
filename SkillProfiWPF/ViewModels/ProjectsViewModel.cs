@@ -4,11 +4,11 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using SkillProfiWPF.ViewModels.Prefab;
-using SkillProfi;
 using System.Windows.Input;
 using System.IO;
 using System.Windows.Forms;
 using SkillProfiRequestsToAPI;
+using SkillProfi.Project;
 
 namespace SkillProfiWPF.ViewModels
 {
@@ -80,27 +80,20 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnSave(object p)
 		{
 			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
+			ProjectTransfer newProject = new()
+			{
+				Title = Title,
+				Description = Description,
+			}; 
 
 			if (IsAddObject)
             {
-                Project newProject = new()
-                {
-                    Title = Title,
-                    PictureName = "SomePictureName",
-                    Description = Description,
-                };
-
 				_spClient.Projects.Add(newProject, fstream, AccessToken);
                 Projects = new(GetProjectsWithImage());
-
             }
             else
             {
-                SelectedProject.Title = Title;
-                SelectedProject.Description = Description;
-                
-				_spClient.Projects.Edit(SelectedProject.Id.ToString(), SelectedProject, fstream, AccessToken);
-               
+				_spClient.Projects.Edit(SelectedProject.Id.ToString(), newProject, fstream, AccessToken); 
                 Projects = new(GetProjectsWithImage());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }

@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SkillProfi;
+using SkillProfi.Service;
 using SkillProfiApi.Data;
 
 namespace SkillProfiApi.Controllers
@@ -27,42 +22,49 @@ namespace SkillProfiApi.Controllers
         public async Task<ActionResult<IEnumerable<Service>>> GetServices()
         {
             if (_context.Services == null)
-            {
-                return NotFound();
-            }
-            return await _context.Services.ToListAsync();
+				return Problem("Entity set 'SkillProfiDbContext.Services'  is null.");
+
+			return Ok(await _context.Services.ToListAsync());
         }
 
         // GET: api/Services/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Service>> GetService(Guid id)
         {
+
             if (_context.Services == null)
-            {
-                return NotFound();
-            }
-            var service = await _context.Services.FindAsync(id);
+				return Problem("Entity set 'SkillProfiDbContext.Services'  is null.");
+
+			var service = await _context.Services.FindAsync(id);
 
             if (service == null)
-            {
                 return NotFound();
-            }
 
-            return service;
+            return Ok(service);
         }
 
         // PUT: api/Services/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutService(Guid id, Service service)
+        public async Task<IActionResult> PutService(Guid id, ServiceTransfer serviceTransfer)
         {
-            if (id != service.Id)
-            {
-                return BadRequest();
-            }
+            if (_context.Services == null)
+                return Problem("Entity set 'SkillProfiDbContext.Services'  is null.");
 
-            _context.Entry(service).State = EntityState.Modified;
+            Service? service = await _context.Services.SingleOrDefaultAsync(s => s.Id == id);
+            if (service == null)
+                return NotFound();
+
+            Service updateService = new()
+            {
+                Id = service.Id,
+                Description = service.Description,
+                Title = serviceTransfer.Title,
+                Created = service.Created,
+            };
+
+            _context.Entry(service).CurrentValues.SetValues(updateService);
 
             try
             {
@@ -87,20 +89,23 @@ namespace SkillProfiApi.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Service>> PostService(Service service)
+        public async Task<IActionResult> PostService(ServiceTransfer serviceTrans)
         {
             if (_context.Services == null)
-            {
                 return Problem("Entity set 'SkillProfiDbContext.Services'  is null.");
-            }
 
-            service.Id = Guid.NewGuid();
-            service.Created = DateTime.Now;
+            Service service = new()
+            {
+                Id = Guid.NewGuid(),
+                Title = serviceTrans.Title,
+                Description = serviceTrans.Description,
+                Created = DateTime.Now,
+            };         
 
             await _context.Services.AddAsync(service);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetService", new { id = service.Id }, service);
+            return NoContent();
         }
 
         // DELETE: api/Services/5
@@ -108,6 +113,9 @@ namespace SkillProfiApi.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteService(Guid id)
         {
+            if (_context.Services == null)
+                return Problem("Entity set 'SkillProfiDbContext.Services'  is null.");
+
             if (_context.Services == null)
             {
                 return NotFound();

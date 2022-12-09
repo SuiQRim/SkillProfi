@@ -20,14 +20,14 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AuthParameters>> Login(Account account)
+        public async Task<ActionResult<string>> Login(Account account)
         {
             UserAccount? userAcc = new() {Login = account.Login, Password = account.Password };
-			userAcc = await _context.Accounts.SingleOrDefaultAsync(a => a.Login == userAcc.Login);
+			userAcc = await _context.Accounts.
+                SingleOrDefaultAsync(a => a.Login == userAcc.Login && a.Password == userAcc.Password);
 
-            if (userAcc == null) return Ok(new RequestResponce(1, "Login or password is wrong"));
-            if (userAcc.Password != account.Password)
-                return Ok(new RequestResponce(1, "Login or password is wrong"));
+            if (userAcc == null) 
+                return NotFound("Login or password is wrong");
 
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, account.Login) };
 
@@ -38,15 +38,7 @@ namespace SkillProfiApi.Controllers
                 expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
-            return Ok(new RequestResponce(0, "Login is access",
-
-                new AuthParameters { 
-                    Login = account.Login,
-                    IsLogin = true,
-                    AccessToken = new JwtSecurityTokenHandler().WriteToken(jwt) 
-                }
-
-            ));
+            return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
         }
 
     }

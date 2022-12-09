@@ -1,5 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using SkillProfi;
+using SkillProfi.Blog;
+using SkillProfi.Consult;
+using SkillProfi.Project;
+using SkillProfi.Service;
 using SkillProfiApi.Models;
 
 namespace SkillProfiApi.Data
@@ -31,7 +35,7 @@ namespace SkillProfiApi.Data
                 {
                     Id = Guid.NewGuid(),
                     Name = "Roman",
-                    Description="Срочно хелпа как пить чай?",
+                    Description="Срочно нужна помощь?",
                     EMail="roman_super@gmail.com",
                     Status = ConsultationStatus.Received,
                     Created = new(2022,8,10)
@@ -71,7 +75,7 @@ namespace SkillProfiApi.Data
                 new Project()
                 {
                     Id = Guid.NewGuid(),
-                    Title = "Новый регламент болида F1",
+                    Title = "Новый регламент Formula E",
                     Description="Мы совместно с FIA, создаем новый регламент, который даст командам пространство для внедрения новых технологий, сохраняя безопастность и зрелещность гонок.",
                     PictureName= "0d01043b-d33b-4cbc-9099-df3485de8e81",
                     Created = DateTime.Now
@@ -80,7 +84,7 @@ namespace SkillProfiApi.Data
                 {
                     Id = Guid.NewGuid(),
                     Title = "Owlboy - Игра, которая покорит милионы сердец",
-                    Description="Норм короче получится",
+                    Description="Скоро на выставке электронных развлечений (E3) мы представим абсолютно гениальную игру. Подобных ей просто не сущетсвует.",
                     PictureName = "42c6a28c-7fd5-4596-96a5-07cd145d4263",
                     Created = DateTime.Now
                 }
@@ -111,15 +115,15 @@ namespace SkillProfiApi.Data
                 new Service()
                 {
                     Id = Guid.NewGuid(),
-                    Title = "Персональный спящий человек",
-                    Description="Вам нужно всего лишь обратиться к нам, и тогда вы получите специалиста, который просто спит перед вами. Главное его не трогать и тогда он когда-нибудь проснется",
+                    Title = "Персональное менторство",
+                    Description="Мы предоставим вам личного ментора.",
                     Created = DateTime.Now
                 },
                 new Service()
                 {
                     Id = Guid.NewGuid(),
-                    Title = "Проводник в IT",
-                    Description="Получите менторство от величайшего сукрима (от др. геймерского SuiQRim)",
+                    Title = "Проводник в Гейм-индустрию",
+                    Description="Получите помощь от величайшего сукрима (от др. геймерского SuiQRim)",
                     Created = DateTime.Now
                 }
            });

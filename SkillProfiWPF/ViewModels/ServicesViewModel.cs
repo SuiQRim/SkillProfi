@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Service;
 using SkillProfiRequestsToAPI;
 using SkillProfiRequestsToAPI.Services;
 using System;
@@ -68,13 +68,15 @@ namespace SkillProfiWPF.ViewModels
 
         protected override void OnSave(object p)
         {
-            if (IsAddObject)
+			ServiceTransfer newProject = new()
+			{
+				Title = Title,
+				Description = Description,
+			};
+
+			if (IsAddObject)
             {
-                Service newProject = new()
-                {
-                    Title = Title,
-                    Description = Description,
-                };
+
                 _spClient.Services.Add(newProject, AccessToken);
                 Services = new(_spClient.Services.GetList());
 
@@ -84,7 +86,7 @@ namespace SkillProfiWPF.ViewModels
                 SelectedService.Title = Title;
                 SelectedService.Description = Description;
 
-                _spClient.Services.Edit(SelectedService.Id.ToString(), SelectedService, AccessToken);
+                _spClient.Services.Edit(SelectedService.Id.ToString(), newProject, AccessToken);
                 Services = new(_spClient.Services.GetList());
                 SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
             }

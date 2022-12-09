@@ -4,15 +4,15 @@
     {
         public ContactsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Contacts") {}
 
-        public SkillProfi.Contacts Get() => 
-            Request.Get<SkillProfi.Contacts>(Url);
+        public SkillProfi.Contacts.Contacts Get() => 
+            Request.Get<SkillProfi.Contacts.Contacts>(Url);
         
 
-        public string Edit(SkillProfi.Contacts contact, string accessToken) =>
+        public string Edit(SkillProfi.Contacts.Contacts contact, string accessToken) =>
             Request.Edit(contact, Url, accessToken : accessToken);
 
 
-        public async Task<string> EditAsync(SkillProfi.Contacts contact, string accessToken) => 
+        public async Task<string> EditAsync(SkillProfi.Contacts.Contacts contact, string accessToken) => 
             await Request.EditAsync(contact, Url, accessToken: accessToken);
 
     }

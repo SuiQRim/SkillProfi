@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SkillProfi;
+using SkillProfi.Contacts;
 using SkillProfiApi.Data.Picture;
 
 namespace SkillProfiApi.Data
@@ -26,6 +27,13 @@ namespace SkillProfiApi.Data
             return contacts;
         }
 
+        public static async Task<SocialNetwork?> GetSocialNetwork(Guid id) 
+        {
+            Contacts contacts = await GetContactsAsync() ?? throw new NullReferenceException();
+            List<SocialNetwork> socNets = contacts.SocialNetworks ?? throw new NullReferenceException();
+            return socNets.SingleOrDefault(s => s.Id == id);   
+        }
+
         public async static Task<bool> IsExcistSocialNetworkById(Guid id) 
         {
             Contacts? contacts = await GetContactsAsync();
@@ -48,27 +56,23 @@ namespace SkillProfiApi.Data
 
         }
 
-
-        public async static Task EditSocialNetwork(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork) 
+        public async static Task EditSocialNetwork(SocialNetwork sc)
         {
             Contacts contacts = await GetContactsAsync();
 
-            int a = contacts.SocialNetworks.IndexOf(contacts.SocialNetworks.First(s => s.Id == id));
+            int a = contacts.SocialNetworks.IndexOf(contacts.SocialNetworks.First(s => s.Id == sc.Id));
 
-            contacts.SocialNetworks[a] = socialNetwork.Object;
+            contacts.SocialNetworks[a] = sc;
 
             contacts.Save();
-            
         }
 
-        public async static Task AddSocialNetwork(ObjectWithPicture<SocialNetwork> socialNetwork)
+        public async static Task AddSocialNetwork(SocialNetwork socialNetwork, byte[] image)
         {
             Contacts contacts = await GetContactsAsync();
 
-            socialNetwork.Object.Id = Guid.NewGuid();
-
-            contacts.SocialNetworks.Add(socialNetwork.Object);
-            await PictureDirectory.SavePictureAsync(socialNetwork);
+            contacts.SocialNetworks.Add(socialNetwork);
+            await PictureDirectory.SavePictureAsync(socialNetwork, image);
 
             contacts.Save();
 

@@ -1,6 +1,8 @@
 ﻿using SkillProfi;
 using SkillProfiRequestsToAPI;
+using SkillProfiWPF.Models;
 using SkillProfiWPF.ViewModels.Prefab;
+using System.Net;
 using System.Windows;
 using System.Windows.Input;
 
@@ -16,7 +18,7 @@ namespace SkillProfiWPF.ViewModels
             JoinAsGuest = new LamdaCommand(OnJoinAsGuest, CanAnyWay);
         }
 
-        public AuthParameters AuthParams { get; private set; }
+        public AuthParameters AuthParams { get; private set; } = new();
 
 
         private string _name = "";
@@ -66,13 +68,32 @@ namespace SkillProfiWPF.ViewModels
                     return;
                 }
 
-                AuthParams = _spClient.Accounts.Login(new Account() { Login = Name, Password = Password });
+                string token;
 
-                if (!AuthParams.IsLogin)
+                try
                 {
-                    Error = "Name or Password is Wrong!";
+                    token = _spClient.Accounts.Login(new Account() { Login = Name, Password = Password });
+                }
+                catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError)
+                {
+                    var response = ex.Response as HttpWebResponse;
+                    if (response != null)
+                    {
+                        if (response.StatusCode == HttpStatusCode.NotFound)
+                        {
+                            Error = "Name or Password is Wrong!";
+                        }
+                    }
+                    else
+                    {
+                        Error = "Сonnection error";
+                    }
                     return;
                 }
+
+                AuthParams.AccessToken = token;
+                AuthParams.IsLogin = true;
+                AuthParams.Login = Name;
                 (window as Window).DialogResult = true;
                 (window as Window).Close();
             }

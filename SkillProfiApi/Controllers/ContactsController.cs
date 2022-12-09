@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using SkillProfi;
+using SkillProfi.Contacts;
 using SkillProfiApi.Data;
 using SkillProfiApi.Data.Picture;
 
@@ -54,22 +55,47 @@ namespace SkillProfiApi.Controllers
         // PUT: api/Contacts/SocialNetworks
         [HttpPut("SocialNetworks/{id}")]
         [Authorize]
-        public async Task<IActionResult> PutSocialNetworks(Guid id, ObjectWithPicture<SocialNetwork> socialNetwork)
+        public async Task<IActionResult> PutSocialNetworks(Guid id, ObjectWithPicture<SocialNetworkTransfer> socialNetwork)
         {
-            if (!await ContactsFile.IsExcistSocialNetworkById(id)) return NotFound(id);
+            SocialNetworkTransfer socNetTransfer = socialNetwork.Object;
+            SocialNetwork? socNet = await ContactsFile.GetSocialNetwork(id);
 
-			try { await PictureDirectory.SavePictureAsync(socialNetwork); }
+            if (socNet == null) 
+                return NotFound();
+
+            socNet = new()
+            {
+                Id = socNet.Id,
+                Link = socNetTransfer.Link,
+                PictureName = socNet.PictureName
+            };
+
+            try { await PictureDirectory.SavePictureAsync(socNet, socialNetwork.Picture); }
 			catch (PictureNullException e)
 			{
 				_logger.LogWarning(exception: e, $"{nameof(socialNetwork)} saved without image");
-				return BadRequest(e.Message);
+                return BadRequest(e.Message);
 			}
+			await ContactsFile.EditSocialNetwork(socNet);
 
-			await ContactsFile.EditSocialNetwork(id, socialNetwork);
-
-			return Ok();
+			return NoContent();
         }
 
+        // POST: api/Contacts/SocialNetworks
+        [HttpPost("SocialNetworks")]
+        [Authorize]
+        public async Task<IActionResult> PostSocialNetworks(ObjectWithPicture<SocialNetworkTransfer> socialNetwork)
+        {
+            SocialNetwork socNet = new()
+            {
+                Id = Guid.NewGuid(),
+                Link = socialNetwork.Object.Link
+            };
+
+            await ContactsFile.AddSocialNetwork(socNet, socialNetwork.Picture);
+
+            return NoContent();
+        }
 
         // DELETE: api/Contacts/SocialNetworks
         [HttpDelete("SocialNetworks/{id}")]
@@ -86,17 +112,7 @@ namespace SkillProfiApi.Controllers
 				_logger.LogWarning(exception: e, "The image cannot be deleted because it's not found");
 			}
 
-			return Ok();
-        }
-         
-        // POST: api/Contacts/SocialNetworks
-        [HttpPost("SocialNetworks")]
-        [Authorize]
-        public async Task<IActionResult> PostSocialNetworks(ObjectWithPicture<SocialNetwork> socialNetwork)
-        {
-            await ContactsFile.AddSocialNetwork(socialNetwork);
-
-            return Ok();
-        }
+			return NoContent();
+        } 
     }
 }

@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Service;
 
 namespace SkillProfiRequestsToAPI.Services
 {
@@ -24,18 +24,18 @@ namespace SkillProfiRequestsToAPI.Services
 
 
 
-        public string Add(Service Service, string accessToken) =>
+        public string Add(ServiceTransfer Service, string accessToken) =>
             Request.Add(Service, Url, accessToken);
 
-        public async Task<string> AddAsync(Service Service, string accessToken) =>
+        public async Task<string> AddAsync(ServiceTransfer Service, string accessToken) =>
             await Request.AddAsync(Service, Url, accessToken);
 
 
 
-        public string Edit(string id, Service Service, string accessToken) =>
+        public string Edit(string id, ServiceTransfer Service, string accessToken) =>
             Request.Edit(Service, Url, id, accessToken);
 
-        public async Task<string> EditAsync(string id, Service Service, string accessToken) =>
+        public async Task<string> EditAsync(string id, ServiceTransfer Service, string accessToken) =>
             await Request.EditAsync(Service, Url, id, accessToken);
 
 

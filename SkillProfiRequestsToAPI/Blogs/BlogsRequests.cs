@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Blog;
 
 namespace SkillProfiRequestsToAPI.Blogs
 {
@@ -18,30 +18,30 @@ namespace SkillProfiRequestsToAPI.Blogs
 
 
 
-        public string Add(Blog blog, Stream stream, string accessToken)
+        public string Add(BlogTransfer blogTransfer, Stream stream, string accessToken)
         {
-			var obj = BuildObjectWithImage(blog, stream);
+			var obj = BuildObjectWithImage(blogTransfer, stream);
 			return Request.Add(obj, Url, accessToken);
         }
 
-        public async Task<string> AddAsync(Blog blog, Stream stream, string accessToken)
+        public async Task<string> AddAsync(BlogTransfer blogTransfer, Stream stream, string accessToken)
         {
-			var obj = BuildObjectWithImage(blog, stream);
+			var obj = BuildObjectWithImage(blogTransfer, stream);
 			return await Request.AddAsync(obj, Url, accessToken);
         }
 
 
 
-        public string Edit(string id, Blog blog, Stream? stream, string accessToken)
+        public string Edit(string id, BlogTransfer blogTransfer, Stream? stream, string accessToken)
 		{
-			var obj = BuildObjectWithImage(blog, stream);
+			var obj = BuildObjectWithImage(blogTransfer, stream);
             return Request.Edit(obj, Url, id, accessToken);
         }
            
 
-        public async Task<string> EditAsync(string id, Blog blog, Stream? stream, string accessToken)
+        public async Task<string> EditAsync(string id, BlogTransfer blogTransfer, Stream? stream, string accessToken)
         {
-			var obj = BuildObjectWithImage(blog, stream);
+			var obj = BuildObjectWithImage(blogTransfer, stream);
 			return await Request.EditAsync(obj, Url, id, accessToken);
         }
 

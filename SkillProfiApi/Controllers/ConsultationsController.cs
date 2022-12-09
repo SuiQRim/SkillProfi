@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
+using SkillProfi.Consult;
 using SkillProfiApi.Data;
 
 namespace SkillProfiApi.Controllers
@@ -28,10 +24,13 @@ namespace SkillProfiApi.Controllers
         public async Task<ActionResult<IEnumerable<Consultation>>> GetConsultations()
         {
             if (_context.Consultations == null)
+                return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
+
+            if (_context.Consultations == null)
             {
                 return NotFound();
             }
-            return await _context.Consultations.ToListAsync();
+            return Ok(await _context.Consultations.ToListAsync());
         }
 
         // GET: api/Consultations/5
@@ -39,6 +38,9 @@ namespace SkillProfiApi.Controllers
         [Authorize]
         public async Task<ActionResult<Consultation>> GetConsultation(Guid id)
         {
+            if (_context.Consultations == null)
+                return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
+
             if (_context.Consultations == null)
             {
                 return NotFound();
@@ -50,7 +52,7 @@ namespace SkillProfiApi.Controllers
                 return NotFound();
             }
 
-            return consultation;
+            return Ok(consultation);
         }
 
         // PUT: api/Consultations/5
@@ -59,10 +61,11 @@ namespace SkillProfiApi.Controllers
         [Authorize]
         public async Task<IActionResult> PutConsultation(Guid id, Consultation consultation)
         {
+            if (_context.Consultations == null)
+                return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
+
             if (id != consultation.Id)
-            {
                 return BadRequest();
-            }
 
             _context.Entry(consultation).State = EntityState.Modified;
 
@@ -88,21 +91,25 @@ namespace SkillProfiApi.Controllers
         // POST: api/Consultations
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Consultation>> PostConsultation(Consultation consultation)
+        public async Task<IActionResult> PostConsultation(ConsultationTransfer consultation)
         {
             if (_context.Consultations == null)
-            {
                 return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
-            }
 
-            consultation.Id = Guid.NewGuid();
-            consultation.Status = ConsultationStatus.Received;
-            consultation.Created = DateTime.Now;
+            Consultation cons = new() 
+            {
+				Id = Guid.NewGuid(),
+                Name = consultation.Name,
+                Description= consultation.Description,
+                EMail= consultation.EMail,
+			    Status = ConsultationStatus.Received,
+			    Created = DateTime.Now
+		    };
 
-            await _context.Consultations.AddAsync(consultation);
+            await _context.Consultations.AddAsync(cons);
             await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetConsultation", new { id = consultation.Id }, consultation);
+            return NoContent();
         }
 
         // DELETE: api/Consultations/5
@@ -110,6 +117,9 @@ namespace SkillProfiApi.Controllers
         [Authorize]
         public async Task<IActionResult> DeleteConsultation(Guid id)
         {
+            if (_context.Consultations == null)
+                return Problem("Entity set 'SkillProfiDbContext.Consultations'  is null.");
+
             if (_context.Consultations == null)
             {
                 return NotFound();

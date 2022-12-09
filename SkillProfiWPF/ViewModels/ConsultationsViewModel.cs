@@ -7,6 +7,7 @@ using System.Windows.Input;
 using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiWPF.Extensions;
 using SkillProfiRequestsToAPI;
+using SkillProfi.Consult;
 
 namespace SkillProfiWPF.ViewModels
 {

@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Consult;
 using Telegram.Bot.Types;
 
 namespace SkillProfiTelegramBot
@@ -26,7 +26,7 @@ namespace SkillProfiTelegramBot
             }
         }
 
-        public Consultation Consultation { get; private set; }
+        public ConsultationTransfer Consultation { get; private set; }
 
         public DateTime LastRequest { get; private set; }
         

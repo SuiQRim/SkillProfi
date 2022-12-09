@@ -1,8 +1,8 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Contacts;
 
 namespace SkillProfiWEBMVC.Models
 {
-	public class ContactsModel
+    public class ContactsModel
 	{
 		public string? Adress { get; set; }
 		public string? PhoneNumber { get; set; }

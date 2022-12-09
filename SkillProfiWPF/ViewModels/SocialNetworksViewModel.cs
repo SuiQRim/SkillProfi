@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Windows.Input;
-using SkillProfi;
+using SkillProfi.Contacts;
 using SkillProfiRequestsToAPI;
 using SkillProfiWPF.ViewModels.Prefab;
 
@@ -77,23 +77,21 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnSave(object p)
         {
 			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
-
-			if (IsAddObject)
+            SocialNetworkTransfer newSocialNetwork = new()
             {
-                SocialNetwork newSocialNetwork = new()
-                {
-                    Link = Link,
-                    PictureName = "SomePictureName",
-                };
+                Link = Link,
+            };
+
+            if (IsAddObject)
+            {
+
                 _spClient.SocialNetworks.Add(newSocialNetwork, fstream, AccessToken);
                 SocialNetworks = new(GetProjectsWithImage());
 
             }
             else
             {
-                SelectedSocialNetwork.Link = Link;
-
-                _spClient.SocialNetworks.Edit(SelectedSocialNetwork.Id.ToString(), SelectedSocialNetwork, fstream, AccessToken);
+                _spClient.SocialNetworks.Edit(SelectedSocialNetwork.Id.ToString(), newSocialNetwork, fstream, AccessToken);
                 SocialNetworks = new(GetProjectsWithImage());
                 SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }

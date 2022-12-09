@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillProfi;
+using SkillProfi.Blog;
 using SkillProfiApi.Data;
 using SkillProfiApi.Data.Picture;
 
@@ -25,13 +26,11 @@ namespace SkillProfiApi.Controllers
         public async Task<ActionResult<IEnumerable<Blog>>> GetBlogs()
         {
             if (_context.Blogs == null)
-            {
-                return NotFound();
-            }
+                return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
 
             List<Blog> blogs = await _context.Blogs.ToListAsync();
 
-            return blogs;
+            return Ok(blogs);
         }
 
         // GET: api/Blogs/5
@@ -39,35 +38,47 @@ namespace SkillProfiApi.Controllers
         public async Task<ActionResult<Blog>> GetBlog(Guid id)
         {
             if (_context.Blogs == null)
-            {
-                return NotFound();
-            }
+                return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
+
             var blog = await _context.Blogs.FindAsync(id);
 
             if (blog == null)
-            {
                 return NotFound();
-            }
-            return blog;
+            
+            return Ok(blog);
         }
 
         // PUT: api/Blogs/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
         [Authorize]
-        public async Task<IActionResult> PutBlog(Guid id, ObjectWithPicture<Blog> blog)
+        public async Task<IActionResult> PutBlog(Guid id, ObjectWithPicture<BlogTransfer> blogPic)
         {
-            if (id != blog.Object.Id)
-            {
+            if (_context.Blogs == null)
+                return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
+
+            BlogTransfer blogTranfer = blogPic.Object;     
+            Blog? blog = await _context.Blogs.SingleOrDefaultAsync(blog1=> blog1.Id == id);
+            
+            if (blog == null || blogTranfer == null)
                 return BadRequest();
-            }
 
-            _context.Entry(blog.Object).State = EntityState.Modified;
+            Blog updateBlog = new()
+            {
+                Id = blog.Id,
+                Description = blogTranfer.Description,
+                Title = blogTranfer.Title,
+                PictureName = blog.PictureName,
+                Created = blog.Created
+            };
+            
+            _context.Entry(blog).CurrentValues.SetValues(updateBlog);
 
-			try { await PictureDirectory.SavePictureAsync(blog); }
+			try { await PictureDirectory.SavePictureAsync(blog, blogPic.Picture); }
 			catch (PictureNullException e)
 			{
 				_logger.LogWarning(exception: e, $"{nameof(blog)} saved without image");
+                return BadRequest(e.Message);
 			}
 
 			try { await _context.SaveChangesAsync(); }
@@ -87,15 +98,27 @@ namespace SkillProfiApi.Controllers
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
         [Authorize]
-        public async Task<ActionResult<Blog>> PostBlog(ObjectWithPicture<Blog> blog)
-        {
+        public async Task<IActionResult> PostBlog(ObjectWithPicture<BlogTransfer> blogPic)
+        { 
             if (_context.Blogs == null)
-            {
                 return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
-            }
-            _context.Blogs.Add(blog.Object);
+            
+            BlogTransfer blogBase = blogPic.Object;
+            
+            if (blogBase == null)
+                return BadRequest();
 
-			try { await PictureDirectory.SavePictureAsync(blog); }
+            Blog blog = new()
+            {
+                Id = Guid.NewGuid(),
+                Description = blogBase.Description,
+                Title = blogBase.Title,
+                Created = DateTime.UtcNow,
+            };
+
+            _context.Blogs.Add(blog);
+
+			try { await PictureDirectory.SavePictureAsync(blog, blogPic.Picture); }
 			catch (PictureNullException e)
 			{
 				_logger.LogWarning(exception: e, $"{nameof(blog)} saved without image");
@@ -104,7 +127,7 @@ namespace SkillProfiApi.Controllers
 
 			await _context.SaveChangesAsync();
 
-            return CreatedAtAction("GetBlog", new { id = blog.Object.Id }, blog);
+            return NoContent();
         }
 
         // DELETE: api/Blogs/5
@@ -113,15 +136,13 @@ namespace SkillProfiApi.Controllers
         public async Task<IActionResult> DeleteBlog(Guid id)
         {
             if (_context.Blogs == null)
-            {
-                return NotFound();
-            }
-            var blog = await _context.Blogs.FindAsync(id);
-            if (blog == null)
-            {
-                return NotFound();
-            }
+                return Problem("Entity set 'SkillProfiDbContext.Blogs'  is null.");
 
+            var blog = await _context.Blogs.FindAsync(id);
+
+            if (blog == null)
+                return NotFound();
+            
             _context.Blogs.Remove(blog);
 
             try { blog.RemovePicture(); }
@@ -129,7 +150,6 @@ namespace SkillProfiApi.Controllers
             {
                 _logger.LogWarning(exception: e, "The image cannot be deleted because it is not found");
             }
-
 
             await _context.SaveChangesAsync();
 

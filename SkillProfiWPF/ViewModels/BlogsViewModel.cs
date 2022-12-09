@@ -1,4 +1,4 @@
-﻿using SkillProfi;
+﻿using SkillProfi.Blog;
 using SkillProfiRequestsToAPI;
 using SkillProfiWPF.ViewModels.Prefab;
 using System;
@@ -80,25 +80,16 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnSave(object p)
         {
 			FileStream? fstream = File.Exists(PictureName) ? File.OpenRead(PictureName) : null;
+            BlogTransfer newBlog = new (Title, Description);
 
 			if (IsAddObject)
             {
-                Blog newBlog = new()
-                {
-                    Title = Title,
-                    PictureName = "SomePictureName",
-                    Description = Description,
-                };
                 _spClient.Blogs.Add(newBlog, fstream, AccessToken);
                 Blogs = new(GetBlogsWithImage());
-
             }
             else
             {
-                SelectedBlog.Title = Title;
-                SelectedBlog.Description = Description;
-
-                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), SelectedBlog, fstream, AccessToken);
+                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), newBlog, fstream, AccessToken);
                 Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }

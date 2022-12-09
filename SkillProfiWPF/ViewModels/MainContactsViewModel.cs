@@ -1,10 +1,10 @@
-﻿using SkillProfi;
-using System;
+﻿using System;
 using SkillProfiRequestsToAPI.Contacts;
 using SkillProfiWPF.ViewModels.Prefab;
 using System.Windows.Input;
 using System.Windows;
 using SkillProfiRequestsToAPI;
+using SkillProfi.Contacts;
 
 namespace SkillProfiWPF.ViewModels
 {

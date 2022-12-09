@@ -28,22 +28,27 @@ namespace SkillProfiApi.Data.Picture
             return pic.PictureName;
         }
 
-        public static async Task SavePictureAsync<T>(this ObjectWithPicture<T> objImg)
-            where T : IPicture
+        public static async Task SavePictureAsync(IPicture pic, byte[]? picture)
         {
-            if (objImg == null || (!objImg.Object.PictureExsist() && objImg.Picture == null))
+            if (picture == null)
             {
-                throw new PictureNullException(nameof(objImg));
+                if (string.IsNullOrEmpty(pic.PictureName) || !pic.PictureExsist())
+                    throw new PictureNullException(nameof(pic));
+
+                else if (pic.PictureExsist())
+                    return;                
             }
 
-            objImg.Object.SetOriginalName();
-
-            string path = PathToPicture(objImg.Object.PictureName);
-
-            await File.WriteAllBytesAsync(path, objImg.Picture);
+            if (!string.IsNullOrEmpty(pic.PictureName) && pic.PictureExsist())
+                RemovePicture(pic);
+            
+            pic.SetOriginalName();
+            string path = PathToPicture(pic.PictureName);
+            await File.WriteAllBytesAsync(path, picture);
         }
 
-        public static void RemovePicture(this IPicture picture)
+
+		public static void RemovePicture(this IPicture picture)
         {
             string path = PathToPicture(picture.PictureName);
 

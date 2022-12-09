@@ -1,11 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using SkillProfi;
+using SkillProfi.Contacts;
 using SkillProfiRequestsToAPI;
 using SkillProfiWEBMVC.Models;
 
 namespace SkillProfiWEBMVC.Controllers
 {
-	public class ContactsController : Controller
+    public class ContactsController : Controller
 	{
         private readonly SkillProfiWebClient _spClient = new();
 
