@@ -1,15 +1,14 @@
 ﻿using Telegram.Bot;
-using Telegram.Bot.Extensions.Polling;
 using Telegram.Bot.Types;
 using SkillProfi;
 using Telegram.Bot.Types.InputFiles;
 using System.Net;
 using SkillProfiRequestsToAPI;
-using Newtonsoft.Json.Linq;
 using SkillProfi.Project;
 using SkillProfi.Blog;
 using SkillProfi.Service;
 using SkillProfi.Contacts;
+using Telegram.Bot.Polling;
 
 namespace SkillProfiTelegramBot
 {
