@@ -14,16 +14,14 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class SocialNetworksViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public SocialNetworksViewModel()
         {
-            SocialNetworks = new(GetProjectsWithImage());
+            SocialNetworks = new(GetSocialNrtworks());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
 
-        private List<SocialNetwork> GetProjectsWithImage() =>
-            Task.Run(async () => await _spClient.SocialNetworks.GetListAsync()).Result;
+        private List<SocialNetwork> GetSocialNrtworks() =>
+            Task.Run(async () => await UserContext.SPClient.SocialNetworks.GetListAsync()).Result;
 
         protected override bool CanAdd(object p) => base.CanAdd(p);
         protected override void OnAdd(object p)
@@ -38,8 +36,9 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            _spClient.SocialNetworks.DeleteById(SelectedSocialNetwork!.Id.ToString(), AccessToken);
-            SocialNetworks = new(GetProjectsWithImage());
+            Task.Run(async () => await UserContext.SPClient.SocialNetworks.DeleteByIdAsync(SelectedSocialNetwork!.Id.ToString())).Wait();
+
+            SocialNetworks = new(GetSocialNrtworks());
             SelectedSocialNetwork = null;
             IsObjectSelect = false;
             _lastSelectedSocialNetworkId = Guid.Empty;
@@ -53,7 +52,7 @@ namespace SkillProfiWPF.ViewModels
 
             if (!IsAddObject)
             {
-                SocialNetworks = new(GetProjectsWithImage());
+                SocialNetworks = new(GetSocialNrtworks());
                 if (_lastSelectedSocialNetworkId != Guid.Empty)
                 {
                     SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
@@ -83,16 +82,17 @@ namespace SkillProfiWPF.ViewModels
             };
 
             if (IsAddObject)
-            {
-
-                _spClient.SocialNetworks.Add(newSocialNetwork, fstream, AccessToken);
-                SocialNetworks = new(GetProjectsWithImage());
+            {   
+                Task.Run(async () => await UserContext.SPClient.SocialNetworks.AddAsync(newSocialNetwork, fstream)).Wait();
+                SocialNetworks = new(GetSocialNrtworks());
 
             }
             else
             {
-                _spClient.SocialNetworks.Edit(SelectedSocialNetwork.Id.ToString(), newSocialNetwork, fstream, AccessToken);
-                SocialNetworks = new(GetProjectsWithImage());
+                Task.Run(async () => 
+                await UserContext.SPClient.SocialNetworks
+                    .EditAsync(SelectedSocialNetwork.Id.ToString(), newSocialNetwork, fstream)).Wait();
+                SocialNetworks = new(GetSocialNrtworks());
                 SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }
 

@@ -8,17 +8,28 @@
     <a>Blogs</a>
 </div>
 
+@if(User.Identity != null && User.Identity.IsAuthenticated)
+{
+   <div class="block-nav">
+        <input 
+            type="button" value="Add" 
+            onclick="@("window.location.href='" + Url.Action("Edit") + "'");"
+            class="mini-button"/>
+   </div> 
+}
+
+
 <div id="blogsScroller" class="scroller">
 
     @{
-        foreach (var bm in Model)
+    foreach (var bm in Model)
     {
         <div class="block">
             <div class="created">
                 <a>@bm.Object.Created</a>
             </div>
 
-            <a href="@Url.Action("Blog", "Blogs", new{id = bm.Object.Id})">
+            <a href="@Url.Action("Blog", new{id = bm.Object.Id})">
                 <div class="block-image"> 
                     <img src='@(bm.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
                 </div>

@@ -1,0 +1,39 @@
+﻿@model SkillProfi.Account
+
+<link rel="stylesheet" href="~/css/Auth.css"/>
+
+<div>
+	@using (Html.BeginForm(FormMethod.Post))
+	{
+	@Html.AntiForgeryToken()
+
+	<div class="login-form">
+
+		<div class="signIn-title">SignIn</div>
+
+
+		<div class="login">
+			@Html.EditorFor(model => model.Login, new {
+			htmlAttributes = new {
+				@placeholder= "Login" } 
+			})
+			@Html.ValidationMessageFor(model => model.Login, "", new { @class = "error-text" })
+		</div>
+
+		<div class="password">
+			@Html.EditorFor(model => model.Password, new {
+				htmlAttributes = new {
+					@placeholder= "Password" } 
+				})
+			@Html.ValidationMessageFor(model => model.Password, "", new { @class = "error-text" })
+		</div>
+
+		<div>
+			@Html.ValidationMessage("LoginStatus","", new { @class = "error-text" })
+		</div>
+
+		<input type="submit" value="Send" class="button" />
+
+	</div>
+}
+</div>

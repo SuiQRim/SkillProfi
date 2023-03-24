@@ -14,16 +14,14 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class ProjectsViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public ProjectsViewModel()
         {
-            Projects = new (GetProjectsWithImage());
+            Projects = new (GetProjects());
             SelectImage = new LamdaCommand(OnSelectImage, CanSelectImage);
         }
 
-        private List<Project> GetProjectsWithImage() => 
-            Task.Run(async () => await _spClient.Projects.GetListAsync()).Result;
+        private List<Project> GetProjects() => 
+            Task.Run(async () => await UserContext.SPClient.Projects.GetListAsync()).Result;
       
         
         #region Commands
@@ -44,8 +42,10 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            _spClient.Projects.DeleteById(SelectedProject!.Id.ToString(), AccessToken);
-            Projects = new(GetProjectsWithImage());
+            Task.Run(async () => 
+                await UserContext.SPClient.Projects.DeleteByIdAsync(SelectedProject!.Id.ToString())).Wait();
+
+            Projects = new(GetProjects());
             IsObjectSelect = false;
             _lastSelectedProjectId = Guid.Empty;
 		}
@@ -56,7 +56,7 @@ namespace SkillProfiWPF.ViewModels
             base.OnReturn(p);
             if (!IsAddObject)
             {
-                Projects = new(GetProjectsWithImage());
+                Projects = new(GetProjects());
                 if (_lastSelectedProjectId != Guid.Empty)
                 {
                     SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
@@ -88,13 +88,17 @@ namespace SkillProfiWPF.ViewModels
 
 			if (IsAddObject)
             {
-				_spClient.Projects.Add(newProject, fstream, AccessToken);
-                Projects = new(GetProjectsWithImage());
+                Task.Run(async () =>
+                    await UserContext.SPClient.Projects.AddAsync(newProject, fstream)).Wait();
+
+                Projects = new(GetProjects());
             }
             else
             {
-				_spClient.Projects.Edit(SelectedProject.Id.ToString(), newProject, fstream, AccessToken); 
-                Projects = new(GetProjectsWithImage());
+                Task.Run(async () =>
+                   await UserContext.SPClient.Projects.EditAsync(_lastSelectedProjectId.ToString(),newProject, fstream)).Wait();
+
+                Projects = new(GetProjects());
                 SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
 

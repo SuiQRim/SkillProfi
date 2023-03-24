@@ -1,29 +1,45 @@
 ﻿@model GeneralModel<SkillProfi.Project.Project>
 
+<link rel="stylesheet" href="/css/Describe.css" />
+
 @{
     ViewData["Title"] = "Projects";
 }
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="block-nav">
 
+        <input 
+        type="button" value="Edit" 
+        onclick="@("window.location.href='" + Url.Action("Edit", new { id = Model.Object.Id}) + "'");"
+        class="mini-button"/>
+
+        <input 
+        type="button" value="Delete" 
+        onclick="@("window.location.href='" + Url.Action("Delete", new { id = Model.Object.Id}) + "'");"
+        class="mini-button"/>
+
+    </div>
+}
 <div id="project"">
 
-    <div id="@Model.Object.Id">
+    <div id="@Model.Object.Id" class="block-describe">
 
-        <div class="title">
-
+        <div class="block-describe-title">
             @Model.Object.Title
-
-            <div class="image-block-title">
-                <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
-            </div>
         </div>
 
-        <div class="description">
+        <div class="block-describe-image">
+            <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
+        </div>
+
+        <div class="block-describe-text">
             <a>@Model.Object.Description</a>
         </div>
 
     </div>
 
-    <button class="button" style="float: right;" onclick="@("window.location.href='" + @Url.Action("Projects", "Projects") + "'");">
+    <button class="button" style="float: right;" onclick="@("window.location.href='" + Url.Action("Projects") + "'");">
 	    Назад
     </button>
 

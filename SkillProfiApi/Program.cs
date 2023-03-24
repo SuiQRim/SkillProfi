@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.CookiePolicy;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using SkillProfiApi;
@@ -9,8 +10,7 @@ builder.WebHost.ConfigureKestrel(serverOptions =>
     serverOptions.Limits.MaxRequestBodySize = int.MaxValue;
 });
 // Add services to the container.
-builder.Services.AddCors(opt => opt.AddDefaultPolicy(
-    builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod()));
+builder.Services.AddCors();
 builder.Services.AddControllers();
 builder.Services.AddDbContext<SkillProfiDbContext>
     (options =>  options.UseInMemoryDatabase(databaseName: "SkillProfi"));
@@ -22,6 +22,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
     {
+        options.RequireHttpsMetadata = true;
         options.TokenValidationParameters = new TokenValidationParameters
         {
             ValidateIssuer = true,
@@ -43,9 +44,29 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors();
+app.UseCors(x => x
+    .AllowAnyMethod()
+    .AllowAnyHeader()
+    .SetIsOriginAllowed(origin => true)
+    .AllowCredentials());
+
+app.UseCookiePolicy(new CookiePolicyOptions
+{
+    MinimumSameSitePolicy = SameSiteMode.Strict,
+    HttpOnly = HttpOnlyPolicy.Always,
+    Secure = CookieSecurePolicy.Always
+});
+
 app.UseHttpsRedirection();
 
+app.Use(async (context, next) =>
+{
+    var token = context.Request.Cookies[".AspNetCore.Application.Id"];
+    if (!string.IsNullOrEmpty(token))
+        context.Request.Headers.Add("Authorization", "Bearer " + token);
+
+    await next();
+});
 app.UseAuthentication();
 app.UseAuthorization();
 

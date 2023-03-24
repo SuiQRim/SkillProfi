@@ -3,6 +3,8 @@ using SkillProfiRequestsToAPI;
 using SkillProfiWPF.Models;
 using SkillProfiWPF.ViewModels.Prefab;
 using System.Net;
+using System.Net.Http;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
 
@@ -10,8 +12,6 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class LoginViewModel : ViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public LoginViewModel()
         {
             JoinWithLogin = new LamdaCommand(OnJoinWithLogin, CanAnyWay);
@@ -68,30 +68,23 @@ namespace SkillProfiWPF.ViewModels
                     return;
                 }
 
-                string token;
-
                 try
                 {
-                    token = _spClient.Accounts.Login(new Account() { Login = Name, Password = Password });
+                    Task.Run(async () =>
+                        await UserContext.SPClient.Accounts.LoginAsycnc(new Account() { Login = Name, Password = Password })).Wait();
                 }
-                catch (WebException ex) when (ex.Status == WebExceptionStatus.ProtocolError)
+                catch (System.AggregateException ex) when (ex.InnerException is HttpRequestException)
                 {
-                    var response = ex.Response as HttpWebResponse;
-                    if (response != null)
+                    var sc = (ex.InnerException as HttpRequestException).StatusCode;
+                    Error = sc switch
                     {
-                        if (response.StatusCode == HttpStatusCode.NotFound)
-                        {
-                            Error = "Name or Password is Wrong!";
-                        }
-                    }
-                    else
-                    {
-                        Error = "Сonnection error";
-                    }
+                        HttpStatusCode.BadRequest => "Bad format of some field",
+                        HttpStatusCode.NotFound => "Name or Password is Wrong!",
+                        _ => "Сonnection error",
+                    };
                     return;
                 }
 
-                AuthParams.AccessToken = token;
                 AuthParams.IsLogin = true;
                 AuthParams.Login = Name;
                 (window as Window).DialogResult = true;

@@ -4,19 +4,18 @@ using SkillProfiWPF.ViewModels.Prefab;
 using System.Diagnostics;
 using System.Globalization;
 using System.IO;
+using System.Threading.Tasks;
 using System.Windows.Input;
 
 namespace SkillProfiWPF.ViewModels
 {
 	internal class FaceViewModel : EditorViewModel
 	{
-		private readonly SkillProfiWebClient _spClient = new();
-
 		public string BackGroundImage { get; } = @"Assets\Studying.jpg";
 
 		public FaceViewModel()
 		{
-			Face = _spClient.Face.Get();
+			Face = Task.Run(async () => await UserContext.SPClient.Face.GetAsync()).Result;
 		}
 
 		protected override bool CanSave(object p)
@@ -30,16 +29,20 @@ namespace SkillProfiWPF.ViewModels
 		}
 		protected override void OnSave(object p)
 		{
-			_spClient.Face.Edit(new Face() {Opportunity = Opportunity, Slogan = Slogan}, AccessToken);
-			Face = _spClient.Face.Get();
+			Task.Run(async () => await UserContext.SPClient.Face
+				.EditAsync(new Face() { Opportunity = Opportunity, Slogan = Slogan })).Wait();
+
+            Face = Task.Run(async () =>
+				await UserContext.SPClient.Face.GetAsync()).Result;
 			IsObjectEdit = false;
 		}
 
 		protected override void OnReturn(object p)
 		{
 			base.OnReturn(p);
-			Face = _spClient.Face.Get();
-		}
+            Face = Task.Run(async () =>
+                await UserContext.SPClient.Face.GetAsync()).Result;
+        }
 
 
 

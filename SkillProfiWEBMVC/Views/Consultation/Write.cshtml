@@ -12,8 +12,7 @@
 
 	<div>
 
-		@using (Html.BeginForm("Write", "Consultation", FormMethod.Post))
-		{
+		@using (Html.BeginForm("Write", "Consultation", FormMethod.Post)){
 			@Html.AntiForgeryToken()
 
 			<div class="form">

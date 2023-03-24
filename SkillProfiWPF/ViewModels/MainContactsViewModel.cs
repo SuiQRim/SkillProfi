@@ -5,16 +5,17 @@ using System.Windows.Input;
 using System.Windows;
 using SkillProfiRequestsToAPI;
 using SkillProfi.Contacts;
+using System.Threading.Tasks;
+using System.Drawing;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class MainContactsViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public MainContactsViewModel()
         {
-            Contacts = _spClient.Contacts.Get();
+            Contacts = Task.Run(async () =>
+                await UserContext.SPClient.Contacts.GetAsync()).Result;
             CopyLink = new LamdaCommand(OnCopyLink, CanCopyLink);
         }
 
@@ -38,7 +39,8 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnReturn(object p)
         {
             base.OnReturn(p);
-            Contacts = _spClient.Contacts.Get();
+            Contacts = Task.Run(async () =>
+               await UserContext.SPClient.Contacts.GetAsync()).Result;
         }
 
         protected override bool CanSave(object p)
@@ -53,10 +55,18 @@ namespace SkillProfiWPF.ViewModels
         protected override void OnSave(object p)
         {
             var c = Contacts;
-            ContactsTransfer contTransfer = new (c.Adress, c.PhoneNumber, c.Email, c.LinkToMapContructor);
 
-            _spClient.Contacts.Edit(contTransfer, AccessToken);
-            Contacts = _spClient.Contacts.Get();
+			ContactsTransfer contTransfer = new()
+            {
+				Adress = c.Adress,
+                Email = c.Email,
+                PhoneNumber = c.PhoneNumber,
+				LinkToMapContructor = c.LinkToMapContructor
+			};
+
+			Task.Run(async () => await UserContext.SPClient.Contacts.EditAsync(contTransfer));
+            Contacts = Task.Run(async () =>
+                await UserContext.SPClient.Contacts.GetAsync()).Result;
         }
 
 

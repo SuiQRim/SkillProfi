@@ -8,6 +8,7 @@ using SkillProfiWPF.ViewModels.Prefab;
 using SkillProfiWPF.Extensions;
 using SkillProfiRequestsToAPI;
 using SkillProfi.Consult;
+using System.Threading.Tasks;
 
 namespace SkillProfiWPF.ViewModels
 {
@@ -32,8 +33,9 @@ namespace SkillProfiWPF.ViewModels
 
         public void UpdateConsultations()
         {
-            Consultations = new 
-                (_spClient.Consultations.GetList(AccessToken) ?? new());
+
+            Consultations = new(Task.Run(async () =>
+                await UserContext.SPClient.Consultations.GetListAsync()).Result);
 
             FilteredConsultations = new 
                 (ConsultationsFilter.FilterByDate(Consultations, LastDate, FirstDate));
@@ -62,7 +64,10 @@ namespace SkillProfiWPF.ViewModels
         private void OnSaveConsultationStatus(object p)
         {
             IsOpenEditStatusMenuElement = false;
-            _spClient.Consultations.Edit(SelectedConsultation.Id.ToString(), SelectedConsultation, AccessToken);
+
+            Task.Run(async () => await UserContext.SPClient.Consultations
+                .EditAsync(SelectedConsultation.Id.ToString(), SelectedConsultation)).Wait();
+
             UpdateConsultations();
 
         }

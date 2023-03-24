@@ -1,19 +1,20 @@
-﻿namespace SkillProfi.Contacts
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace SkillProfi.Contacts
 {
     public class ContactsTransfer
     {
-        public ContactsTransfer(string adress, string phoneNumber, string email, string linkToMapContructor)
-        {
-            Adress = adress;
-            PhoneNumber = phoneNumber;
-            Email = email;
-            LinkToMapContructor = linkToMapContructor;
-        }
+        [MaxLength(256)]
+        public string? Adress { get; set; }
 
-        public string Adress { get; set; }
-        public string PhoneNumber { get; set; }
-        public string Email { get; set; }
+        [DataType(DataType.PhoneNumber)]
+		public string? PhoneNumber { get; set; }
 
-        public string LinkToMapContructor { get; set; }
+        [DataType(DataType.EmailAddress)]
+		public string? Email { get; set; }
+
+        [DataType(DataType.Url)]
+		[MaxLength(4096)]
+		public string? LinkToMapContructor { get; set; }
     }
 }

@@ -14,8 +14,6 @@ namespace SkillProfiWPF.ViewModels
 {
     internal class BlogsViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public BlogsViewModel()
         {
             Blogs = new(GetBlogsWithImage());
@@ -23,7 +21,7 @@ namespace SkillProfiWPF.ViewModels
         }
 
         private List<Blog> GetBlogsWithImage() => 
-            Task.Run(async () => await _spClient.Blogs.GetListAsync()).Result;
+            Task.Run(async () => await UserContext.SPClient.Blogs.GetListAsync()).Result;
 
         #region Commands
 
@@ -43,7 +41,8 @@ namespace SkillProfiWPF.ViewModels
         protected override bool CanDelete(object p) => base.CanDelete(p);
         protected override void OnDelete(object p)
         {
-            _spClient.Blogs.DeleteById(SelectedBlog!.Id.ToString(), AccessToken);
+            Task.Run(async () =>
+                await UserContext.SPClient.Blogs.DeleteByIdAsync(SelectedBlog!.Id.ToString())).Wait();
             Blogs = new(GetBlogsWithImage());
             IsObjectSelect = false;
 			_lastSelectedBlogId = Guid.Empty;
@@ -84,12 +83,15 @@ namespace SkillProfiWPF.ViewModels
 
 			if (IsAddObject)
             {
-                _spClient.Blogs.Add(newBlog, fstream, AccessToken);
+                Task.Run(async () =>
+                    await UserContext.SPClient.Blogs.AddAsync(newBlog, fstream)).Wait();
+               
                 Blogs = new(GetBlogsWithImage());
             }
             else
             {
-                _spClient.Blogs.Edit(SelectedBlog.Id.ToString(), newBlog, fstream, AccessToken);
+                Task.Run(async () =>
+                     await UserContext.SPClient.Blogs.EditAsync(_selectedBlog.Id.ToString(), newBlog, fstream)).Wait();
                 Blogs = new(GetBlogsWithImage());
                 SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }

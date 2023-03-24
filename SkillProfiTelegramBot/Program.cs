@@ -120,7 +120,7 @@ namespace SkillProfiTelegramBot
 
                         case "/contacts":
 
-                            Contacts contacts = _spWebClient.Contacts.Get();
+                            Contacts contacts = await _spWebClient.Contacts.GetAsync();
                             string socialNetworsText = "Мы в социальных сетях:\n\n";
 
                             foreach (var sn in contacts.SocialNetworks)

@@ -21,28 +21,43 @@
     <body>
 
         <div id="header" class="header">
-            <div class="topnav">
-                <div>
-                    @functions {
-                    public string GetNavActive(string navTitle)
-                    {
-                        var title = ViewData["title"];
-                        if (navTitle == title)
-                            return "active";
-                        return "";
-                    }
-                    }   
 
+            <div class="topnav">
+                <div class="identity">
+
+ 
+                    @if (User.Identity == null || !User.Identity.IsAuthenticated)
+                    {
+                        <a href="@Url.Action("Login", "Auth",new { @ReturnUrl = Context.Request.Path} )">Войти</a>
+                    }
+                    else
+                    {
+                        <a title="Выйти из аккаунта" href="@Url.Action("Logout", "Auth",new { @ReturnUrl = Context.Request.Path} )">@User.Identity.Name</a>
+                    }
+                </div>
+
+                <div class="nave">
+                    @functions {
+                        public string GetNavActive(string navTitle)
+                        {
+                            var title = ViewData["title"];
+                            if (navTitle == title)
+                                return "active";
+                            return "";
+                        }
+                    }   
+                  
                     <a href="@Url.Action("Face", "Main")" class='@GetNavActive("Main")'>Main</a>
                     <a href="@Url.Action("Services", "Services")" class='@GetNavActive("Services")'>Services</a>
                     <a href="@Url.Action("Projects", "Projects")" class='@GetNavActive("Projects")'>Projects</a>
                     <a href="@Url.Action("Blogs", "Blogs")" class='@GetNavActive("Blogs")'>Blogs</a>
                     <a href="@Url.Action("Contacts", "Contacts")" class='@GetNavActive("Contacts")'>Contacts</a>
-                </div>
-            </div>
 
-            <div class="slogan">
-                <p>"Expanding the possibilities"</p>
+                </div>     
+                    
+                <div class="slogan">
+                    <p>"Expanding the possibilities"</p>
+                </div>
             </div>
         </div>
 

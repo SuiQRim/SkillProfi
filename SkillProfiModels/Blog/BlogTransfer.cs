@@ -4,6 +4,10 @@ namespace SkillProfi.Blog
 {
 	public class BlogTransfer
 	{
+		public BlogTransfer()
+		{
+
+		}
 		public BlogTransfer(string title, string description)
 		{
 			Title = title;

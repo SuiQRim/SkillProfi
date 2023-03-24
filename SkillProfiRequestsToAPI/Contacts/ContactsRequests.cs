@@ -6,16 +6,11 @@ namespace SkillProfiRequestsToAPI.Contacts
     {
         public ContactsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Contacts") {}
 
-        public SkillProfi.Contacts.Contacts Get() => 
-            Request.Get<SkillProfi.Contacts.Contacts>(Url);
-        
+        public async Task<SkillProfi.Contacts.Contacts> GetAsync() => 
+           await Request.GetAsync<SkillProfi.Contacts.Contacts>(Url);      
 
-        public string Edit(ContactsTransfer contact, string accessToken) =>
-            Request.Edit(contact, Url, accessToken : accessToken);
-
-
-        public async Task<string> EditAsync(ContactsTransfer contact, string accessToken) => 
-            await Request.EditAsync(contact, Url, accessToken: accessToken);
+        public async Task<string> EditAsync(ContactsTransfer contact) => 
+            await Request.EditAsync(contact, Url);
 
     }
 }

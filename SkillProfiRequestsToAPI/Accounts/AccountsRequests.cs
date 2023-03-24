@@ -7,10 +7,9 @@ namespace SkillProfiRequestsToAPI.Accounts
     {
         public AccountsRequests(Func<string> getBaseUrl) : base(getBaseUrl, "Auth") { }
 
-        public string? Login(Account account)
-        {
-            return Request.Add(account, Url);
-        }
+        public async Task<string> LoginAsycnc(Account account) =>
+            await Request.AddAsync(account, Url);
+        
 
     }
 }

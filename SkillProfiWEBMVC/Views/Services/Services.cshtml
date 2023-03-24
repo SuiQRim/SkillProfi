@@ -8,6 +8,17 @@
     <p>What can we do</p>
 </div>
 
+@if(User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="block-nav">
+        <input 
+            type="submit" value="Add" 
+            onclick="@("window.location.href='" + Url.Action("Edit") + "'");"
+            class="mini-button"/>
+    </div>
+}
+
+
 <div id="toggle-list" class="toggle-list">
 
     @{
@@ -21,17 +32,36 @@
 
             <div class="toggle-context">
                 <p>@srvc.Description</p>
+
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
+                {
+                    <div class="block-nav" style="justify-content: right;">
+
+                        <input 
+                            type="button" value="Edit" 
+                            onclick="@("window.location.href='" + @Url.Action("Edit", new { id = srvc.Id}) + "'")"
+                            class="mini-button"/>
+            
+                        <input 
+                            type="button" value="Delete" 
+                            onclick="@("window.location.href='" + @Url.Action("Delete", new { id = srvc.Id}) + "'")"
+                            class="mini-button"/>
+            
+                    </div>
+                }
             </div>
-
-        </div>                        
-
+        </div>                  
+       
     }
     }  
     <script>
         const accordion = document.getElementsByClassName('toggle')
         for (i = 0; i < accordion.length; i++) {
-            accordion[i].addEventListener('click', function() {
-                this.classList.toggle('active')
+
+            let toggleTitle = accordion[i].getElementsByClassName("toggle-title")[0]
+
+            toggleTitle.addEventListener('click', function() {
+                this.parentNode.classList.toggle('active')
             })
         }
     </script>

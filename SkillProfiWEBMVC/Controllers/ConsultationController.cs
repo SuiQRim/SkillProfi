@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SkillProfi.Consult;
 using SkillProfiRequestsToAPI;
+using System.Security.Claims;
 
 namespace SkillProfiWEBMVC.Controllers
 {

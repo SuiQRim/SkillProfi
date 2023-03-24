@@ -59,7 +59,7 @@ namespace SkillProfiApi.Controllers
             Service updateService = new()
             {
                 Id = service.Id,
-                Description = service.Description,
+                Description = serviceTransfer.Description,
                 Title = serviceTransfer.Title,
                 Created = service.Created,
             };

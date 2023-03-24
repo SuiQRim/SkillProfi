@@ -2,18 +2,20 @@
 using SkillProfiRequestsToAPI;
 using SkillProfiRequestsToAPI.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows.Documents;
 
 namespace SkillProfiWPF.ViewModels
 {
     internal class ServicesViewModel : EditorViewModel
     {
-        private readonly SkillProfiWebClient _spClient = new();
-
         public ServicesViewModel()
         {
-            Services = new (_spClient.Services.GetList());
+            Services = new(Task.Run(async () =>
+               await UserContext.SPClient.Services.GetListAsync()).Result);
         }
 
         protected override bool CanAdd(object p) => !IsObjectEdit;
@@ -32,8 +34,12 @@ namespace SkillProfiWPF.ViewModels
         }
         protected override void OnDelete(object p)
         {
-            _spClient.Services.DeleteById(SelectedService!.Id.ToString(), AccessToken);
-            Services = new(_spClient.Services.GetList());
+            Task.Run(async () =>
+                await UserContext.SPClient.Services.DeleteByIdAsync(SelectedService!.Id.ToString())).Wait();
+
+            Services = new(Task.Run(async () =>
+               await UserContext.SPClient.Services.GetListAsync()).Result);
+
             IsObjectSelect = false;
 			_lastSelectedProjectId = Guid.Empty;
 		}
@@ -46,12 +52,14 @@ namespace SkillProfiWPF.ViewModels
 
             if (!IsAddObject)
             {
-                Services = new(_spClient.Services.GetList());
+                Services = new(Task.Run(async () =>
+                   await UserContext.SPClient.Services.GetListAsync()).Result);
+
                 if (_lastSelectedProjectId != Guid.Empty)
                 {
                     SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
                 }
-             
+
             }
         }
 
@@ -76,9 +84,11 @@ namespace SkillProfiWPF.ViewModels
 
 			if (IsAddObject)
             {
+                Task.Run(async () =>
+                   await UserContext.SPClient.Services.AddAsync(newProject)).Wait();
 
-                _spClient.Services.Add(newProject, AccessToken);
-                Services = new(_spClient.Services.GetList());
+                Services = new(Task.Run(async () =>
+                   await UserContext.SPClient.Services.GetListAsync()).Result);
 
             }
             else
@@ -86,8 +96,12 @@ namespace SkillProfiWPF.ViewModels
                 SelectedService.Title = Title;
                 SelectedService.Description = Description;
 
-                _spClient.Services.Edit(SelectedService.Id.ToString(), newProject, AccessToken);
-                Services = new(_spClient.Services.GetList());
+                Task.Run(async () =>
+                    await UserContext.SPClient.Services.EditAsync(SelectedService.Id.ToString(), newProject)).Wait();
+
+                Services = new(Task.Run(async () =>
+                    await UserContext.SPClient.Services.GetListAsync()).Result);
+
                 SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
             }
 

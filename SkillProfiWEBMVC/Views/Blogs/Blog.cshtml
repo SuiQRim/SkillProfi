@@ -1,31 +1,44 @@
-﻿@model GeneralModel<SkillProfi.Blog.Blog>
+﻿@model GeneralModel<SkillProfi.Blog.Blog> 
 
 @{
     ViewData["Title"] = "Blogs";
 }
-<link rel="stylesheet" href=" /css/BlockDesctiption.css" />
+<link rel="stylesheet" href="/css/Describe.css" />
+
+@if (User.Identity != null && User.Identity.IsAuthenticated)
+{
+    <div class="block-nav">
+
+        <input 
+        type="button" value="Edit" 
+        onclick="@("window.location.href='" + @Url.Action("Edit", new { id = Model.Object.Id}) + "'");"
+        class="mini-button"/>
+
+        <input 
+        type="button" value="Delete" 
+        onclick="@("window.location.href='" + @Url.Action("Delete", new { id = Model.Object.Id}) + "'");"
+        class="mini-button"/>
+
+    </div>
+}
 
 <div id="blog">
+    <div id="@Model.Object.Id" class="block-describe">
 
-    <div id="@Model.Object.Id">
+        <div class="block-describe-title">@Model.Object.Title</div>
 
-        <div class="title">@Model.Object.Title</div>
+        <div class="block-describe-image">
+            <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
+        </div>
 
-        <div class="block-description">
-            <div class="block-description-image-column">
-                <div class="block-image">
-                    <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
-                </div>
-            </div>
-            <div class="block-description-content-column">
-                @Model.Object.Description
-            </div>
+        <div class="block-describe-text">
+            <a>@Model.Object.Description</a>
         </div>
     </div>
 
     <button 
         class="button" style="float: right;" 
-        onclick="@("window.location.href='" + @Url.Action("Blogs", "Blogs") + "'");">
+        onclick="@("window.location.href='" + @Url.Action("Blogs") + "'");">
 
 	    Назад
 

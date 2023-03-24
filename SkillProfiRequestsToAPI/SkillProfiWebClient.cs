@@ -7,12 +7,13 @@ using SkillProfiRequestsToAPI.Pictures;
 using SkillProfiRequestsToAPI.Projects;
 using SkillProfiRequestsToAPI.Services;
 using SkillProfiRequestsToAPI.VisualComponents;
+using System.Net;
 
 namespace SkillProfiRequestsToAPI
 {
     public class SkillProfiWebClient
     {
-		private const string SETTINGS_FILE_NAME = "appsettings.json";
+        private const string SETTINGS_FILE_NAME = "appsettings.json";
 
 		private const string DOMAIN_FIELD = "serverUrl";
 

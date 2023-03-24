@@ -20,26 +20,32 @@ namespace SkillProfiApi.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<string>> Login(Account account)
+        public async Task<IActionResult> Login(Account account)
         {
-            UserAccount? userAcc = new() {Login = account.Login, Password = account.Password };
-			userAcc = await _context.Accounts.
+            UserAccount? userAcc = new() { Login = account.Login, Password = account.Password };
+            userAcc = await _context.Accounts.
                 SingleOrDefaultAsync(a => a.Login == userAcc.Login && a.Password == userAcc.Password);
 
-            if (userAcc == null) 
+            if (userAcc == null)
                 return NotFound("Login or password is wrong");
 
             var claims = new List<Claim> { new Claim(ClaimTypes.Name, account.Login) };
 
-            JwtSecurityToken jwt = new (
+            JwtSecurityToken jwt = new(
                 issuer: AuthOptions.ISSUER,
                 audience: AuthOptions.AUDIENCE,
                 claims: claims,
                 expires: DateTime.UtcNow.Add(TimeSpan.FromMinutes(20)),
                 signingCredentials: new SigningCredentials(AuthOptions.GetSymmetricSecurityKey(), SecurityAlgorithms.HmacSha256));
 
-            return Ok(new JwtSecurityTokenHandler().WriteToken(jwt));
-        }
+            string token = new JwtSecurityTokenHandler().WriteToken(jwt);
+            HttpContext.Response.Cookies.Append(".AspNetCore.Application.Id", token,
+            new CookieOptions
+            {
+                MaxAge = TimeSpan.FromHours(12)
+            });
 
+            return NoContent();
+        }
     }
 }

@@ -9,6 +9,7 @@
 }
 
 .toggle .toggle-title {
+    cursor: pointer;
     position: relative;
     transition: 0.5s;
     padding: 10px 20px;
@@ -65,7 +66,7 @@
 
 .toggle.active .toggle-context {
     padding: 20px 60px;
+    height: auto;
     border-width: 4px;
     border-top: hidden;
-    height: 180px;
 }

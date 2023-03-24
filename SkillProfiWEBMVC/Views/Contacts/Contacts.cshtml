@@ -14,18 +14,36 @@
         <iframe width="500" height="400" frameborder="0" src="@Model.LinkToMapContructor"></iframe>
     </div>
 
-    <div class="social-network">
-        @{
-        foreach (var sn in Model.SocialNetworks)
+    @if(User.Identity != null && User.Identity.IsAuthenticated)
+    {
+        <div class="block-nav">
+	        <input 
+                type="button" value="Edit" 
+                onclick="@("window.location.href='" + @Url.Action("SocialNetworks") + "'");"
+                class="mini-button"/>
+        </div>
+    }
+    <div class="social-networks">
+        @foreach (var sn in Model.SocialNetworks)
         {
-            <a href="@sn.Object.Link">
-                <img src='@(sn.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
-            </a>
-        }
-        }
+            <div class="social-network">
+      
+                <a href="@sn.Object.Link" target="_blank">
+                    <img src='@(sn.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
+                </a>
+        
+       
+            </div>
+        } 
     </div>
-            
     <div class="contacts-data">
+        @if(User.Identity != null && User.Identity.IsAuthenticated)
+        {
+            <input 
+                type="button" value="Edit" 
+                onclick="@("window.location.href='" + @Url.Action("EditInformation") + "'");"
+                class="mini-button"/>
+        }
         <div>@Model.Adress</div>
         <div>@Model.PhoneNumber</div>
         <div>@Model.Email</div>

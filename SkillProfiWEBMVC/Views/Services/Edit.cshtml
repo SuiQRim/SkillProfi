@@ -1,0 +1,45 @@
+﻿@model ModelCustom<SkillProfi.Service.ServiceTransfer>
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+@using (Html.BeginForm("Edit","Services", FormMethod.Post))
+{
+
+    Html.AntiForgeryToken();
+    Html.HiddenFor(model => model.Id);
+    @Html.HiddenFor(model => model.ImageLink);
+
+    <div>
+        @Html.EditorFor(model => model.Blog.Title, new
+        {
+            htmlAttributes = new
+            {
+                @placeholder = "Title"
+            }
+        })
+
+        @Html.ValidationMessageFor(model => model.Blog.Title, "", new { @class = "error-text" })
+    </div>
+
+    <div>
+
+        @Html.EditorFor(model => model.Blog.Description, new
+        {
+            htmlAttributes = new
+            {   
+                @placeholder = "Description",
+                @class = "textarea-input"
+            }
+        })
+        @Html.ValidationMessageFor(model => model.Blog.Description, "", new { @class = "error-text" })
+    </div>
+
+    <input type="submit"  style="float:right;" value="Send" class="button" />
+}
+
+<input
+    type="button"
+    class="button" style="float: right;" 
+    onclick="@("window.location.href='" + Url.Action("Services") + "'");" value="Назад">
