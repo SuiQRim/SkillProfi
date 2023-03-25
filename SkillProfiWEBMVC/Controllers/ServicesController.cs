@@ -21,7 +21,7 @@ namespace SkillProfiWEBMVC.Controllers
 		public async Task<IActionResult> EditAsync(string? id)
 		{
 			if (id == null)
-                return View(new ModelCustom<ServiceTransfer>() { Blog = new ()});
+                return View(new ModelCustom<ServiceTransfer>() { Target = new ()});
             
 
 			Service service = await _spClient.Services.GetByIdAsync(id);
@@ -29,7 +29,7 @@ namespace SkillProfiWEBMVC.Controllers
 			ModelCustom<ServiceTransfer> mc = new()
 			{
 				Id = service.Id.ToString(),
-				Blog = new()
+				Target = new()
 				{
 					Description = service.Description,
 					Title = service.Title,
@@ -46,7 +46,7 @@ namespace SkillProfiWEBMVC.Controllers
 			if (!ModelState.IsValid)
 				return View(model);
 
-			ServiceTransfer st = model.Blog;
+			ServiceTransfer st = model.Target;
 			if (id != null)
 			{
 				await _spClient.Services.EditAsync(id, st);

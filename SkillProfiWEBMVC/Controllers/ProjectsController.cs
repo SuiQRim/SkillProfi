@@ -14,10 +14,10 @@ namespace SkillProfiWEBMVC.Controllers
         public async Task<IActionResult> ProjectsAsync()
         {
             List<Project> reqProjects = new(await _spClient.Projects.GetListAsync());
-            List<GeneralModel<Project>> projects =
-                reqProjects.Select(b => new GeneralModel<Project>()
+            List<ModelCustom<Project>> projects =
+                reqProjects.Select(b => new ModelCustom<Project>()
                 {
-                    Object = b,
+                    Target = b,
                     ImageLink = _spClient.Pictures.GetURL(b.PictureName)
                 })
                 .ToList();
@@ -26,10 +26,10 @@ namespace SkillProfiWEBMVC.Controllers
         public async Task<IActionResult> ProjectAsync(string id)
         {
             Project reqProject = await _spClient.Projects.GetByIdAsync(id);
-            GeneralModel<Project> project =
+			ModelCustom<Project> project =
                 new()
                 {
-                    Object = reqProject,
+                    Target = reqProject,
                     ImageLink = _spClient.Pictures.GetURL(reqProject.PictureName)
                 };
 
@@ -42,14 +42,14 @@ namespace SkillProfiWEBMVC.Controllers
         {
             if (string.IsNullOrEmpty(id))
             {
-                return View(new ModelCustom<ProjectTransfer>() { Blog = new() });
+                return View(new ModelCustom<ProjectTransfer>() { Target = new() });
             }
 
             Project reqProject = await _spClient.Projects.GetByIdAsync(id);
 
             ModelCustom<ProjectTransfer> mc = new()
             {
-                Blog = new()
+                Target = new()
                 {
                     Title = reqProject.Title,
                     Description = reqProject.Description
@@ -77,7 +77,7 @@ namespace SkillProfiWEBMVC.Controllers
                     ModelState.AddModelError("ImageStatus", "Image is Required");
                     return View(model);
                 }
-                await _spClient.Projects.AddAsync(model.Blog, imageFile.OpenReadStream());
+                await _spClient.Projects.AddAsync(model.Target, imageFile.OpenReadStream());
             }
             else
             {
@@ -85,7 +85,7 @@ namespace SkillProfiWEBMVC.Controllers
                 if (imageFile != null)  
                     stream = imageFile.OpenReadStream();
                 
-                await _spClient.Projects.EditAsync(id, model.Blog, stream);
+                await _spClient.Projects.EditAsync(id, model.Target, stream);
                 return RedirectToAction("Project", new { id });
             }
 

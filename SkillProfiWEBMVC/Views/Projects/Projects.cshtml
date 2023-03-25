@@ -1,4 +1,4 @@
-﻿@model List<GeneralModel<SkillProfi.Project.Project>>
+﻿@model List<ModelCustom<SkillProfi.Project.Project>>
 
 @{
     ViewData["Title"] = "Projects";
@@ -25,12 +25,12 @@
     foreach (var proj in Model)
     {
         <div class="block">
-            <a href="@Url.Action("Project", new{id = proj.Object.Id})">
+            <a href="@Url.Action("Project", new{id = proj.Target.Id})">
                 <div class="block-image">       
                      <img src='@(proj.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
                 </div>
                 <div class="block-title-in">
-                    <p>@proj.Object.Title</p>
+                    <p>@proj.Target.Title</p>
                 </div>
             </a>
         </div>

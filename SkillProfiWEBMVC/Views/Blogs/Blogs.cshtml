@@ -1,4 +1,4 @@
-﻿@model List<GeneralModel<SkillProfi.Blog.Blog>>
+﻿@model List<ModelCustom<SkillProfi.Blog.Blog>>
 
 @{
     ViewData["Title"] = "Blogs";
@@ -26,17 +26,17 @@
     {
         <div class="block">
             <div class="created">
-                <a>@bm.Object.Created</a>
+                <a>@bm.Target.Created</a>
             </div>
 
-            <a href="@Url.Action("Blog", new{id = bm.Object.Id})">
+            <a href="@Url.Action("Blog", new{id = bm.Target.Id})">
                 <div class="block-image"> 
                     <img src='@(bm.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
                 </div>
             </a>
 
             <div class="block-title-under">
-                <p>@bm.Object.Title</p>
+                <p>@bm.Target.Title</p>
             </div>
         </div>
     }

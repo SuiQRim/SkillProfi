@@ -1,4 +1,4 @@
-﻿@model GeneralModel<SkillProfi.Blog.Blog> 
+﻿@model ModelCustom<SkillProfi.Blog.Blog> 
 
 @{
     ViewData["Title"] = "Blogs";
@@ -11,28 +11,28 @@
 
         <input 
         type="button" value="Edit" 
-        onclick="@("window.location.href='" + @Url.Action("Edit", new { id = Model.Object.Id}) + "'");"
+        onclick="@("window.location.href='" + @Url.Action("Edit", new { id = Model.Target.Id}) + "'");"
         class="mini-button"/>
 
         <input 
         type="button" value="Delete" 
-        onclick="@("window.location.href='" + @Url.Action("Delete", new { id = Model.Object.Id}) + "'");"
+        onclick="@("window.location.href='" + @Url.Action("Delete", new { id = Model.Target.Id}) + "'");"
         class="mini-button"/>
 
     </div>
 }
 
 <div id="blog">
-    <div id="@Model.Object.Id" class="block-describe">
+    <div id="@Model.Target.Id" class="block-describe">
 
-        <div class="block-describe-title">@Model.Object.Title</div>
+        <div class="block-describe-title">@Model.Target.Title</div>
 
         <div class="block-describe-image">
             <img src='@(Model.ImageLink)' onerror="this.src='/Assets/ImageError.png'">
         </div>
 
         <div class="block-describe-text">
-            <a>@Model.Object.Description</a>
+            <a>@Model.Target.Description</a>
         </div>
     </div>
 

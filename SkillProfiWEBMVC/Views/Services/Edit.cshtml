@@ -12,7 +12,7 @@
     @Html.HiddenFor(model => model.ImageLink);
 
     <div>
-        @Html.EditorFor(model => model.Blog.Title, new
+        @Html.EditorFor(model => model.Target.Title, new
         {
             htmlAttributes = new
             {
@@ -20,12 +20,12 @@
             }
         })
 
-        @Html.ValidationMessageFor(model => model.Blog.Title, "", new { @class = "error-text" })
+        @Html.ValidationMessageFor(model => model.Target.Title, "", new { @class = "error-text" })
     </div>
 
     <div>
 
-        @Html.EditorFor(model => model.Blog.Description, new
+        @Html.EditorFor(model => model.Target.Description, new
         {
             htmlAttributes = new
             {   
@@ -33,7 +33,7 @@
                 @class = "textarea-input"
             }
         })
-        @Html.ValidationMessageFor(model => model.Blog.Description, "", new { @class = "error-text" })
+        @Html.ValidationMessageFor(model => model.Target.Description, "", new { @class = "error-text" })
     </div>
 
     <input type="submit"  style="float:right;" value="Send" class="button" />

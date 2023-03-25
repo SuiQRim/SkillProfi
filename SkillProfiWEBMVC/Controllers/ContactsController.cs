@@ -24,9 +24,9 @@ namespace SkillProfiWEBMVC.Controllers
 				LinkToMapContructor = contacts.LinkToMapContructor,
 				PhoneNumber = contacts.PhoneNumber,
 
-				SocialNetworks = contacts.SocialNetworks.Select(sc => new GeneralModel<SocialNetwork>()
+				SocialNetworks = contacts.SocialNetworks.Select(sc => new ModelCustom<SocialNetwork>()
 				{
-					Object = sc,
+					Target = sc,
 					ImageLink = _spClient.Pictures.GetURL(sc.PictureName)
 				})
 				.ToList()
@@ -75,7 +75,7 @@ namespace SkillProfiWEBMVC.Controllers
 				socialNetworks.Select(b => new ModelCustom<SocialNetwork>()
 				{
 					Id = b.Id.ToString(),
-					Blog = b,
+					Target = b,
 					ImageLink = _spClient.Pictures.GetURL(b.PictureName)
 				})
 				.ToList();
@@ -90,7 +90,7 @@ namespace SkillProfiWEBMVC.Controllers
 		public async Task<IActionResult> EditSocialNetworkAsync(string? id)
 		{
 			if (id == null)
-				return View(new ModelCustom<SocialNetworkTransfer>() { Blog = new() });
+				return View(new ModelCustom<SocialNetworkTransfer>() { Target = new() });
 
 			List<SocialNetwork> socList = await _spClient.SocialNetworks.GetListAsync();
 			SocialNetwork? soc = socList.FirstOrDefault(s => s.Id.ToString() == id);
@@ -101,7 +101,7 @@ namespace SkillProfiWEBMVC.Controllers
 			ModelCustom<SocialNetworkTransfer> customSocialNetwork = new()
 			{
 				Id = id,
-				Blog = new()
+				Target = new()
 				{
 					Link = soc.Link,
 				},
@@ -125,7 +125,7 @@ namespace SkillProfiWEBMVC.Controllers
 					ModelState.AddModelError("ImageStatus", "Image is Required");
 					return View(model);
 				}
-				await _spClient.SocialNetworks.AddAsync(model.Blog, imageFile.OpenReadStream());
+				await _spClient.SocialNetworks.AddAsync(model.Target, imageFile.OpenReadStream());
 			}
 			else
 			{
@@ -133,7 +133,7 @@ namespace SkillProfiWEBMVC.Controllers
 				if (imageFile != null)
 					stream = imageFile.OpenReadStream();
 
-				await _spClient.SocialNetworks.EditAsync(id, model.Blog, stream);
+				await _spClient.SocialNetworks.EditAsync(id, model.Target, stream);
 			}
 
 			return RedirectToAction("SocialNetworks");

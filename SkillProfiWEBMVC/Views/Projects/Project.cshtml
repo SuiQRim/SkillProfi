@@ -1,4 +1,4 @@
-﻿@model GeneralModel<SkillProfi.Project.Project>
+﻿@model ModelCustom<SkillProfi.Project.Project>
 
 <link rel="stylesheet" href="/css/Describe.css" />
 
@@ -11,22 +11,22 @@
 
         <input 
         type="button" value="Edit" 
-        onclick="@("window.location.href='" + Url.Action("Edit", new { id = Model.Object.Id}) + "'");"
+        onclick="@("window.location.href='" + Url.Action("Edit", new { id = Model.Target.Id}) + "'");"
         class="mini-button"/>
 
         <input 
         type="button" value="Delete" 
-        onclick="@("window.location.href='" + Url.Action("Delete", new { id = Model.Object.Id}) + "'");"
+        onclick="@("window.location.href='" + Url.Action("Delete", new { id = Model.Target.Id}) + "'");"
         class="mini-button"/>
 
     </div>
 }
 <div id="project"">
 
-    <div id="@Model.Object.Id" class="block-describe">
+    <div id="@Model.Target.Id" class="block-describe">
 
         <div class="block-describe-title">
-            @Model.Object.Title
+            @Model.Target.Title
         </div>
 
         <div class="block-describe-image">
@@ -34,7 +34,7 @@
         </div>
 
         <div class="block-describe-text">
-            <a>@Model.Object.Description</a>
+            <a>@Model.Target.Description</a>
         </div>
 
     </div>

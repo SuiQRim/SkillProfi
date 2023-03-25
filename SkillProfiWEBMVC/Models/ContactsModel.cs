@@ -10,6 +10,6 @@ namespace SkillProfiWEBMVC.Models
 
 		public string? LinkToMapContructor { get; set; }
 
-		public List<GeneralModel<SocialNetwork>>? SocialNetworks { get; set; }
+		public List<ModelCustom<SocialNetwork>>? SocialNetworks { get; set; }
 	}
 }

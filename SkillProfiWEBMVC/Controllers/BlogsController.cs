@@ -3,8 +3,6 @@ using SkillProfiRequestsToAPI;
 using SkillProfiWEBMVC.Models;
 using SkillProfi.Blog;
 using Microsoft.AspNetCore.Authorization;
-using SkillProfi;
-using System.IO;
 
 namespace SkillProfiWEBMVC.Controllers
 {
@@ -16,10 +14,10 @@ namespace SkillProfiWEBMVC.Controllers
         public async Task<IActionResult> BlogsAsync()
         {
             List<Blog> reqblogs = new(await _spClient.Blogs.GetListAsync());
-            List<GeneralModel<Blog>> blogs = 
-                reqblogs.Select(b => new GeneralModel<Blog>()
+            List<ModelCustom<Blog>> blogs = 
+                reqblogs.Select(b => new ModelCustom<Blog>()
                 { 
-                    Object = b,
+                    Target = b,
                     ImageLink = _spClient.Pictures.GetURL(b.PictureName)
                 })
                 .ToList();
@@ -31,9 +29,9 @@ namespace SkillProfiWEBMVC.Controllers
         public async Task<IActionResult> BlogAsync(string id)
         {
             Blog reqblog = await _spClient.Blogs.GetByIdAsync(id.ToString());
-            GeneralModel<Blog> blog = new()
+			ModelCustom<Blog> blog = new()
             {
-                Object = reqblog,
+                Target = reqblog,
                 ImageLink = _spClient.Pictures.GetURL(reqblog.PictureName)
             };
 
@@ -57,7 +55,7 @@ namespace SkillProfiWEBMVC.Controllers
         public async Task<IActionResult> EditAsync(string? id)
         {
             if (id == null)
-                return View(new ModelCustom<BlogTransfer>() {Blog = new ()});
+                return View(new ModelCustom<BlogTransfer>() {Target = new ()});
             
 
             Blog reqBlog = await _spClient.Blogs.GetByIdAsync(id);
@@ -65,7 +63,7 @@ namespace SkillProfiWEBMVC.Controllers
             ModelCustom<BlogTransfer> bc = new()
             {
                 Id = reqBlog.Id.ToString(),
-                Blog = new (reqBlog.Title, reqBlog.Description),
+                Target = new (reqBlog.Title, reqBlog.Description),
                 ImageLink = _spClient.Pictures.GetURL(reqBlog.PictureName),
             };
 
@@ -90,7 +88,7 @@ namespace SkillProfiWEBMVC.Controllers
                     ModelState.AddModelError("ImageStatus", "Image is Required");
                     return View(model);
                 }
-                await _spClient.Blogs.AddAsync(model.Blog, imageFile.OpenReadStream());
+                await _spClient.Blogs.AddAsync(model.Target, imageFile.OpenReadStream());
             }
             else
             {
@@ -98,7 +96,7 @@ namespace SkillProfiWEBMVC.Controllers
                 if (imageFile != null)
                     stream = imageFile.OpenReadStream();
 
-                await _spClient.Blogs.EditAsync(id, model.Blog, stream);
+                await _spClient.Blogs.EditAsync(id, model.Target, stream);
                 return RedirectToAction("Blog", new { id });
             }
 

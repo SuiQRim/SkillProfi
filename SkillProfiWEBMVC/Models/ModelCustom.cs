@@ -9,7 +9,7 @@ namespace SkillProfiWEBMVC.Models
     {
 
         public string? Id { get; set; }
-        public T Blog { get; set; }
+        public T Target { get; set; }
 
         public string? ImageLink { get; set; }
 

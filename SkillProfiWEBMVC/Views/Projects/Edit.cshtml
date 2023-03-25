@@ -15,11 +15,11 @@
             @Html.HiddenFor(model => Model.ImageLink);
 
             <div class="block-title">
-                @Html.EditorFor(model => model.Blog.Title, new {
+                @Html.EditorFor(model => model.Target.Title, new {
 						    htmlAttributes = new {
 							    @placeholder= "Title" } 
 						    })
-                @Html.ValidationMessageFor(model => model.Blog.Title, "", new { @class = "error-text" })
+                @Html.ValidationMessageFor(model => model.Target.Title, "", new { @class = "error-text" })
             </div>
 
             <div class="block-description">
@@ -49,11 +49,11 @@
                 </div>
 
                 <div class="block-description-content-column">
-                    @Html.EditorFor(model => model.Blog.Description, new {
+                    @Html.EditorFor(model => model.Target.Description, new {
 					    htmlAttributes = new {
 						    @placeholder= "description"} 
 					    })
-                    @Html.ValidationMessageFor(model => model.Blog.Description, "", new { @class = "error-text" })
+                    @Html.ValidationMessageFor(model => model.Target.Description, "", new { @class = "error-text" })
                 </div>
                             @if (Model.Id != null)
             {

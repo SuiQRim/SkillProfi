@@ -9,8 +9,8 @@
 			<img src="@Model.ImageLink">
 		</div>
 		<div class="social-network-viewer-content">
-			@Html.EditorFor(model => model.Blog.Link, new {@class = "social-network-field"})
-			@Html.ValidationMessageFor(model => model.Blog.Link, "", new { @class = "error-text"})
+			@Html.EditorFor(model => model.Target.Link, new {@class = "social-network-field"})
+			@Html.ValidationMessageFor(model => model.Target.Link, "", new { @class = "error-text"})
 		</div>
 		<div class="social-network-viewer-navigation">
 			@Html.EditorFor(model => model.ImageFile, new {
