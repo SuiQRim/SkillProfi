@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using SkillProfiRequestsToAPI.Exceptions;
 using System;
 using System.Net;
 using System.Text;
@@ -40,8 +41,11 @@ namespace SkillProfiRequestsToAPI
                 {
                     StringContent content = CreateContent(obj);
                     HttpResponseMessage response = await client.PostAsync(url, content);
-                    response.EnsureSuccessStatusCode();
 
+                    if (response.StatusCode == HttpStatusCode.Unauthorized)
+                        throw new SkillProfiUnauthorizedException(url);
+                    
+                    response.EnsureSuccessStatusCode();
                     Console.WriteLine(response.StatusCode.ToString());
                     result = response.Content.ReadAsStringAsync().Result;
                 }
@@ -63,7 +67,11 @@ namespace SkillProfiRequestsToAPI
                 {
                     StringContent content = CreateContent(obj);
                     HttpResponseMessage response = await client.PutAsync(uri, content);
-                    response.EnsureSuccessStatusCode();
+
+					if (response.StatusCode == HttpStatusCode.Unauthorized)
+						throw new SkillProfiUnauthorizedException(url);
+
+					response.EnsureSuccessStatusCode();
                     result = response.Content.ReadAsStringAsync().Result;
                 }
             }
@@ -83,7 +91,11 @@ namespace SkillProfiRequestsToAPI
                 using (HttpClient client = new(httpClientHandler))
                 {
                     HttpResponseMessage response = await client.DeleteAsync(uri);
-                    response.EnsureSuccessStatusCode();
+
+					if (response.StatusCode == HttpStatusCode.Unauthorized)
+						throw new SkillProfiUnauthorizedException(url);
+
+					response.EnsureSuccessStatusCode();
                     result = response.Content.ReadAsStringAsync().Result;
                 }
             }
