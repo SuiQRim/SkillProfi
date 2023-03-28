@@ -87,16 +87,15 @@ namespace SkillProfiWPF.ViewModels
                     await UserContext.SPClient.Blogs.AddAsync(newBlog, fstream)).Wait();
                
                 Blogs = new(GetBlogsWithImage());
-            }
+			}
             else
             {
                 Task.Run(async () =>
                      await UserContext.SPClient.Blogs.EditAsync(_selectedBlog.Id.ToString(), newBlog, fstream)).Wait();
                 Blogs = new(GetBlogsWithImage());
-                SelectedBlog = Blogs.First(p => p.Id == _lastSelectedBlogId);
             }
-
-            IsObjectEdit = false;
+			SelectedBlog = null;
+			IsObjectEdit = false;
         }
 
         #endregion

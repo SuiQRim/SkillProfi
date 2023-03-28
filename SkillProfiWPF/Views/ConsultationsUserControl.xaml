@@ -122,7 +122,7 @@
                 
                 <Button
                     Style="{DynamicResource StickyButton}"
-                    Content="Today"
+                    Content="Without Filter"
                     Command="{Binding SetDateDiapasone}"
                     CommandParameter="-1"/>
 

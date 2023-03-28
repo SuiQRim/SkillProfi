@@ -99,10 +99,10 @@ namespace SkillProfiWPF.ViewModels
                    await UserContext.SPClient.Projects.EditAsync(_lastSelectedProjectId.ToString(),newProject, fstream)).Wait();
 
                 Projects = new(GetProjects());
-                SelectedProject = Projects.First(p => p.Id == _lastSelectedProjectId);
             }
 
-            IsObjectEdit = false;
+			SelectedProject = null;
+			IsObjectEdit = false;
         }
 
         #endregion

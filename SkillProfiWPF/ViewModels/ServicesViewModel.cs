@@ -102,10 +102,10 @@ namespace SkillProfiWPF.ViewModels
                 Services = new(Task.Run(async () =>
                     await UserContext.SPClient.Services.GetListAsync()).Result);
 
-                SelectedService = Services.First(p => p.Id == _lastSelectedProjectId);
             }
 
-            IsObjectEdit = false;
+			SelectedService = null;
+			IsObjectEdit = false;
         }
 
         private string _title = "";
