@@ -93,9 +93,10 @@ namespace SkillProfiWPF.ViewModels
                 await UserContext.SPClient.SocialNetworks
                     .EditAsync(SelectedSocialNetwork.Id.ToString(), newSocialNetwork, fstream)).Wait();
                 SocialNetworks = new(GetSocialNrtworks());
+                SelectedSocialNetwork = SocialNetworks.First(p => p.Id == _lastSelectedSocialNetworkId);
             }
-			SelectedSocialNetwork = null;
-			IsObjectEdit = false;
+
+            IsObjectEdit = false;
         }
 
         private bool CanSelectImage(object p) => true;
